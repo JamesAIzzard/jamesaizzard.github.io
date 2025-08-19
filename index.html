@@ -1,20 +1,505 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>James Izzard — Portfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Professional engineering design, on tap</title>
+    <meta name="description"
+        content="Professional engineering design, on tap. Consulting, concept-to-production, and analysis." />
+    <style>
 
-  <!-- CSS Reset / Normalizer -->
-  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+        /* --- Theme tokens --- */
+        :root {
+            --bg: #05080f;
+            /* base background */
+            --bg-elev: #0b1220;
+            /* elevated panel */
+            --text: #e6edf3;
+            /* primary text */
+            --muted: #a9b1bb;
+            /* secondary text */
+            --brand: #8b6cff;
+            /* accent (purple) */
+            --brand-2: #65e3ff;
+            /* accent (cyan) */
+            --ring: #ffffff44;
+            /* focus ring */
+            --maxw: 110rem;
+            --radius: 1.25rem;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
 
-  <!-- Your custom styles -->
-  <link rel="stylesheet" href="style.css">
+        @media (prefers-color-scheme: light) {
+            :root {
+                --text: #0b1220;
+                --muted: #334155;
+                --bg: #f8fafc;
+                --bg-elev: #ffffff;
+            }
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        /* --- Layout helpers --- */
+        .container {
+            width: min(100%, var(--maxw));
+            margin-inline: auto;
+            padding-inline: clamp(16px, 3vw, 40px);
+        }
+
+        /* --- Header --- */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: saturate(140%) blur(10px);
+            background: color-mix(in hsl, var(--bg) 75%, transparent);
+            border-bottom: 1px solid #ffffff12;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 14px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+
+        .brand .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: radial-gradient(10px 10px at 30% 30%, var(--brand-2), var(--brand));
+            box-shadow: 0 0 18px 6px #8b6cff55
+        }
+
+        .spacer {
+            flex: 1
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500
+        }
+
+        .nav a:hover {
+            color: var(--text)
+        }
+
+        .btn {
+            display: inline-grid;
+            place-items: center;
+            padding: 10px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #ffffff24;
+            background: #ffffff06
+        }
+
+        .btn:hover {
+            background: #ffffff12
+        }
+
+        /* --- Hero --- */
+        .hero {
+            position: relative;
+            isolation: isolate;
+            min-height: 100dvh;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .hero-base {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(1600px 900px at 20% -10%, #0b1628 0%, #05080f 60%, #000 100%);
+        }
+
+        .glows,
+        .spot {
+            position: absolute;
+            inset: -20%;
+            pointer-events: none;
+        }
+
+        .glows {
+            filter: blur(70px);
+            mix-blend-mode: color-dodge;
+            animation: drift 18s ease-in-out infinite alternate;
+            background:
+                radial-gradient(34rem 28rem at 20% 40%, color-mix(in oklab, var(--brand-2) 55%, transparent) 0%, #0000 60%),
+                radial-gradient(40rem 32rem at 80% 30%, color-mix(in oklab, var(--brand) 65%, transparent) 0%, #0000 60%),
+                radial-gradient(30rem 26rem at 50% 85%, color-mix(in oklab, #ff7ab2 55%, transparent) 0%, #0000 60%);
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translate3d(-1%, -1%, 0) scale(1)
+            }
+
+            100% {
+                transform: translate3d(1%, 1%, 0) scale(1.04)
+            }
+        }
+
+        .spot {
+            --x: 50%;
+            --y: 50%;
+            mix-blend-mode: color-dodge;
+            filter: blur(20px);
+            background: radial-gradient(20rem 16rem at var(--x) var(--y), #fff6 0%, #fff3 35%, #0000 70%);
+            transition: background-position .05s linear;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 8vh 0 12vh
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #ffffff12;
+            border: 1px solid #ffffff22;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            font-size: .8rem
+        }
+
+        .title {
+            font-size: clamp(2.4rem, 7vw, 5rem);
+            line-height: 1.05;
+            margin: 18px 0;
+            font-weight: 800;
+        }
+
+        .title strong {
+            color: var(--text);
+        }
+
+        .subtitle {
+            max-width: 60ch;
+            margin-inline: auto;
+            color: var(--muted);
+            font-size: clamp(1rem, 2.2vw, 1.25rem)
+        }
+
+        .cta {
+            margin-top: 28px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 18px #0008
+        }
+
+        .btn-primary:hover {
+            filter: saturate(1.1)
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            translate: -50% 0;
+            color: var(--muted);
+            font-size: .9rem;
+            display: grid;
+            place-items: center;
+            gap: 6px
+        }
+
+        .scroll-indicator .wheel {
+            width: 20px;
+            height: 28px;
+            border: 2px solid #93a3b7;
+            border-radius: 12px;
+            position: relative
+        }
+
+        .scroll-indicator .wheel::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            width: 4px;
+            height: 6px;
+            border-radius: 2px;
+            translate: -50% 0;
+            background: #93a3b7;
+            animation: wheel 1.6s ease-in-out infinite
+        }
+
+        @keyframes wheel {
+            0% {
+                opacity: .6;
+                transform: translateY(0)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: clamp(48px, 8vw, 100px) 0;
+            border-top: 1px solid #ffffff12
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            margin: 0 0 20px
+        }
+
+        .grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(12, 1fr)
+        }
+
+        .card {
+            grid-column: span 4;
+            background: var(--bg-elev);
+            border: 1px solid #ffffff12;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow)
+        }
+
+        .card h3 {
+            margin: 6px 0 10px
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted)
+        }
+
+        @media (max-width:1000px) {
+            .card {
+                grid-column: span 6
+            }
+        }
+
+        @media (max-width:700px) {
+            .card {
+                grid-column: span 12
+            }
+        }
+
+        .panel {
+            background: var(--bg-elev);
+            border: 1px solid #ffffff12;
+            border-radius: var(--radius);
+            padding: clamp(18px, 2.2vw, 28px);
+            box-shadow: var(--shadow)
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 40px 0;
+            color: var(--muted);
+            text-align: center
+        }
+
+        /* --- Accessibility & motion --- */
+        :focus-visible {
+            outline: 3px solid var(--ring);
+            outline-offset: 3px;
+            border-radius: 8px
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .glows {
+                animation: none
+            }
+
+            .spot {
+                display: none
+            }
+
+            html {
+                scroll-behavior: auto
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Hi, I'm James</h1>
-    <p>Mechanical engineering consultant. Here are a few projects.</p>
-  </header>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container nav">
+            <a class="brand" href="#top" aria-label="Homepage">
+                <span class="dot" aria-hidden="true"></span>
+                <span>IZZARD ENGINEERING</span>
+            </a>
+            <div class="spacer"></div>
+            <nav aria-label="Primary">
+                <a href="#services">Services</a>
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <a class="btn" href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <main id="top" class="hero" aria-labelledby="hero-title">
+        <div class="hero-base" aria-hidden="true"></div>
+        <div class="glows" aria-hidden="true"></div>
+        <div class="spot" aria-hidden="true"></div>
+
+        <div class="hero-inner container">
+            <span class="eyebrow">Consulting & product development</span>
+            <h1 id="hero-title" class="title">Professional engineering design, <strong>on tap</strong>.</h1>
+            <p class="subtitle">Mechanical design, analysis, and rapid productization for teams that need momentum
+                now—concept to production, with clear communication and tight feedback loops.</p>
+            <div class="cta">
+                <a class="btn btn-primary" href="#contact">Start a project</a>
+                <a class="btn" href="#work">See recent work</a>
+            </div>
+            <div class="scroll-indicator" aria-hidden="true">
+                <div class="wheel"></div>
+                <small>Scroll</small>
+            </div>
+        </div>
+    </main>
+
+    <!-- Services -->
+    <section id="services" class="container">
+        <h2 class="section-title">Services</h2>
+        <div class="grid">
+            <article class="card">
+                <h3>Concept → CAD</h3>
+                <p>Industrial design, mechanism architecture, and parametric CAD with clean, manufacturable assemblies.
+                </p>
+            </article>
+            <article class="card">
+                <h3>Analysis</h3>
+                <p>DFMEA, tolerance stacks, basic FEA, and design-for-assembly—practical, decision-ready reports.</p>
+            </article>
+            <article class="card">
+                <h3>Prototyping</h3>
+                <p>Rapid iteration with vendor-ready drawings, BOMs, and test jigs to de-risk before scale-up.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="container">
+        <h2 class="section-title">Selected work</h2>
+        <div class="grid">
+            <article class="card">
+                <h3>Benchtop Bio Platform</h3>
+                <p>Sample-to-library device; compact kinematics and swappable consumables.</p>
+            </article>
+            <article class="card">
+                <h3>Microfluidics Tooling</h3>
+                <p>Precision fixtures and process development for polymer chips.</p>
+            </article>
+            <article class="card">
+                <h3>Robotics Subsystem</h3>
+                <p>Lightweight actuator stack with belt tensioning and quick-service design.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="container">
+        <h2 class="section-title">About</h2>
+        <div class="panel">
+            <p>
+                I’m James Izzard—mechanical engineering consultant focused on turning ambiguous requirements into
+                reliable hardware. I work best in tight loops with founders and small teams, delivering practical
+                mechanisms, drawings, and prototypes that ship.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container">
+        <h2 class="section-title">Contact</h2>
+        <div class="panel">
+            <p>Email: <a href="mailto:james@example.com">james@example.com</a></p>
+            <p>Prefer a quick call? <a href="#" aria-disabled="true" onclick="return false">Book a 15‑min intro</a></p>
+            <form action="#" method="post" onsubmit="event.preventDefault(); alert('Thanks—message sent! (stub)')">
+                <div style="display:grid; gap:12px; grid-template-columns:1fr 1fr;">
+                    <label> Name
+                        <input required name="name" type="text" placeholder="Your name"
+                            style="width:100%;padding:10px;border-radius:10px;border:1px solid #ffffff22;background:#00000022;color:var(--text)" />
+                    </label>
+                    <label> Email
+                        <input required name="email" type="email" placeholder="you@company.com"
+                            style="width:100%;padding:10px;border-radius:10px;border:1px solid #ffffff22;background:#00000022;color:var(--text)" />
+                    </label>
+                </div>
+                <label style="display:block;margin-top:12px"> Message
+                    <textarea required name="message" rows="5" placeholder="What are you building?"
+                        style="width:100%;padding:10px;border-radius:10px;border:1px solid #ffffff22;background:#00000022;color:var(--text)"></textarea>
+                </label>
+                <div style="display:flex;gap:12px;margin-top:12px">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                    <button class="btn" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">© <span id="y"></span> Izzard Engineering. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Cursor-tracked spotlight (disabled for touch / reduced-motion)
+        const spot = document.querySelector('.spot');
+        const hero = document.querySelector('.hero');
+        const hasCoarse = matchMedia('(pointer: coarse)').matches;
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (spot && hero && !hasCoarse && !reduce) {
+            hero.addEventListener('pointermove', (e) => {
+                const r = hero.getBoundingClientRect();
+                const x = ((e.clientX - r.left) / r.width) * 100;
+                const y = ((e.clientY - r.top) / r.height) * 100;
+                spot.style.setProperty('--x', x + '%');
+                spot.style.setProperty('--y', y + '%');
+            }, { passive: true });
+        }
+
+        // Year stamp
+        document.getElementById('y').textContent = new Date().getFullYear();
+    </script>
 </body>
+
 </html>
