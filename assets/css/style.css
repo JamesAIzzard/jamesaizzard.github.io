@@ -31,7 +31,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 10;
-    /* future-ready if you add sections */
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent);
     backdrop-filter: blur(4px);
 }
@@ -60,12 +59,26 @@ body {
     opacity: 0.9;
 }
 
+.main-nav {
+    /* place the nav at the start of its grid column so it sits next to the logo */
+    justify-self: start;
+}
+
 .main-nav ul {
     display: flex;
     gap: 1.25rem;
-    justify-content: center;
+    justify-content: flex-start; /* push items to the left of the header area */
     padding: 0;
     margin: 0;
+    list-style: none;
+}
+
+.main-nav ul li {
+    list-style: none;
+}
+
+.main-nav ul li::marker {
+    display: none;
 }
 
 .main-nav a {
@@ -93,7 +106,6 @@ body {
     border-radius: 999px;
 }
 
-/* Hero */
 .hero {
     padding: clamp(2rem, 6vw, 5rem) 0 2rem;
 }
@@ -115,7 +127,6 @@ h1 {
     color: var(--muted);
 }
 
-/* CTA pill */
 .cta {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -134,7 +145,6 @@ h1 {
     border-radius: 999px;
     padding: 0.9rem 1.1rem;
     min-width: 0;
-    /* prevent overflow */
 }
 
 .cta input:focus {
@@ -181,7 +191,6 @@ h1 {
     outline: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Footer */
 .site-footer {
     padding: 3rem 0 4rem;
     color: #a6a8bd;
@@ -189,7 +198,6 @@ h1 {
     font-size: 0.95rem;
 }
 
-/* A11y helpers */
 .visually-hidden {
     position: absolute !important;
     height: 1px;
@@ -202,13 +210,11 @@ h1 {
     margin: -1px;
 }
 
-/* Responsive tweaks */
 @media (max-width: 640px) {
     .brand-name {
         display: none;
     }
 
-    /* keep header compact */
     .main-nav ul {
         gap: 0.9rem;
         font-size: 0.95rem;
