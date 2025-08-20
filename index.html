@@ -1,93 +1,93 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Professional engineering design, on tap.</title>
-  <meta name="description" content="Mechanical design, analysis, and rapid productisation with clear communication and tight feedback loops." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Keep system font for now; easy to swap later -->
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Professional engineering design, on tap.</title>
+    <meta name="description"
+        content="Mechanical design, analysis, and rapid productisation with clear communication and tight feedback loops." />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container header-row">
-      <a class="brand" href="/" aria-label="Home">
-        <!-- Simple logo placeholder: striped circle -->
-        <svg class="logo" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
-          <defs>
-            <pattern id="diagonal" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-              <rect width="6" height="6" fill="white" opacity="0.15"></rect>
-              <rect width="3" height="6" fill="white" opacity="0.3"></rect>
-            </pattern>
-          </defs>
-          <circle cx="18" cy="18" r="17" fill="none" stroke="white" opacity="0.6"/>
-          <circle cx="18" cy="18" r="15" fill="url(#diagonal)"/>
-        </svg>
-        <span class="brand-name">James Izzard</span>
-      </a>
 
-      <nav class="main-nav" aria-label="Primary">
-        <ul>
-          <li><a href="/services.html">Services</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/cv.html">CV</a></li>
-        </ul>
-      </nav>
+    <header class="site-header">
 
-      <a class="social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <!-- LinkedIn placeholder: same circle motif -->
-        <svg class="logo" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
-          <defs>
-            <pattern id="diagonal2" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-              <rect width="6" height="6" fill="white" opacity="0.15"></rect>
-              <rect width="3" height="6" fill="white" opacity="0.3"></rect>
-            </pattern>
-          </defs>
-          <circle cx="18" cy="18" r="17" fill="none" stroke="white" opacity="0.6"/>
-          <circle cx="18" cy="18" r="15" fill="url(#diagonal2)"/>
-        </svg>
-      </a>
-    </div>
-  </header>
+        <div class="container header-row">
 
-  <!-- Hero -->
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>Professional engineering design,<br>on tap.</h1>
-        <p class="lede">
-          Mechanical design, analysis, and rapid productisation for projects that
-          need momentum now—concept to production, with clear communication and
-          tight feedback loops.
-        </p>
+            <a class="brand" href="/" aria-label="Home">
+                <img class="logo" src="assets/images/caliper_logo.png" width="36" height="36" alt="Caliper logo"
+                    aria-hidden="true">
+            </a>
 
-        <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
-          <label class="visually-hidden" for="project">Describe your project</label>
-          <input id="project" name="q" type="text" placeholder="Describe your project" autocomplete="off">
-          <button type="submit">Get in touch</button>
-        </form>
+            <nav class="main-nav" aria-label="Primary">
+                <ul>
+                    <li><a href="/services.html">Services</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/cv.html">CV</a></li>
+                </ul>
+            </nav>
 
-        <!-- Screenshot / hero image card -->
-        <figure class="screenshot">
-          <!-- Swap the placeholder with your image later -->
-          <img src="" alt="" aria-hidden="true">
-          <figcaption class="visually-hidden">Example CAD work</figcaption>
-        </figure>
-      </div>
-    </section>
-  </main>
+            <a class="social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener"
+                aria-label="LinkedIn">
+                <svg class="logo" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+                    <defs>
+                        <pattern id="diagonal2" patternUnits="userSpaceOnUse" width="6" height="6"
+                            patternTransform="rotate(45)">
+                            <rect width="6" height="6" fill="white" opacity="0.15"></rect>
+                            <rect width="3" height="6" fill="white" opacity="0.3"></rect>
+                        </pattern>
+                    </defs>
+                    <circle cx="18" cy="18" r="17" fill="none" stroke="white" opacity="0.6" />
+                    <circle cx="18" cy="18" r="15" fill="url(#diagonal2)" />
+                </svg>
+            </a>
 
-  <footer class="site-footer">
-    <div class="container">
-      <small>© <span id="y"></span> James Izzard</small>
-    </div>
-    <script>
-      // Tiny convenience for the year—no framework, no tracking.
-      document.getElementById('y').textContent = new Date().getFullYear();
-    </script>
-  </footer>
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="hero">
+
+            <div class="container hero-inner">
+                <h1>Professional engineering design,<br>on tap</h1>
+                <p class="lede">
+                    Mechanical design, analysis, and rapid productisation for projects that
+                    need momentum now—concept to production, with clear communication and
+                    tight feedback loops.
+                </p>
+
+                <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
+                    <label class="visually-hidden" for="project">Describe your project</label>
+                    <input id="project" name="q" type="text" placeholder="Describe your project" autocomplete="off">
+                    <button type="submit">Get in touch</button>
+                </form>
+
+                <figure class="screenshot">
+                    <img src="" alt="" aria-hidden="true">
+                    <figcaption class="visually-hidden">Example CAD work</figcaption>
+                </figure>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <small>© <span id="y"></span> James Izzard</small>
+        </div>
+        <script>
+            // Tiny convenience for the year—no framework, no tracking.
+            document.getElementById('y').textContent = new Date().getFullYear();
+        </script>
+    </footer>
 </body>
+
 </html>
