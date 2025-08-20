@@ -1,12 +1,9 @@
 :root {
     --bg: #0d0730;
-    /* deep indigo */
     --panel: #160a44;
-    /* slightly lighter for cards */
     --text: #f5f6fb;
     --muted: #c8c9d7;
-    --accent: #b5e7c8;
-    /* soft green from wireframe button */
+    --accent: #116329;
     --accent-ink: #163a2a;
     --ring: rgba(181, 231, 200, 0.7);
     --maxw: 1080px;
@@ -57,6 +54,10 @@ body {
 
 .logo {
     display: block;
+    /* Fix: preserve intrinsic aspect ratio by sizing via height and letting width auto-scale */
+    height: 36px;
+    width: auto;
+    max-width: 100%;
 }
 
 .brand-name {
