@@ -12,7 +12,6 @@ pills.forEach(pill => {
     });
 });
 
-// Toggle solid header background when scrolled away from top
 const toggleHeaderOnScroll = () => {
     if (!header) return;
     header.classList.toggle("scrolled", window.scrollY > 10);
