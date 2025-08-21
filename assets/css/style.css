@@ -31,7 +31,7 @@ body {
 }
 
 .frame {
-    padding: 16px;
+    padding: 10px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px) saturate(160%);
