@@ -8,6 +8,7 @@
     --ring: rgba(181, 231, 200, 0.7);
     --maxw: 1080px;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --bg-solid: rgb(9, 7, 24);
 }
 
 body {
