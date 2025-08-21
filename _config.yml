@@ -1,0 +1,17 @@
+# Basic Jekyll configuration — update as needed
+title: "Your Site Title"
+description: "Short site description"
+url: "https://jamesaizzard.github.io"
+baseurl: ""
+
+# Output and permalinks
+permalink: pretty
+
+# Exclusions
+exclude:
+  - README*
+  - node_modules
+  - vendor
+
+# Keep default theme/plugins unspecified for now during migration
+
