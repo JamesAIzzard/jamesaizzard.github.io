@@ -18,6 +18,7 @@ h1 {
     max-width: 60ch;
     margin: 0 auto 1.4rem;
     color: var(--muted);
+    text-align: center;
 }
 
 .cta {
@@ -29,7 +30,6 @@ h1 {
     background: rgba(255, 255, 255, 0.07);
     padding: 0.5rem;
     border-radius: 10px;
-    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2), var(--shadow);
 }
 
 .cta input {
@@ -75,7 +75,7 @@ h1 {
     aspect-ratio: 16/9;
 }
 
-.services {
+.pill-switcher-container {
     position: relative;
     z-index: 0;
     margin-top: -90px;
@@ -84,8 +84,8 @@ h1 {
     background: var(--bg-solid);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .pill-buttons {
@@ -127,7 +127,7 @@ h1 {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.service-panels {
+.pill-switcher-panels {
     max-width: 1100px;
     margin: 0 auto;
     position: relative;
