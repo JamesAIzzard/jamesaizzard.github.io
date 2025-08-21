@@ -1,0 +1,86 @@
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent);
+    backdrop-filter: blur(4px);
+}
+
+.site-header .container {
+    width: 100%;
+    max-width: none;
+    padding-inline: 1rem;
+}
+
+.header-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logo {
+    display: block;
+    height: 36px;
+    width: auto;
+    max-width: 100%;
+}
+
+.brand-name {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    opacity: 0.9;
+}
+
+.main-nav {
+    justify-self: start;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.main-nav ul li {
+    list-style: none;
+}
+
+.main-nav ul li::marker {
+    display: none;
+}
+
+.main-nav a {
+    padding: 0.25rem 0.4rem;
+    border-radius: 8px;
+    color: var(--text);
+    opacity: 0.9;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.social-link {
+    justify-self: end;
+    display: inline-flex;
+    border-radius: 999px;
+}
+
+.social-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+}
