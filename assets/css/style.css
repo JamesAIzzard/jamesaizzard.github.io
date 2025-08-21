@@ -7,7 +7,6 @@
     --accent-ink: #163a2a;
     --ring: rgba(181, 231, 200, 0.7);
     --maxw: 1080px;
-    --radius: 18px;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
@@ -52,14 +51,14 @@ h1 {
     margin: 1.2rem auto 2.2rem;
     background: rgba(255, 255, 255, 0.07);
     padding: 0.5rem;
-    border-radius: 999px;
+    border-radius: 10px;
     box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2), var(--shadow);
 }
 
 .cta input {
     border: none;
     background: white;
-    border-radius: 999px;
+    border-radius: 6px;
     padding: 0.9rem 1.1rem;
     min-width: 0;
 }
@@ -71,7 +70,7 @@ h1 {
 
 .cta button {
     border: none;
-    border-radius: 999px;
+    border-radius: 6px;
     padding: 0.9rem 1.2rem;
     background: var(--accent);
     color: var(--text);
@@ -93,19 +92,26 @@ h1 {
 .screenshot {
     width: min(100%, 980px);
     margin: 0 auto;
-    background: linear-gradient(180deg, #7c69ff 0%, #ac9eff 100%);
-    padding: 12px;
-    border-radius: calc(var(--radius) + 12px);
-    box-shadow: var(--shadow);
+    padding: 16px;
+    border-radius: 12px;
+
+    /* Transparent "glass" look */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+
+    /* Glow + depth */
+    box-shadow: 0 0 30px rgba(124, 105, 255, 0.6),
+                inset 0 0 8px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .screenshot img {
     width: 100%;
     aspect-ratio: 16/9;
-    /* keeps shape before you add a real image */
-    background: var(--panel);
-    border-radius: var(--radius);
-    outline: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    background: rgba(22, 10, 68, 0.9); /* matches your --panel variable */
+    outline: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .site-footer {
