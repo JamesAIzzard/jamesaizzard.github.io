@@ -1,0 +1,5 @@
+source "https://rubygems.org"
+
+gem "github-pages", group: :jekyll_plugins
+# If Ruby ≥ 3.0 complains about WEBrick missing, uncomment:
+# gem "webrick"

@@ -1,130 +1,72 @@
-<!doctype html>
-<html lang="en">
+---
+layout: default
+title: Professional engineering design, on tap.
+description: Mechanical design, analysis, and rapid productisation with clear communication and tight feedback loops.
+---
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Professional engineering design, on tap.</title>
-    <meta name="description"
-        content="Mechanical design, analysis, and rapid productisation with clear communication and tight feedback loops." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hubot+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/services.css">
-    <script src="assets/js/main.js" defer></script>
-</head>
+<section class="hero">
 
+    <div class="container hero-inner">
+        <h1>Expert engineering design,<br>exactly when you need it</h1>
+        <p class="lede">
+            Mechanical design, analysis, and rapid productisation for projects that
+            need momentum now - concept to production, with clear communication and
+            tight feedback loops.
+        </p>
 
-<body>
+        <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
+            <label class="visually-hidden" for="project">Enter your email</label>
+            <input id="project" name="q" type="text" placeholder="Enter your email" autocomplete="off">
+            <button type="submit">Start the conversation</button>
+        </form>
 
-    <header class="site-header">
+        <figure class="screenshot">
+            <img src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
+            <figcaption class="visually-hidden">Example CAD work</figcaption>
+        </figure>
 
-        <div class="container header-row">
+    </div>
 
-            <a class="brand" href="/" aria-label="Home">
-                <img class="logo" src="assets/images/caliper_logo.png" alt="Caliper logo" aria-hidden="true">
-            </a>
+</section>
 
-            <nav class="main-nav" aria-label="Primary">
-                <ul>
-                    <li><a href="/services.html">Services</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/cv.html">CV</a></li>
-                </ul>
-            </nav>
-
-            <a class="social-link" href="https://www.linkedin.com/in/james-izzard-339421116/" target="_blank"
-                rel="noopener" aria-label="LinkedIn">
-                <img class="logo" src="assets/images/linkedin.png" alt="LinkedIn logo" aria-hidden="true">
-            </a>
-
+<section class="services">
+    <div class="container">
+        <div class="pill-buttons">
+            <button class="pill active" data-target="explore">Explore</button>
+            <button class="pill" data-target="evolve">Evolve</button>
+            <button class="pill" data-target="execute">Execute</button>
         </div>
 
-    </header>
-
-    <main>
-
-        <section class="hero">
-
-            <div class="container hero-inner">
-                <h1>Expert engineering design,<br>exactly when you need it</h1>
-                <p class="lede">
-                    Mechanical design, analysis, and rapid productisation for projects that
-                    need momentum now - concept to production, with clear communication and
-                    tight feedback loops.
-                </p>
-
-                <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
-                    <label class="visually-hidden" for="project">Enter your email</label>
-                    <input id="project" name="q" type="text" placeholder="Enter your email" autocomplete="off">
-                    <button type="submit">Start the conversation</button>
-                </form>
-
-                <figure class="screenshot">
-                    <img src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
-                    <figcaption class="visually-hidden">Example CAD work</figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-        <section class="services">
-            <div class="container">
-                <div class="pill-buttons">
-                    <button class="pill active" data-target="explore">Explore</button>
-                    <button class="pill" data-target="evolve">Evolve</button>
-                    <button class="pill" data-target="execute">Execute</button>
-                </div>
-
-                <div class="service-panels">
-                    <div id="explore" class="panel active">
-                        <img src="assets/images/explore.png" alt="Explore concept">
-                        <div class="panel-text">
-                            <h2>Explore</h2>
-                            <p>Concepts are translated into tangible sketches through collaborative sessions, building
-                                shared understanding while highlighting constraints and opportunities. This visual
-                                approach turns abstract requirements into clear, actionable designs, suitable for
-                                testing with clients or presenting to investors. By exploring ideas through rapid
-                                sketching, the process establishes a foundation that balances innovation with practical
-                                considerations, making complex concepts both accessible and engaging.</p>
-                        </div>
-                    </div>
-
-                    <div id="evolve" class="panel">
-                        <img src="assets/images/evolve.png" alt="Evolve concept">
-                        <div class="panel-text">
-                            <h2>Evolve</h2>
-                            <p>Refining and iterating designs, simulation, and prototyping to bring concepts closer to
-                                production.</p>
-                        </div>
-                    </div>
-
-                    <div id="execute" class="panel">
-                        <img src="assets/images/execute.png" alt="Execute concept">
-                        <div class="panel-text">
-                            <h2>Execute</h2>
-                            <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
-                        </div>
-                    </div>
+        <div class="service-panels">
+            <div id="explore" class="panel active">
+                <img src="assets/images/explore.png" alt="Explore concept">
+                <div class="panel-text">
+                    <h2>Explore</h2>
+                    <p>Concepts are translated into tangible sketches through collaborative sessions, building
+                        shared understanding while highlighting constraints and opportunities. This visual
+                        approach turns abstract requirements into clear, actionable designs, suitable for
+                        testing with clients or presenting to investors. By exploring ideas through rapid
+                        sketching, the process establishes a foundation that balances innovation with practical
+                        considerations, making complex concepts both accessible and engaging.</p>
                 </div>
             </div>
-        </section>
 
+            <div id="evolve" class="panel">
+                <img src="assets/images/evolve.png" alt="Evolve concept">
+                <div class="panel-text">
+                    <h2>Evolve</h2>
+                    <p>Refining and iterating designs, simulation, and prototyping to bring concepts closer to
+                        production.</p>
+                </div>
+            </div>
 
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <small>© <span id="y"></span> James Izzard</small>
+            <div id="execute" class="panel">
+                <img src="assets/images/execute.png" alt="Execute concept">
+                <div class="panel-text">
+                    <h2>Execute</h2>
+                    <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
+                </div>
+            </div>
         </div>
-        <script>
-            document.getElementById('y').textContent = new Date().getFullYear();
-        </script>
-    </footer>
-</body>
-
-</html>
+    </div>
+</section>
