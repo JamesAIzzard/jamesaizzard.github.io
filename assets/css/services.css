@@ -1,0 +1,58 @@
+.services {
+    padding: 5rem 0;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pill-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.pill {
+    border: none;
+    border-radius: 9999px;
+    padding: 0.6rem 1.4rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pill.active {
+    background: var(--accent);
+    color: white;
+}
+
+.service-panels {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.panel {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.panel.active {
+    display: grid;
+}
+
+.panel img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(124, 105, 255, 0.4);
+}
+
+.panel-text h2 {
+    margin-bottom: 1rem;
+}
