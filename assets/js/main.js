@@ -1,5 +1,6 @@
 const pills = document.querySelectorAll(".pill");
 const panels = document.querySelectorAll(".panel");
+const header = document.querySelector(".site-header");
 
 pills.forEach(pill => {
     pill.addEventListener("click", () => {
@@ -10,3 +11,12 @@ pills.forEach(pill => {
         document.getElementById(pill.dataset.target).classList.add("active");
     });
 });
+
+// Toggle solid header background when scrolled away from top
+const toggleHeaderOnScroll = () => {
+    if (!header) return;
+    header.classList.toggle("scrolled", window.scrollY > 10);
+};
+
+window.addEventListener("scroll", toggleHeaderOnScroll, { passive: true });
+window.addEventListener("load", toggleHeaderOnScroll);

@@ -2,8 +2,17 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent);
-    backdrop-filter: blur(4px);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transition: background-color 180ms ease, backdrop-filter 180ms ease, box-shadow 180ms ease;
+}
+
+/* Solid header when scrolled */
+.site-header.scrolled {
+    background: var(--bg-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .site-header .container {
