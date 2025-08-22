@@ -115,7 +115,22 @@ button{
   margin: -1px;
 }
 
-.main-nav ul{ gap: .9rem; font-size: .95rem; }
+/* Printed photo style: slight angle, white border, shadow */
+.printout{
+  display: block;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 10px 10px 14px; /* extra bottom like instant film */
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 6px;
+  box-shadow:
+    0 18px 34px rgba(0,0,0,0.38),
+    0 6px 14px rgba(0,0,0,0.28);
+  transform: rotate(1.25deg);
+  transform-origin: center;
+}
+
 
 .blueprint-grid{
   position: relative;
