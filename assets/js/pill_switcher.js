@@ -105,8 +105,16 @@
       const x = Math.round(buttons.scrollLeft);
       const atStart = x <= 1;
       const atEnd = x >= max - 1;
-      leftBtn.disabled = atStart;
-      rightBtn.disabled = atEnd;
+      const noOverflow = max <= 0;
+      if (noOverflow) {
+        leftBtn.style.display = 'none';
+        rightBtn.style.display = 'none';
+      } else {
+        leftBtn.style.display = '';
+        rightBtn.style.display = '';
+        leftBtn.disabled = atStart;
+        rightBtn.disabled = atEnd;
+      }
     }
 
     function ensureVisible(el) {
