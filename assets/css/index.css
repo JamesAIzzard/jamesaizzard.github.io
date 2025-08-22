@@ -231,20 +231,25 @@ h1 {
     position: relative;
 }
 
+
 .panel {
     display: none;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.2rem;
-    align-items: center;
 }
 
 .panel.active {
-    display: grid;
+    display: block;
+}
+
+/* Stack text then image; ensure spacing */
+.panel .panel-text {
+    margin-bottom: 1.4rem;
 }
 
 /* Panel images now use the shared frame wrapper */
 .panel img {
     width: 100%;
+    height: auto;
+    display: block;
     border-radius: 8px;
 }
 
