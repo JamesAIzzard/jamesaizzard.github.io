@@ -81,6 +81,12 @@ h3 {
   margin: .8em 0 .4em;
 }
 
+/* Sitewide heading scale: H2 between H1 and H3 */
+h2 {
+  font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem);
+  line-height: 1.2;
+}
+
 p,
 li {
   color: var(--text);
