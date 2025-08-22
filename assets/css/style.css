@@ -8,7 +8,6 @@
   --heading: #f4f5f6;
 
   --accent-1: #09b53d;
-  --accent-ink: #079a34;
   --accent-2: #408bf4;
   --ring: rgba(64, 139, 244, 0.45);
 
@@ -95,7 +94,7 @@ li {
 }
 
 a {
-  color: var(--accent-1);
+  color: var(--accent-2);
   text-underline-offset: 2px;
 }
 
