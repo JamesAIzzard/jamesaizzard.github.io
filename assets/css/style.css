@@ -81,6 +81,12 @@ h3 {
   margin: .8em 0 .4em;
 }
 
+/* Sitewide heading scale: H2 between H1 and H3 */
+h2 {
+  font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem);
+  line-height: 1.2;
+}
+
 p,
 li {
   color: var(--text);
@@ -121,7 +127,8 @@ button {
   box-shadow:
     0 18px 34px rgba(0, 0, 0, 0.38),
     0 6px 14px rgba(0, 0, 0, 0.28);
-  transform: rotate(1.25deg);
+  /* Allow JS to override angle via CSS var */
+  transform: rotate(var(--angle, 1.25deg));
   transform-origin: center;
 }
 

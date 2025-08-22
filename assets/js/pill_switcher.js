@@ -40,7 +40,7 @@
 
     panels.forEach((panel, i) => {
       if (!panel.id) panel.id = `panel-${i + 1}`;
-      const heading = panel.querySelector('.panel-text h2, h2');
+      const heading = panel.querySelector('.panel-text h3, .panel-text h2');
       const label = heading ? heading.textContent.trim() : `Panel ${i + 1}`;
 
       const btn = document.createElement('button');
