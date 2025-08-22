@@ -11,6 +11,11 @@
   align-items: start;
 }
 
+.contact-content{
+  display: grid;
+  gap: 1rem;
+}
+
 .contact-text h2{
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   margin-bottom: 0.8rem;
@@ -45,4 +50,3 @@
   }
   .contact-media{ justify-self: end; }
 }
-
