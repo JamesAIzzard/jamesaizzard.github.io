@@ -4,24 +4,8 @@
   z-index: 0;
   margin-top: -90px;
   padding-block: 1.5rem;
-  background: var(--bg-solid);
   border-block: 1px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
-}
-
-.pill-switcher-container::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(80% 70% at 50% 0%, rgba(124, 105, 255, 0.12), transparent 70%),
-    radial-gradient(120% 100% at 80% 120%, rgba(120, 220, 255, 0.08), transparent 60%),
-    repeating-linear-gradient(to right, rgba(255, 255, 255, 0.10) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 0 1px, transparent 1px 40px);
-  filter: drop-shadow(0 0 6px rgba(124, 105, 255, 0.45)) drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
-  mix-blend-mode: screen;
-  opacity: 0.9;
 }
 
 /* Horizontal pills with scroll */
@@ -65,7 +49,7 @@
 
 .pill-btn:hover{ background: rgba(255, 255, 255, 0.12); }
 .pill-btn.active,[role="tab"][aria-selected="true"]{
-  background: var(--accent);
+  background: var(--accent-2);
   border-color: rgba(255, 255, 255, 0.0);
   color: #fff;
 }
@@ -82,6 +66,9 @@
   color: var(--text);
   display: grid;
   place-items: center;
+  padding: 0;
+  line-height: 1;
+  z-index: 1;
   cursor: pointer;
   transition: opacity 0.2s ease, background 0.2s ease;
 }
@@ -90,6 +77,8 @@
 .pill-scroll:disabled{ opacity: 0.4; cursor: default; }
 .pill-scroll-left{ left: 4px; }
 .pill-scroll-right{ right: 4px; }
+
+.pill-scroll > span{ display: inline-block; line-height: 1; }
 
 /* Panels */
 .pill-switcher-panels{ max-width: 1100px; margin: 0 auto; position: relative; }
@@ -100,7 +89,6 @@
 .panel img{ width: 100%; height: auto; display: block; border-radius: 8px; }
 .panel-text h2{ margin-bottom: 0.6rem; }
 
-/* Layout: paragraph next to image on wide screens */
 @media (min-width: 768px) {
   .panel.active{
     grid-template-columns: 1fr 1fr;
@@ -108,4 +96,3 @@
   }
   .panel .panel-text{ margin-bottom: 0; }
 }
-

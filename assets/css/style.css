@@ -7,7 +7,7 @@
   --muted: #cfd3d6;
   --heading: #f4f5f6;
 
-  --accent: #09b53d;
+  --accent-1: #09b53d;
   --accent-ink: #079a34;
   --accent-2: #408bf4;
   --ring: rgba(64, 139, 244, 0.45);
@@ -19,6 +19,13 @@
   --maxw: 1080px;
   --radius: 12px;
   --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.35);
+  /* Blueprint theme tokens */
+  --blueprint-paper: #0a1524;           /* deep navy */
+  --blueprint-paper-2: #0e1c31;         /* slightly lighter */
+  --blueprint-glow-1: rgba(120, 200, 255, 0.08);
+  --blueprint-glow-2: rgba(124, 105, 255, 0.10);
+  --blueprint-grid: rgba(255, 255, 255, 0.10);       /* minor grid lines */
+  --blueprint-grid-strong: rgba(255, 255, 255, 0.16);/* major grid lines */
 }
 
 html, body{ min-height: 100%; }
@@ -76,7 +83,7 @@ h1, h2, h3{
 p, li{ color: var(--text); }
 
 a{
-  color: var(--accent);
+  color: var(--accent-1);
   text-underline-offset: 2px;
 }
 
@@ -84,16 +91,16 @@ a:hover{ filter: brightness(1.08); }
 
 button{
   color: var(--heading);
-  background: linear-gradient(180deg, var(--accent), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(180deg, var(--accent-1), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: .55rem .9rem;
 }
 
 :where(a, button, input, select, textarea):focus-visible{
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-1);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 35%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-1) 35%, transparent);
 }
 
 .visually-hidden{
@@ -111,3 +118,34 @@ button{
 .main-nav ul{ gap: .9rem; font-size: .95rem; }
 
 /* CTA styles moved to assets/css/cta.css */
+
+/*
+  Reusable blueprint grid background
+  - Apply by adding class .blueprint-grid to any section
+*/
+.blueprint-grid{
+  position: relative;
+  isolation: isolate; /* contain ::before blending */
+  background:
+    radial-gradient(80% 70% at 60% -10%, var(--blueprint-glow-2), transparent 60%),
+    radial-gradient(120% 120% at 90% 120%, var(--blueprint-glow-1), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00)),
+    radial-gradient(140% 100% at 20% 10%, rgba(255,255,255,0.02), transparent 70%),
+    linear-gradient(180deg, var(--blueprint-paper), var(--blueprint-paper-2));
+  background-blend-mode: screen, screen, overlay, screen, normal;
+}
+
+.blueprint-grid::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Minor and major grid lines over dark paper */
+  background:
+    repeating-linear-gradient(to right, var(--blueprint-grid) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--blueprint-grid) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to right, var(--blueprint-grid-strong) 0 1px, transparent 1px 200px),
+    repeating-linear-gradient(to bottom, var(--blueprint-grid-strong) 0 1px, transparent 1px 200px);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
