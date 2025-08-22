@@ -110,6 +110,4 @@ button{
 
 .main-nav ul{ gap: .9rem; font-size: .95rem; }
 
-.cta{ grid-template-columns: 1fr; border-radius: 24px; }
-
-.cta button{ width: 100%; }
+/* CTA styles moved to assets/css/cta.css */

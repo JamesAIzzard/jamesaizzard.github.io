@@ -14,11 +14,7 @@ description: Mechanical design, analysis, and rapid productisation with clear co
             tight feedback loops.
         </p>
 
-        <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
-            <label class="visually-hidden" for="project">Enter your email</label>
-            <input id="project" name="q" type="text" placeholder="Enter your email" autocomplete="off">
-            <button type="submit">Start the conversation</button>
-        </form>
+        {% include cta-form.html %}
 
         <figure class="screenshot frame">
             <img src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
@@ -135,11 +131,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                 Whether you want to explore ideas, discuss a project, or just chat through possibilities,
                 I’m always open to a conversation.
             </p>
-            <form class="contact-form" action="/contact.html" method="get">
-                <label class="visually-hidden" for="email">Enter your email</label>
-                <input id="email" name="q" type="email" placeholder="Enter your email" required>
-                <button type="submit">Start a Conversation</button>
-            </form>
+
+            {% include cta-form.html %}
             <div class="social-links">
                 <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
                 <a href="mailto:you@example.com">Email</a>
