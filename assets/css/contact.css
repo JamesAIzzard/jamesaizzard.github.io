@@ -1,11 +1,10 @@
 /* Contact section */
-.contact{
+.contact {
   padding: clamp(3rem, 6vw, 6rem) 0;
-  background: var(--bg-solid);
   border-block: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.contact-grid{
+.contact-grid {
   display: grid;
   gap: 1.6rem;
   align-items: start;
@@ -13,53 +12,93 @@
   margin-inline: auto;
 }
 
-.contact-content{
+.contact-content {
   display: grid;
   gap: 1rem;
 }
 
-.contact-text h2{
+.contact-text h2 {
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   margin-bottom: 0.8rem;
 }
 
-.contact-text p{ color: var(--muted); }
+.contact-text p {
+  color: var(--muted);
+}
 
-.contact-media{ justify-self: center; }
+.contact-media {
+  justify-self: center;
+}
 
-.contact-image{
+.contact-image {
   display: block;
   width: min(320px, 100%);
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 9999px;
+  border: 2px solid var(--line);
+  box-shadow: inset 0 0 0 4px var(--bg), var(--shadow-lg);
 }
 
-.contact-cta .cta{ margin: 1rem 0 0; width: 100%; }
-.contact-cta .social-links{ display: flex; gap: 1.2rem; margin-top: 0.8rem; }
-.contact-cta .social-links a{
+.contact-cta .cta {
+  margin: 1rem 0 0;
+  width: 100%;
+}
+
+.contact-cta .social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 0.8rem;
+}
+
+.contact-cta .social-links a {
   color: var(--text);
   opacity: 0.85;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease, opacity 0.2s ease;
 }
-.contact-cta .social-links a:hover{ opacity: 1; border-color: var(--text); }
 
-/* Center content on narrow screens */
-@media (max-width: 899px){
-  .contact{ text-align: center; }
-  .contact-grid{ justify-items: center; }
-  .contact-text, .contact-cta{ text-align: center; }
-  .contact-cta .cta{ margin: 1rem auto 0; }
-  .contact-cta .social-links{ justify-content: center; }
-  .contact-image{ margin-inline: auto; }
+.contact-cta .social-links a:hover {
+  opacity: 1;
+  border-color: var(--text);
 }
 
-@media (min-width: 900px){
-  .contact-grid{
+/* Center content on narrow screens */
+@media (max-width: 899px) {
+  .contact {
+    text-align: center;
+  }
+
+  .contact-grid {
+    justify-items: center;
+  }
+
+  .contact-text,
+  .contact-cta {
+    text-align: center;
+  }
+
+  .contact-cta .cta {
+    margin: 1rem auto 0;
+  }
+
+  .contact-cta .social-links {
+    justify-content: center;
+  }
+
+  .contact-image {
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .contact-grid {
     grid-template-columns: minmax(380px, 520px) auto;
     gap: 2rem 3rem;
     justify-content: center;
   }
-  .contact-media{ justify-self: end; }
+
+  .contact-media {
+    justify-self: end;
+  }
 }
