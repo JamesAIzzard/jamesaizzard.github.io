@@ -1,5 +1,4 @@
-/* Pill switcher section */
-.pill-switcher-container{
+.pill-switcher-container {
   position: relative;
   z-index: 0;
   margin-top: -90px;
@@ -7,15 +6,14 @@
   overflow: hidden;
 }
 
-/* Horizontal pills with scroll */
-.pill-buttons-wrap{
+.pill-buttons-wrap {
   position: relative;
   width: max-content;
   max-width: 100%;
   margin: 0 auto 2rem;
 }
 
-.pill-buttons{
+.pill-buttons {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -27,19 +25,16 @@
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.25),
-    0 4px 30px rgba(0, 0, 0, 0.25);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
 }
 
-.pill-buttons::-webkit-scrollbar{ display: none; }
+.pill-buttons::-webkit-scrollbar {
+  display: none;
+}
 
-.pill-btn{
+.pill-btn {
   appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.06);
@@ -52,14 +47,18 @@
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.pill-btn:hover{ background: rgba(255, 255, 255, 0.12); }
-.pill-btn.active,[role="tab"][aria-selected="true"]{
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.pill-btn.active,
+[role="tab"][aria-selected="true"] {
   background: var(--accent-2);
   border-color: rgba(255, 255, 255, 0.0);
   color: #fff;
 }
 
-.pill-scroll{
+.pill-scroll {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -67,7 +66,7 @@
   height: 32px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0,0,0,0.25);
+  background: var(--accent-2);
   color: var(--text);
   display: grid;
   place-items: center;
@@ -78,26 +77,66 @@
   transition: opacity 0.2s ease, background 0.2s ease;
 }
 
-.pill-scroll:hover{ background: rgba(255,255,255,0.15); }
-.pill-scroll:disabled{ opacity: 0.4; cursor: default; }
-.pill-scroll-left{ left: 4px; }
-.pill-scroll-right{ right: 4px; }
+.pill-scroll:hover {
+  background: var(--bg);
+}
 
-.pill-scroll > span{ display: inline-block; line-height: 1; }
+.pill-scroll:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pill-scroll-left {
+  left: 4px;
+}
+
+.pill-scroll-right {
+  right: 4px;
+}
+
+.pill-scroll>span {
+  display: inline-block;
+  line-height: 1;
+}
 
 /* Panels */
-.pill-switcher-panels{ max-width: 1100px; margin: 0 auto; position: relative; }
-.panel{ display: none; }
-.panel.active{ display: grid; gap: 1.2rem; }
+.pill-switcher-panels {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
 
-.panel .panel-text{ margin-bottom: 0.6rem; }
-.panel img{ width: 100%; height: auto; display: block; border-radius: 8px; }
-.panel-text h2{ margin-bottom: 0.6rem; }
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.panel .panel-text {
+  margin-bottom: 0.6rem;
+}
+
+.panel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.panel-text h2 {
+  margin-bottom: 0.6rem;
+}
 
 @media (min-width: 768px) {
-  .panel.active{
+  .panel.active {
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
-  .panel .panel-text{ margin-bottom: 0; }
+
+  .panel .panel-text {
+    margin-bottom: 0;
+  }
 }
