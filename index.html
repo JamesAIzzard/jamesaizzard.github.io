@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Professional engineering design, on tap.
+title: Professional Engineering Design
 description: Mechanical design, analysis, and rapid productisation with clear communication and tight feedback loops.
 ---
 
@@ -14,11 +14,7 @@ description: Mechanical design, analysis, and rapid productisation with clear co
             tight feedback loops.
         </p>
 
-        <form class="cta" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
-            <label class="visually-hidden" for="project">Enter your email</label>
-            <input id="project" name="q" type="text" placeholder="Enter your email" autocomplete="off">
-            <button type="submit">Start the conversation</button>
-        </form>
+        {% include cta-form.html %}
 
         <figure class="screenshot frame">
             <img src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
@@ -29,11 +25,17 @@ description: Mechanical design, analysis, and rapid productisation with clear co
 
 </section>
 
-<section class="pill-switcher-container">
+<section class="pill-switcher-container blueprint-grid">
     <div class="container">
         <h2>Manufacturing Experience</h2>
         <div class="pill-buttons"></div>
 
+        <p>
+            With over a decade in life-science product development, I've worked across a wide range of manufacturing
+            processes - from
+            the everyday to the highly specialised. If something unfamiliar comes up, I know how to track down the right
+            expertise and get it made.
+        </p>
 
         <div class="pill-switcher-panels">
 
@@ -47,8 +49,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                         sketching, the process establishes a foundation that balances innovation with practical
                         considerations, making complex concepts both accessible and engaging.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/concept_sketches_1.png" alt="Explore concept">
+                <figure>
+                    <img class="printout" src="assets/images/concept_sketches_1.png" alt="Explore concept">
                 </figure>
             </div>
 
@@ -60,8 +62,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                         days. Finishes include welding, powder coating, anodising and more, in both low and high
                         volumes.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/press-brake.png" alt="Press brake forming sheet metal">
+                <figure>
+                    <img class="printout" src="assets/images/press-brake.png" alt="Press brake forming sheet metal">
                 </figure>
             </div>
 
@@ -70,8 +72,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                     <h2>3D Printed</h2>
                     <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/execute.png" alt="Execute concept">
+                <figure>
+                    <img class="printout" src="assets/images/execute.png" alt="Execute concept">
                 </figure>
             </div>
 
@@ -80,8 +82,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                     <h2>Laser/Water Cut</h2>
                     <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/execute.png" alt="Execute concept">
+                <figure>
+                    <img class="printout" src="assets/images/execute.png" alt="Execute concept">
                 </figure>
             </div>
 
@@ -90,8 +92,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                     <h2>Thermoformed</h2>
                     <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/execute.png" alt="Execute concept">
+                <figure>
+                    <img class="printout" src="assets/images/execute.png" alt="Execute concept">
                 </figure>
             </div>
 
@@ -100,8 +102,8 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                     <h2>Cast</h2>
                     <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/execute.png" alt="Execute concept">
+                <figure>
+                    <img class="printout" src="assets/images/execute.png" alt="Execute concept">
                 </figure>
             </div>
 
@@ -110,44 +112,14 @@ description: Mechanical design, analysis, and rapid productisation with clear co
                     <h2>Moulded</h2>
                     <p>Final engineering, manufacturing support, and delivery of production-ready solutions.</p>
                 </div>
-                <figure class="frame">
-                    <img src="assets/images/execute.png" alt="Execute concept">
+                <figure>
+                    <img class="printout" src="assets/images/execute.png" alt="Execute concept">
                 </figure>
             </div>
 
         </div>
 
-        <p>
-            With over a decade in life-science product development, I've worked across a wide range of manufacturing
-            processes - from
-            the everyday to the highly specialised. If something unfamiliar comes up, I know how to track down the right
-            expertise and get it made.
-        </p>
-
     </div>
 </section>
 
-<section class="contact">
-    <div class="container contact-inner">
-        <div class="contact-text">
-            <h2>Let’s Connect</h2>
-            <p>
-                Whether you want to explore ideas, discuss a project, or just chat through possibilities,
-                I’m always open to a conversation.
-            </p>
-            <form class="contact-form" action="/contact.html" method="get">
-                <label class="visually-hidden" for="email">Enter your email</label>
-                <input id="email" name="q" type="email" placeholder="Enter your email" required>
-                <button type="submit">Start a Conversation</button>
-            </form>
-            <div class="social-links">
-                <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-                <a href="mailto:you@example.com">Email</a>
-            </div>
-        </div>
-
-        <figure class="contact-portrait frame">
-            <img src="assets/images/profile_picture.jpg" alt="Portrait">
-        </figure>
-    </div>
-</section>
+{% include contact.html %}
