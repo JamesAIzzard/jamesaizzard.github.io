@@ -48,6 +48,7 @@
 
 .logo{ display: block; height: 36px; width: auto; max-width: 100%; }
 
+.main-nav{ display: flex; align-items: center; }
 .main-nav ul{
   display: flex;
   align-items: center; /* ensure vertical centering on wide screens */
@@ -132,6 +133,7 @@
 
   /* Collapse the menu by default on small screens; header stretches */
   .main-nav{
+    display: block; /* override desktop centering for collapsible block */
     position: static;
     grid-column: 1 / -1;
     grid-row: 2; /* keep social link in top row */
