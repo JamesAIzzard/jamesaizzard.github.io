@@ -33,6 +33,7 @@
   width: 100%;
   max-width: none;
   padding-inline: 1rem;
+  position: relative; /* allow mobile menu to anchor */
 }
 
 .header-row{
@@ -49,6 +50,7 @@
 
 .main-nav ul{
   display: flex;
+  align-items: center; /* ensure vertical centering on wide screens */
   gap: 1.25rem;
   padding: 0;
   margin: 0;
@@ -79,4 +81,83 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
   border-radius: 999px;
+}
+
+/* --- Mobile nav toggle (hamburger) --- */
+.nav-toggle{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 44px;
+  padding: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--line);
+}
+
+.nav-toggle .bars{
+  position: relative;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.nav-toggle .bars::before,
+.nav-toggle .bars::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.nav-toggle .bars::before{ transform: translateY(-6px); }
+.nav-toggle .bars::after{ transform: translateY(6px); }
+
+.nav-toggle[aria-expanded="true"] .bars{ background: transparent; }
+.nav-toggle[aria-expanded="true"] .bars::before{ transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bars::after{ transform: rotate(-45deg); }
+
+/* --- Responsive behavior --- */
+@media (max-width: 860px){
+  .header-row{ grid-template-columns: auto 1fr auto; }
+
+  /* Show the hamburger */
+  .nav-toggle{ display: inline-flex; position: static; margin-left: .25rem; z-index: 3; }
+
+  /* Collapse the menu by default on small screens; header stretches */
+  .main-nav{
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 2; /* keep social link in top row */
+    margin-top: .25rem;
+    max-height: 0;
+    overflow: clip;
+    pointer-events: none;
+    transition: max-height 220ms ease;
+  }
+
+  .main-nav.open{ pointer-events: auto; }
+
+  .main-nav ul{
+    flex-direction: column;
+    gap: 0;
+    padding: .4rem .25rem;
+  }
+
+  .main-nav li{ border-radius: 8px; }
+  .main-nav a{ display: block; padding: .6rem .7rem; }
+
+  /* When menu is open, make the header look like a single extended bar */
+  .site-header.menu-open{
+    background:
+      radial-gradient(120% 120% at 90% 0%, rgba(255,255,255,0.08), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.00));
+    box-shadow: var(--shadow-lg);
+  }
 }

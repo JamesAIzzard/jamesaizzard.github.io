@@ -60,10 +60,94 @@
     window.addEventListener('resize', onResize);
   }
 
+  function initHamburger() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+    const row = header.querySelector('.header-row');
+    const nav = header.querySelector('.main-nav');
+    if (!row || !nav) return;
+
+    // Ensure nav has an id for aria-controls
+    if (!nav.id) nav.id = 'primary-nav';
+
+    // Create toggle button once
+    let btn = header.querySelector('.nav-toggle');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'nav-toggle';
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-controls', nav.id);
+      btn.setAttribute('aria-label', 'Toggle menu');
+      btn.innerHTML = '<span class="bars" aria-hidden="true"></span>';
+      // Insert before the nav so it sits just right of the brand
+      row.insertBefore(btn, nav);
+    }
+
+    const BREAKPOINT = 860;
+
+    function openMenu() {
+      nav.classList.add('open');
+      header.classList.add('menu-open');
+      btn.setAttribute('aria-expanded', 'true');
+      // Animate natural height
+      nav.style.maxHeight = nav.scrollHeight + 'px';
+      // Trap focus to nav on small screens (basic)
+      document.addEventListener('keydown', onKeydown);
+      document.addEventListener('click', onDocClick);
+    }
+
+    function closeMenu() {
+      nav.classList.remove('open');
+      header.classList.remove('menu-open');
+      btn.setAttribute('aria-expanded', 'false');
+      nav.style.maxHeight = '0px';
+      document.removeEventListener('keydown', onKeydown);
+      document.removeEventListener('click', onDocClick);
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') {
+        closeMenu();
+        btn.focus();
+      }
+    }
+
+    function onDocClick(e) {
+      if (!nav.classList.contains('open')) return;
+      const isInside = nav.contains(e.target) || btn.contains(e.target);
+      if (!isInside) closeMenu();
+    }
+
+    btn.addEventListener('click', () => {
+      const isOpen = nav.classList.contains('open');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    // Close the menu if we grow beyond the breakpoint
+    function onResize() {
+      const w = window.innerWidth || document.documentElement.clientWidth || 0;
+      if (w > BREAKPOINT) {
+        closeMenu();
+      } else if (nav.classList.contains('open')) {
+        // Recalculate height if still open at small widths
+        nav.style.maxHeight = nav.scrollHeight + 'px';
+      }
+    }
+    window.addEventListener('resize', onResize);
+
+    // Ensure collapsed state on init
+    nav.style.maxHeight = '0px';
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeaderFade);
+    document.addEventListener('DOMContentLoaded', function(){
+      initHeaderFade();
+      initHamburger();
+    });
   } else {
     initHeaderFade();
+    initHamburger();
   }
 })();
 
