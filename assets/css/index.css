@@ -235,8 +235,14 @@ h1 {
   border-color: var(--text);
 }
 
+.contact-portrait.frame {
+  /* Make the framed container circular while preserving the same border style */
+  border-radius: 50%;
+}
+
 .contact-portrait img {
-  border-radius: 12px;
+  /* Ensure the image itself is circular and fills the frame */
+  border-radius: 50%;
   aspect-ratio: 1/1;
   object-fit: cover;
 }
