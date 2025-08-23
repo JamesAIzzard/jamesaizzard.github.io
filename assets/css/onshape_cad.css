@@ -4,6 +4,7 @@
 
 .onshape-logo {
   width: 56px; height: 56px; margin: 0 auto 0.9rem; display: block;
+  max-width: 60px; max-height: 60px; /* ensure no bigger than 60px square */
 }
 
 .onshape-title {
@@ -18,26 +19,16 @@
   color: var(--muted, #9aa3b2);
 }
 
+
 .onshape-stage {
   position: relative;
   margin-top: clamp(1.5rem, 4vw, 3rem);
-  border: 1px solid var(--line, rgba(255,255,255,.12));
-  border-radius: 16px;
-  padding: clamp(1rem, 3vw, 2rem);
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
 }
 
-.onshape-stage::before {
-  content: "";
-  position: absolute;
-  inset: -10% -10% 0 -10%;
-  background:
-    radial-gradient(60% 60% at 70% 45%, rgba(124,105,255,.28), transparent 60%),
-    radial-gradient(45% 45% at 75% 70%, rgba(64,139,244,.22), transparent 60%);
-  filter: blur(24px);
-  z-index: 0;
-  pointer-events: none;
+/* When used as a .frame, give comfortable inner padding */
+.onshape-stage.frame {
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
 .onshape-stage {
