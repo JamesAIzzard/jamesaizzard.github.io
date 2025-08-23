@@ -2,6 +2,8 @@
 #where-fits {
   position: relative;
   z-index: 1; /* sits above hero, below next section */
+  /* Offset sticky header when anchored */
+  scroll-margin-top: 80px;
   margin-top: -56px; /* gently overlap the previous section */
   padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
   background: var(--bg-2, rgba(255, 255, 255, 0.02));

@@ -1,6 +1,8 @@
 .pill-switcher-container {
   position: relative;
   z-index: 0; /* sit under the where-fits panel */
+  /* Offset sticky header when anchored */
+  scroll-margin-top: 80px;
   margin-top: 0; /* no overlap with previous section */
   /* Tighten top space, add a bit more bottom padding */
   padding: 0.75rem 0 1.75rem;

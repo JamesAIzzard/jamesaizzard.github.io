@@ -124,6 +124,16 @@
       isOpen ? closeMenu() : openMenu();
     });
 
+    // Close the mobile menu after selecting a nav item
+    nav.addEventListener('click', (e) => {
+      const item = e.target && (e.target.closest('a') || e.target.closest('button'));
+      if (!item) return;
+      // Only relevant if menu is open (i.e., mobile state)
+      if (nav.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
     // Close the menu if we grow beyond the breakpoint
     function onResize() {
       const w = window.innerWidth || document.documentElement.clientWidth || 0;
