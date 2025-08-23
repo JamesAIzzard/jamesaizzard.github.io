@@ -4,7 +4,8 @@
   z-index: 1; /* sits above hero, below next section */
   /* Offset sticky header when anchored */
   scroll-margin-top: 80px;
-  margin-top: -56px; /* gently overlap the previous section */
+  /* Do not overlap hero on narrow screens */
+  margin-top: 0;
   padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
   background: var(--bg-2, rgba(255, 255, 255, 0.02));
   border-block: 1px solid var(--line);
@@ -89,6 +90,9 @@
 
 /* Wide layout: text on left, tiles stacked on right */
 @media (min-width: 900px) {
+  /* Gently overlap hero on wider screens only */
+  #where-fits { margin-top: -56px; }
+
   #where-fits > div {
     display: grid;
     grid-template-columns: minmax(420px, 1fr) minmax(300px, 420px);

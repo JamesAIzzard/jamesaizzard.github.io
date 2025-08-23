@@ -45,3 +45,10 @@
     align-items: center;
   }
 }
+
+/* Pull CTA closer to hero content on narrow screens */
+@media (max-width: 700px){
+  .cta{
+    margin: 0.8rem auto 1.8rem; /* tighter top/bottom spacing on mobile */
+  }
+}

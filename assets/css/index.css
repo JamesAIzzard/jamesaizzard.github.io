@@ -36,10 +36,10 @@ h1 {
 }
 
 .lede {
-    max-width: 60ch;
+  max-width: 60ch;
     margin: 0 auto 1.4rem;
-    color: var(--muted);
-    text-align: center;
+  color: var(--muted);
+  text-align: center;
 }
 
 .screenshot {
@@ -49,4 +49,9 @@ h1 {
 
 .screenshot>img {
     aspect-ratio: 16/9;
+}
+
+/* Tighter spacing above CTA on narrow screens */
+@media (max-width: 700px){
+  .lede{ margin-bottom: 0.8rem; }
 }
