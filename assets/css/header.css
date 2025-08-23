@@ -27,15 +27,13 @@
   z-index: 10;
   background: transparent;
   transition: background-color 180ms ease, box-shadow 180ms ease;
-  /* Prevent any descendants from blending with page background */
-  isolation: isolate;
 }
 
 .site-header .container{
   width: 100%;
   max-width: none;
   padding-inline: 1rem;
-  position: relative; /* allow mobile menu to anchor */
+  position: relative;
 }
 
 .header-row{

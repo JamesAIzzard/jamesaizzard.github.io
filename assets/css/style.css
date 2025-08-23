@@ -16,16 +16,11 @@
   --maxw: 1080px;
   --radius: 12px;
   --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.35);
-  --blueprint-paper: #0a1524;
-  --blueprint-paper-2: #0e1c31;
-  --blueprint-glow-1: rgba(120, 200, 255, 0.08);
-  --blueprint-glow-2: rgba(124, 105, 255, 0.10);
-  --blueprint-grid: rgba(255, 255, 255, 0.10);
-  --blueprint-grid-strong: rgba(255, 255, 255, 0.16);
 }
 
-/* Smooth scrolling for in-page anchors */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 html,
 body {
