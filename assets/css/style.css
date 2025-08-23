@@ -95,6 +95,11 @@ li {
   color: var(--text);
 }
 
+/* Reduce default vertical spacing between paragraphs sitewide */
+p {
+  margin: 0.4em 0;
+}
+
 a {
   color: var(--accent-2);
   text-underline-offset: 2px;
