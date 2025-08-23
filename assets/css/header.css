@@ -84,82 +84,74 @@
   border-radius: 999px;
 }
 
-/* --- Mobile nav toggle (hamburger) --- */
+/* Mobile nav toggle (burger) */
 .nav-toggle{
-  display: none;
+  display: none; /* shown at small widths */
   align-items: center;
   justify-content: center;
-  height: 40px;
-  width: 44px;
-  padding: 0;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--line);
+  width: 40px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  cursor: pointer;
 }
 
-.nav-toggle .bars{
-  position: relative;
-  width: 20px;
-  height: 2px;
-  background: var(--text);
-  border-radius: 2px;
-}
-
+.nav-toggle .bars,
 .nav-toggle .bars::before,
 .nav-toggle .bars::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 20px;
+  display: block;
+  width: 18px;
   height: 2px;
-  background: var(--text);
+  background: currentColor;
   border-radius: 2px;
-  transition: transform 180ms ease, opacity 180ms ease;
+  transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
 }
 
-.nav-toggle .bars::before{ transform: translateY(-6px); }
-.nav-toggle .bars::after{ transform: translateY(6px); }
+.nav-toggle .bars{ position: relative; }
+.nav-toggle .bars::before,
+.nav-toggle .bars::after{ content: ""; position: absolute; left: 0; }
+.nav-toggle .bars::before{ top: -6px; }
+.nav-toggle .bars::after{ top: 6px; }
 
-.nav-toggle[aria-expanded="true"] .bars{ background: transparent; }
-.nav-toggle[aria-expanded="true"] .bars::before{ transform: rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .bars::after{ transform: rotate(-45deg); }
-
-/* --- Responsive behavior --- */
+/* Responsive behavior */
 @media (max-width: 860px){
-  .header-row{ grid-template-columns: auto 1fr auto; }
+  .nav-toggle{ display: inline-flex; }
 
-  /* Show the hamburger */
-  .nav-toggle{ display: inline-flex; position: static; margin-left: .25rem; z-index: 3; }
-
-  /* Collapse the menu by default on small screens; header stretches */
+  /* Make nav an overlay dropdown so it doesn't affect header height when collapsed */
   .main-nav{
-    display: block; /* override desktop centering for collapsible block */
-    position: static;
-    grid-column: 1 / -1;
-    grid-row: 2; /* keep social link in top row */
-    margin-top: .25rem;
-    max-height: 0;
-    overflow: clip;
-    pointer-events: none;
-    transition: max-height 220ms ease;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: block; /* stack items vertically */
+    background: var(--bg-2);
+    border-bottom: 0; /* avoid stray 1px line when collapsed */
+    overflow: hidden;
+    max-height: 0; /* default collapsed; JS animates inline */
+    transition: max-height 200ms ease;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
   }
 
-  .main-nav.open{ pointer-events: auto; }
+  .main-nav.open{ border-bottom: 1px solid var(--line); }
 
   .main-nav ul{
-    flex-direction: column;
-    gap: 0;
-    padding: .4rem .25rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 0.6rem 1rem 1rem;
+    align-items: start;
   }
 
-  .main-nav li{ border-radius: 8px; }
-  .main-nav a{ display: block; padding: .6rem .7rem; }
-
-  /* When menu is open, make the header look like a single extended bar */
-  .site-header.menu-open{
-    background:
-      radial-gradient(120% 120% at 90% 0%, rgba(255,255,255,0.08), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.00));
-    box-shadow: var(--shadow-lg);
-  }
+  .main-nav a{ display: block; padding: 0.5rem 0.6rem; }
 }
+
+@media (min-width: 861px){
+  .main-nav{ position: static; max-height: none !important; overflow: visible; box-shadow: none; border: 0; }
+}
+
+/* Animate burger to cross when expanded */
+.nav-toggle[aria-expanded="true"] .bars{ background: transparent; }
+.nav-toggle[aria-expanded="true"] .bars::before{ transform: rotate(45deg); top: 0; }
+.nav-toggle[aria-expanded="true"] .bars::after{ transform: rotate(-45deg); top: 0; }
