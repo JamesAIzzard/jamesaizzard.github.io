@@ -27,6 +27,8 @@
   z-index: 10;
   background: transparent;
   transition: background-color 180ms ease, box-shadow 180ms ease;
+  /* Prevent any descendants from blending with page background */
+  isolation: isolate;
 }
 
 .site-header .container{
@@ -135,15 +137,23 @@
     left: 0;
     right: 0;
     display: block; /* stack items vertically */
-    background: var(--bg-2);
+    /* Keep transparent and non-interactive when collapsed */
+    background: transparent;
     border-bottom: 0; /* avoid stray 1px line when collapsed */
     overflow: hidden;
     max-height: 0; /* default collapsed; JS animates inline */
     transition: max-height 200ms ease;
     box-shadow: 0 12px 24px rgba(0,0,0,0.35);
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  .main-nav.open{ border-bottom: 1px solid var(--line); }
+  .main-nav.open{
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    visibility: visible;
+    pointer-events: auto;
+  }
 
   .main-nav ul{
     display: grid;
