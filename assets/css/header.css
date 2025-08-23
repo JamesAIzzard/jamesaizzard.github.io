@@ -96,20 +96,29 @@
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   cursor: pointer;
+  position: relative; /* allow tiny visual nudge */
+  top: 0.5px; /* counter subpixel rounding so it centers perfectly */
+  line-height: 0; /* prevent inline metrics from shifting centering */
 }
 
 .nav-toggle .bars,
 .nav-toggle .bars::before,
 .nav-toggle .bars::after{
   display: block;
-  width: 18px;
+  width: 20px; /* unify lengths of all three bars */
   height: 2px;
   background: currentColor;
   border-radius: 2px;
   transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
+  transform-origin: center; /* keep rotations centered */
 }
 
-.nav-toggle .bars{ position: relative; }
+.nav-toggle .bars{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .nav-toggle .bars::before,
 .nav-toggle .bars::after{ content: ""; position: absolute; left: 0; }
 .nav-toggle .bars::before{ top: -6px; }
