@@ -5,6 +5,9 @@
   --muted: #cfd3d6;
   --heading: #f4f5f6;
 
+  /* Unify accent token so page CSS can reference --accent */
+  --accent-1: #09b53d;
+  --accent: var(--accent-1);
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --ring: rgba(64, 139, 244, 0.45);
@@ -31,10 +34,11 @@ body {
   color: var(--text);
   font-family: 'Hubot Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   background:
+    /* Soften outer stop to transparent to avoid darkening if blend modes fail */
     radial-gradient(circle at center,
       rgba(255, 255, 255, 0.12) 0%,
       rgba(255, 255, 255, 0.06) 20%,
-      rgba(0, 0, 0, 0.9) 100%),
+      transparent 100%),
     radial-gradient(circle at 25% 30%,
       rgba(255, 255, 255, 0.18) 0%,
       rgba(255, 255, 255, 0.05) 40%,
