@@ -1,7 +1,8 @@
 /* Where Fits section */
 #where-fits {
   position: relative;
-  z-index: 1; /* sits above hero, below next section */
+  z-index: 1;
+  /* sits above hero, below next section */
   /* Offset sticky header when anchored */
   scroll-margin-top: 80px;
   /* Do not overlap hero on narrow screens */
@@ -17,7 +18,7 @@
 }
 
 /* Inner container behaves like .container */
-#where-fits > div {
+#where-fits>div {
   width: min(100% - 2rem, var(--maxw));
   margin-inline: auto;
 }
@@ -45,11 +46,11 @@
 }
 
 /* Individual tiles */
-#wherefits-tiles > div {
+#wherefits-tiles>div {
   border-radius: var(--radius);
   background: var(--panel);
   border: 1px solid var(--line);
-  box-shadow: inset 0 0 0 1px var(--panel-edge), var(--shadow-lg);
+  box-shadow: inset 0 0 0 1px var(--panel-edge);
   padding: 1rem 1rem 0.9rem;
 }
 
@@ -90,10 +91,13 @@
 
 /* Wide layout: text on left, tiles stacked on right */
 @media (min-width: 900px) {
-  /* Gently overlap hero on wider screens only */
-  #where-fits { margin-top: -56px; }
 
-  #where-fits > div {
+  /* Gently overlap hero on wider screens only */
+  #where-fits {
+    margin-top: -56px;
+  }
+
+  #where-fits>div {
     display: grid;
     grid-template-columns: minmax(420px, 1fr) minmax(300px, 420px);
     gap: 2rem 3rem;
@@ -104,11 +108,13 @@
   #wherefits-tiles {
     grid-column: 2;
     grid-row: 1;
-    margin-top: 0; /* rely on grid gap */
+    margin-top: 0;
+    /* rely on grid gap */
     align-self: start;
   }
 
   /* Group text stack into left column */
-  .wherefits-text { grid-column: 1; }
+  .wherefits-text {
+    grid-column: 1;
+  }
 }
-

@@ -5,6 +5,7 @@
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --line: rgba(255, 255, 255, 0.10);
+  --panel-edge: rgba(255, 255, 255, 0.10);
   --maxw: 1080px;
 }
 
@@ -38,6 +39,7 @@ body {
   min-height: 100dvh;
 }
 
+
 .container {
   width: min(100% - 2rem, var(--maxw));
   margin-inline: auto;
@@ -63,6 +65,12 @@ a {
 
 a:hover {
   filter: brightness(1.08);
+}
+
+.drop-shadow {
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.28),
+    0 3px 8px rgba(0, 0, 0, 0.20);
 }
 
 button {
