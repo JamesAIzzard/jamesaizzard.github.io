@@ -1,26 +1,11 @@
-/* Where Fits section */
+
 #where-fits {
   position: relative;
   z-index: 1;
-  /* sits above hero, below next section */
-  /* Offset sticky header when anchored */
   scroll-margin-top: 80px;
-  /* Do not overlap hero on narrow screens */
   margin-top: 0;
   padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
-  background: var(--bg-2, rgba(255, 255, 255, 0.02));
-  border-block: 1px solid var(--line);
-  box-shadow:
-    0 -18px 40px rgba(0, 0, 0, 0.45),
-    0 -6px 14px rgba(0, 0, 0, 0.35),
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    0 6px 14px rgba(0, 0, 0, 0.35);
-}
-
-/* Inner container behaves like .container */
-#where-fits>div {
-  width: min(100% - 2rem, var(--maxw));
-  margin-inline: auto;
+  background: var(--bg-2);
 }
 
 #where-fits h2 {
@@ -45,7 +30,6 @@
 }
 
 #wherefits-tiles>div {
-  border-radius: var(--radius);
   background: var(--panel);
   border: 1px solid var(--line);
   box-shadow: inset 0 0 0 1px var(--panel-edge);
