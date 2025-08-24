@@ -73,6 +73,10 @@ a:hover {
     0 3px 8px rgba(0, 0, 0, 0.20);
 }
 
+.border-panel {
+  border: 1px solid var(--panel-edge);
+}
+
 button {
   color: var(--heading);
   background: linear-gradient(180deg, var(--accent-1), rgba(255, 255, 255, 0.02));
