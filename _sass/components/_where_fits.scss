@@ -84,13 +84,13 @@
 
   /* Two columns, one row so heights match */
   .wherefits-grid {
-    grid-template-columns: minmax(300px, 420px) 1fr;
+    grid-template-columns: 1fr minmax(300px, 420px);
     grid-template-rows: auto;
     align-items: stretch;
   }
 
   .wf-lhs {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 1;
     display: grid;
     grid-template-rows: 1fr 1fr; /* equal halves */
@@ -98,14 +98,14 @@
   }
 
   .wf-rhs {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     height: 100%;
   }
 
   /* Merge borders between LHS and RHS to avoid doubles */
   .wf-lhs .wf-cell {
-    border-right: 0; /* center divider supplied by RHS */
+    border-left: 0; /* center divider supplied by RHS's right border */
   }
 
   /* Single internal divider between the two LHS cells */
