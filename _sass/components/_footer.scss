@@ -3,5 +3,16 @@
   color: #a6a8bd;
   text-align: center;
   font-size: 0.95rem;
+  /* Show utility border only on the top edge */
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+/* Invert the drop shadow so it defines the top edge */
+.site-footer.drop-shadow {
+  box-shadow:
+    0 -12px 24px rgba(0, 0, 0, 0.28),
+    0 -3px 8px rgba(0, 0, 0, 0.20);
 }
 
