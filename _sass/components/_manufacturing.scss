@@ -13,6 +13,11 @@
   margin-bottom: 1rem;
 }
 
+/* Add a bit of space under the intro paragraph before the pill switcher */
+.pill-switcher-container > .container > p {
+  margin-bottom: 1.75rem;
+}
+
 .pill-buttons-wrap {
   position: relative;
   width: max-content;
