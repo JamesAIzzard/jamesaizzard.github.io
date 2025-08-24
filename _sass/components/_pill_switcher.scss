@@ -1,0 +1,166 @@
+.pill-switcher-container {
+  position: relative;
+  z-index: 0; /* sit under the where-fits panel */
+  /* Offset sticky header when anchored */
+  scroll-margin-top: 80px;
+  margin-top: 0; /* no overlap with previous section */
+  /* Match where-fits vertical rhythm */
+  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
+  overflow: hidden;
+  background: var(--bg-2, rgba(255, 255, 255, 0.02));
+  border-block: 1px solid var(--line);
+  box-shadow:
+    0 -18px 40px rgba(0, 0, 0, 0.45),
+    0 -6px 14px rgba(0, 0, 0, 0.35),
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Bring the section header closer to the top, and add space before the pills */
+.pill-switcher-container h2 {
+  margin-top: 0.25em;
+  margin-bottom: 1rem;
+}
+
+.pill-buttons-wrap {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto 2rem;
+}
+
+.pill-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.6rem;
+  width: max-content;
+  max-width: 100%;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.pill-buttons::-webkit-scrollbar {
+  display: none;
+}
+
+.pill-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.pill-btn.active,
+[role="tab"][aria-selected="true"] {
+  background: var(--accent-2);
+  border-color: rgba(255, 255, 255, 0.0);
+  color: #fff;
+}
+
+.pill-scroll {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: var(--accent-2);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  line-height: 1;
+  z-index: 1;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.pill-scroll:hover {
+  background: var(--accent-2);
+}
+
+.pill-scroll:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pill-scroll-left {
+  left: 4px;
+}
+
+.pill-scroll-right {
+  right: 4px;
+}
+
+.pill-scroll>span {
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Panels */
+.pill-switcher-panels {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.panel .panel-text {
+  margin-bottom: 0.6rem;
+}
+
+.panel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.panel-text h2,
+.panel-text h3 {
+  margin-bottom: 0.6rem;
+}
+
+/* Keep panel titles at their previous visual size (was h2) */
+.panel-text h3 {
+  font-size: 1.5em;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+  .panel.active {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .panel .panel-text {
+    margin-bottom: 0;
+  }
+}
+
