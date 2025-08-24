@@ -1,22 +1,19 @@
-#site-header{
+#site-header {
   position: sticky;
   top: 0;
   z-index: 10;
   background: transparent;
-  transition: background-color 180ms ease, box-shadow 180ms ease;
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
+  transition: background-color 180ms ease;
 }
 
-#site-header .container{
+#site-header .container {
   width: 100%;
   max-width: none;
   padding-inline: 1rem;
   position: relative;
 }
 
-.header-row{
+.header-row {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -24,22 +21,35 @@
   padding: 0.9rem 0;
 }
 
-.brand{ display: inline-flex; align-items: center; gap: 0.6rem; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
-.logo{ display: block; height: 36px; width: auto; max-width: 100%; }
+.logo {
+  display: block;
+  height: 36px;
+  width: auto;
+  max-width: 100%;
+}
 
-#main-nav{ display: flex; align-items: center; }
-#main-nav ul{
+#main-nav {
   display: flex;
-  align-items: center; /* ensure vertical centering on wide screens */
+  align-items: center;
+}
+
+#main-nav ul {
+  display: flex;
+  align-items: center;
   gap: 1.25rem;
   padding: 0;
   margin: 0;
   list-style: none;
-  font-size: .95rem; /* moved from style.css */
+  font-size: .95rem;
 }
 
-#main-nav a{
+#main-nav a {
   padding: 0.25rem 0.4rem;
   border-radius: 8px;
   color: var(--text);
@@ -47,25 +57,26 @@
 }
 
 #main-nav a:hover,
-#main-nav a:focus-visible{
+#main-nav a:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
-.social-link{
+.social-link {
   justify-self: end;
   display: inline-flex;
   border-radius: 999px;
 }
 
-.social-link:focus-visible{
+.social-link:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
   border-radius: 999px;
 }
 
-.nav-toggle{
-  display: none; /* shown at small widths */
+.nav-toggle {
+  display: none;
+  /* shown at small widths */
   align-items: center;
   justify-content: center;
   width: 40px;
@@ -75,62 +86,71 @@
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   cursor: pointer;
-  position: relative; /* allow tiny visual nudge */
-  top: 0.5px; /* counter subpixel rounding so it centers perfectly */
-  line-height: 0; /* prevent inline metrics from shifting centering */
+  position: relative;
+  top: 0.5px;
+  line-height: 0;
 }
 
 .nav-toggle .bars,
 .nav-toggle .bars::before,
-.nav-toggle .bars::after{
+.nav-toggle .bars::after {
   display: block;
-  width: 20px; /* unify lengths of all three bars */
+  width: 20px;
   height: 2px;
   background: currentColor;
   border-radius: 2px;
   transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
-  transform-origin: center; /* keep rotations centered */
+  transform-origin: center;
 }
 
-.nav-toggle .bars{
+.nav-toggle .bars {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .nav-toggle .bars::before,
-.nav-toggle .bars::after{ content: ""; position: absolute; left: 0; }
-.nav-toggle .bars::before{ top: -6px; }
-.nav-toggle .bars::after{ top: 6px; }
+.nav-toggle .bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
 
-/* Responsive behavior */
-@media (max-width: 860px){
-  .nav-toggle{ display: inline-flex; }
+.nav-toggle .bars::before {
+  top: -6px;
+}
 
-  #main-nav{
+.nav-toggle .bars::after {
+  top: 6px;
+}
+
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  #main-nav {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    display: block; /* stack items vertically */
+    display: block;
     background: transparent;
-    border-bottom: 0; /* avoid stray 1px line when collapsed */
     overflow: hidden;
-    max-height: 0; /* default collapsed; JS animates inline */
+    max-height: 0;
     transition: max-height 200ms ease;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
     visibility: hidden;
     pointer-events: none;
   }
 
-  #main-nav.open{
+  #main-nav.open {
     background: var(--panel);
-    border-bottom: 1px solid var(--panel-edge);
     visibility: visible;
     pointer-events: auto;
   }
 
-  #main-nav ul{
+  #main-nav ul {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.25rem;
@@ -138,14 +158,34 @@
     align-items: start;
   }
 
-  #main-nav a{ display: block; padding: 0.5rem 0.6rem; }
+  #main-nav a {
+    display: block;
+    padding: 0.5rem 0.6rem;
+  }
 }
 
-@media (min-width: 861px){
-  #main-nav{ position: static; max-height: none !important; overflow: visible; box-shadow: none; border: 0; }
+@media (min-width: 861px) {
+  #main-nav {
+    position: static;
+    max-height: none !important;
+    overflow: visible;
+  }
 }
 
-.nav-toggle[aria-expanded="true"] .bars{ background: transparent; }
-.nav-toggle[aria-expanded="true"] .bars::before{ transform: rotate(45deg); top: 0; }
-.nav-toggle[aria-expanded="true"] .bars::after{ transform: rotate(-45deg); top: 0; }
+.nav-toggle[aria-expanded="true"] .bars {
+  background: transparent;
+}
 
+.nav-toggle[aria-expanded="true"] .bars::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .bars::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+#main-nav.open.border-panel {
+  border-top: 0;
+}

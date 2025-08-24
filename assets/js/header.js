@@ -38,7 +38,8 @@
       const y = window.scrollY || window.pageYOffset || 0;
       const p = clamp(y / max, 0, 1);
       header.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${p.toFixed(3)})`;
-      header.style.boxShadow = p > 0 ? `0 6px 20px rgba(0,0,0,${(0.28 * p).toFixed(3)})` : 'none';
+      if (p > 0) header.classList.add('drop-shadow');
+      else header.classList.remove('drop-shadow');
       ticking = false;
     }
 
@@ -89,6 +90,9 @@
     function openMenu() {
       nav.classList.add('open');
       header.classList.add('menu-open');
+      // Use utility classes for visuals
+      nav.classList.add('border-panel', 'drop-shadow');
+      header.classList.add('drop-shadow');
       btn.setAttribute('aria-expanded', 'true');
       // Animate natural height
       nav.style.maxHeight = nav.scrollHeight + 'px';
@@ -100,6 +104,7 @@
     function closeMenu() {
       nav.classList.remove('open');
       header.classList.remove('menu-open');
+      nav.classList.remove('border-panel', 'drop-shadow');
       btn.setAttribute('aria-expanded', 'false');
       nav.style.maxHeight = '0px';
       document.removeEventListener('keydown', onKeydown);
