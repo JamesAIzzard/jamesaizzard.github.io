@@ -1,0 +1,38 @@
+/* Hero */
+.hero {
+  padding: clamp(1rem, 3.5vw, 3rem) 0 2rem;
+}
+
+.hero-inner {
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(2rem, calc(3.6vw + 1rem), 3.4rem);
+  line-height: 1.15;
+  margin: 0.8rem 0 0.6rem;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+}
+
+.lede {
+  max-width: 60ch;
+  margin: 0 auto 1.4rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.screenshot {
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.screenshot > img {
+  aspect-ratio: 16/9;
+}
+
+/* Tighter spacing above CTA on narrow screens */
+@media (max-width: 700px) {
+  .lede { margin-bottom: 0.8rem; }
+}
+
