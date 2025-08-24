@@ -59,7 +59,7 @@ p {
 }
 
 a {
-  color: var(--accent-2);
+  color: var(--text);
   text-underline-offset: 2px;
 }
 
@@ -85,7 +85,7 @@ a:hover {
   @extend .drop-shadow;
 }
 
-button {
+:where(button, a.button) {
   color: var(--text);
   background: var(--accent-1);
   background: linear-gradient(
@@ -101,11 +101,11 @@ button {
   transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, filter 120ms ease;
 }
 
-button:hover {
+:where(button, a.button):hover {
   transform: translateY(-1px);
 }
 
-button:active {
+:where(button, a.button):active {
   transform: translateY(0);
   filter: brightness(0.98);
 }
