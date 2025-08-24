@@ -22,7 +22,7 @@
   }
 
   function initHeaderFade() {
-    const header = document.querySelector('.site-header');
+    const header = document.querySelector('#site-header');
     if (!header) return;
 
     const rootStyles = getComputedStyle(document.documentElement);
