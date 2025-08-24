@@ -26,7 +26,7 @@
     if (!header) return;
 
     const rootStyles = getComputedStyle(document.documentElement);
-    const bgVar = rootStyles.getPropertyValue('--bg-solid').trim();
+    const bgVar = rootStyles.getPropertyValue('--panel').trim();
     const { r, g, b } = hexToRgb(bgVar || '#0e1416');
 
     let ticking = false;
@@ -61,10 +61,10 @@
   }
 
   function initHamburger() {
-    const header = document.querySelector('.site-header');
+    const header = document.querySelector('#site-header');
     if (!header) return;
     const row = header.querySelector('.header-row');
-    const nav = header.querySelector('.main-nav');
+    const nav = header.querySelector('#main-nav');
     if (!row || !nav) return;
 
     // Ensure nav has an id for aria-controls

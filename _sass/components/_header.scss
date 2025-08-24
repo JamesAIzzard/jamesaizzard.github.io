@@ -1,39 +1,15 @@
-:root {
-  --bg: #0b0f10;
-  --bg-2: #141a1c;
-  --bg-solid: #0e1416;
-
-  --text: #eaeaea;
-  --muted: #cfd3d6;
-  --heading: #f4f5f6;
-
-  --accent: #09b53d;
-  --accent-ink: #079a34;
-  --accent-2: #408bf4;
-  --ring: rgba(64, 139, 244, 0.45);
-
-  --panel: rgba(255, 255, 255, 0.04);
-  --panel-edge: rgba(255, 255, 255, 0.10);
-  --line: rgba(255, 255, 255, 0.10);
-
-  --maxw: 1080px;
-  --radius: 12px;
-  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.35);
-}
-
-.site-header{
+#site-header{
   position: sticky;
   top: 0;
   z-index: 10;
   background: transparent;
   transition: background-color 180ms ease, box-shadow 180ms ease;
-  /* Use utility border only on the bottom edge */
   border-left: 0;
   border-right: 0;
   border-top: 0;
 }
 
-.site-header .container{
+#site-header .container{
   width: 100%;
   max-width: none;
   padding-inline: 1rem;
@@ -52,8 +28,8 @@
 
 .logo{ display: block; height: 36px; width: auto; max-width: 100%; }
 
-.main-nav{ display: flex; align-items: center; }
-.main-nav ul{
+#main-nav{ display: flex; align-items: center; }
+#main-nav ul{
   display: flex;
   align-items: center; /* ensure vertical centering on wide screens */
   gap: 1.25rem;
@@ -63,15 +39,15 @@
   font-size: .95rem; /* moved from style.css */
 }
 
-.main-nav a{
+#main-nav a{
   padding: 0.25rem 0.4rem;
   border-radius: 8px;
   color: var(--text);
   opacity: 0.9;
 }
 
-.main-nav a:hover,
-.main-nav a:focus-visible{
+#main-nav a:hover,
+#main-nav a:focus-visible{
   outline: none;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
@@ -88,7 +64,6 @@
   border-radius: 999px;
 }
 
-/* Mobile nav toggle (burger) */
 .nav-toggle{
   display: none; /* shown at small widths */
   align-items: center;
@@ -132,14 +107,12 @@
 @media (max-width: 860px){
   .nav-toggle{ display: inline-flex; }
 
-  /* Make nav an overlay dropdown so it doesn't affect header height when collapsed */
-  .main-nav{
+  #main-nav{
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     display: block; /* stack items vertically */
-    /* Keep transparent and non-interactive when collapsed */
     background: transparent;
     border-bottom: 0; /* avoid stray 1px line when collapsed */
     overflow: hidden;
@@ -150,14 +123,14 @@
     pointer-events: none;
   }
 
-  .main-nav.open{
-    background: var(--bg-2);
-    border-bottom: 1px solid var(--line);
+  #main-nav.open{
+    background: var(--panel);
+    border-bottom: 1px solid var(--panel-edge);
     visibility: visible;
     pointer-events: auto;
   }
 
-  .main-nav ul{
+  #main-nav ul{
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.25rem;
@@ -165,14 +138,13 @@
     align-items: start;
   }
 
-  .main-nav a{ display: block; padding: 0.5rem 0.6rem; }
+  #main-nav a{ display: block; padding: 0.5rem 0.6rem; }
 }
 
 @media (min-width: 861px){
-  .main-nav{ position: static; max-height: none !important; overflow: visible; box-shadow: none; border: 0; }
+  #main-nav{ position: static; max-height: none !important; overflow: visible; box-shadow: none; border: 0; }
 }
 
-/* Animate burger to cross when expanded */
 .nav-toggle[aria-expanded="true"] .bars{ background: transparent; }
 .nav-toggle[aria-expanded="true"] .bars::before{ transform: rotate(45deg); top: 0; }
 .nav-toggle[aria-expanded="true"] .bars::after{ transform: rotate(-45deg); top: 0; }

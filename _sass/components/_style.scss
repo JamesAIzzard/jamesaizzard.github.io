@@ -79,7 +79,7 @@ a:hover {
 
 .panel-surface {
   position: relative;
-  background: var(--bg-2);
+  background: var(--panel);
   overflow: hidden;
   @extend .border-panel;
   @extend .drop-shadow;
