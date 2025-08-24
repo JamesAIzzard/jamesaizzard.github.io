@@ -65,9 +65,15 @@
   background: transparent;
 }
 
-#onshape-visual a.button {
-  display: block;
+#onshape-copy a.button {
+  display: inline-block;
   width: 100%;
-  margin-top: 0.6rem;
+  margin-top: 0.8rem;
   text-align: center;
+}
+
+@media (min-width: 900px) {
+  #onshape-copy a.button {
+    width: max-content;
+  }
 }
