@@ -1,12 +1,12 @@
-.hero {
+#hero {
   padding: clamp(1rem, 3.5vw, 3rem) 0 2rem;
 }
 
-.hero-inner {
+#hero-inner {
   text-align: center;
 }
 
-h1 {
+#hero-title {
   font-size: clamp(2rem, calc(3.6vw + 1rem), 3.4rem);
   line-height: 1.15;
   margin: 0.8rem 0 0.6rem;
@@ -14,19 +14,19 @@ h1 {
   font-weight: 700;
 }
 
-.lede {
+#hero-subtitle {
   max-width: 60ch;
   margin: 0 auto 1.4rem;
   color: var(--muted);
   text-align: center;
 }
 
-.screenshot {
+#hero-figure {
   width: min(100%, 980px);
   margin: 0 auto;
 }
 
-.screenshot>img {
+#hero-figure>img {
   aspect-ratio: 16/9;
   display: block;
   width: 100%;
@@ -35,7 +35,7 @@ h1 {
 }
 
 @media (max-width: 700px) {
-  .lede {
+  #hero-subtitle {
     margin-bottom: 0.8rem;
   }
 }
