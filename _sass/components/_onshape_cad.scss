@@ -96,7 +96,14 @@
     padding: 0.9rem 1.2rem;
     border: none;
     border-radius: 6px;
-    background: var(--accent);
+    /* Fallback flat color */
+    background: var(--accent-1);
+    /* Subtle green gradient using --accent-1 */
+    background: linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--accent-1) 94%, white),
+        color-mix(in oklab, var(--accent-1) 88%, black)
+    );
     color: var(--text);
     font-weight: 600;
     text-decoration: none;

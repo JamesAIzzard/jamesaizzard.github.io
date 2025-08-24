@@ -87,10 +87,27 @@ a:hover {
 
 button {
   color: var(--text);
-  background: linear-gradient(180deg, var(--accent-1), rgba(255, 255, 255, 0.02));
+  background: var(--accent-1);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--accent-1) 94%, white),
+    color-mix(in oklab, var(--accent-1) 88%, black)
+  );
   border: 1px solid var(--panel-edge);
-  border-radius: 999px;
+  border-radius: 6px;
   padding: .55rem .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, filter 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
 }
 
 :where(a, button, input, select, textarea):focus-visible {

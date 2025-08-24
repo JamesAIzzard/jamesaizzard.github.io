@@ -23,26 +23,7 @@
   box-shadow: 0 0 0 3px var(--ring);
 }
 
-.cta button {
-  border: none;
-  border-radius: 6px;
-  padding: 0.9rem 1.2rem;
-  background: var(--accent);
-  color: var(--text);
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-  width: 100%;
-}
-
-.cta button:hover {
-  transform: translateY(-1px);
-}
-
-.cta button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--ring);
-}
+/* Buttons in CTA use global styles from _style.scss */
 
 @media (min-width: 600px) {
   .cta {
