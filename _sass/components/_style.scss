@@ -1,12 +1,11 @@
 :root {
   --bg: #0b0f10;
-  --panel: #363639;
   --text: #eaeaea;
   --muted: #cfd3d6;
+  --panel: #141a1c;
+  --panel-edge: rgba(255, 255, 255, 0.10);
   --accent-1: #09b53d;
   --accent-2: #408bf4;
-  --line: rgba(255, 255, 255, 0.10);
-  --panel-edge: rgba(255, 255, 255, 0.10);
   --maxw: 1080px;
 }
 
@@ -89,7 +88,7 @@ a:hover {
 button {
   color: var(--text);
   background: linear-gradient(180deg, var(--accent-1), rgba(255, 255, 255, 0.02));
-  border: 1px solid var(--line);
+  border: 1px solid var(--panel-edge);
   border-radius: 999px;
   padding: .55rem .9rem;
 }
