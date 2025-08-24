@@ -78,6 +78,14 @@ a:hover {
   border: 1px solid var(--panel-edge);
 }
 
+.panel-surface {
+  position: relative;
+  background: var(--bg-2);
+  overflow: hidden;
+  @extend .border-panel;
+  @extend .drop-shadow;
+}
+
 button {
   color: var(--text);
   background: linear-gradient(180deg, var(--accent-1), rgba(255, 255, 255, 0.02));
