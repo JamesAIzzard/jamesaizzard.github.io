@@ -85,13 +85,11 @@ a:hover {
   @extend .drop-shadow;
 }
 
-/* Explicit variant alias for clarity */
 .panel-surface--flat { @extend .panel-surface; }
 
-/* Lighting variant: gradient “glow” overlay without forcing borders/shadows */
 .panel-surface--lit {
   position: relative;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--panel);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), var(--panel);
   overflow: hidden;
 }
 .panel-surface--lit::before {
@@ -100,9 +98,9 @@ a:hover {
   inset: -40% -20% auto -20%;
   height: 220%;
   background:
-    radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
-    radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
-  filter: blur(28px);
+    radial-gradient(var(--lit-a-w, 64%) var(--lit-a-h, 42%) at var(--lit-a-x, 28%) var(--lit-a-y, 8%), rgba(146,120,255, var(--lit-a-alpha, 0.36)), transparent 60%),
+    radial-gradient(var(--lit-b-w, 46%) var(--lit-b-h, 34%) at var(--lit-b-x, 68%) var(--lit-b-y, 2%), rgba(72,197,255, var(--lit-b-alpha, 0.28)), transparent 60%);
+  filter: blur(var(--lit-blur, 36px));
   pointer-events: none;
 }
 
