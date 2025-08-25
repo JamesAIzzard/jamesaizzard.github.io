@@ -7,6 +7,9 @@
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --maxw: 1080px;
+  /* Typography */
+  --font-size-body: 1rem; /* single source of truth for body copy */
+  --line-height-body: 1.6;
   /* Shared layout tokens */
   --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
   --edge-border: 1px; /* for border-aligned content widths */
@@ -25,6 +28,8 @@ body {
 body {
   color: var(--text);
   font-family: 'Hubot Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
   background:
     radial-gradient(circle at center,
       rgba(255, 255, 255, 0.12) 0%,
@@ -63,8 +68,25 @@ h3 {
   margin: .8em 0 .4em;
 }
 
+/* Unify all section headings (h2) site-wide */
+h2 {
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0 0 0.25rem 0;
+}
+
 p {
   margin: 0.4em 0;
+  font-size: inherit; /* unify paragraph sizing across site */
+  line-height: inherit;
+}
+
+/* Lists inherit the same body sizing as paragraphs */
+ul,
+ol,
+li {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 a {
@@ -87,6 +109,32 @@ a:hover {
   box-shadow:
     0 12px 24px rgba(0, 0, 0, 0.28),
     0 3px 8px rgba(0, 0, 0, 0.20);
+}
+
+/* Utility: subtle engineering blueprint background */
+.bg-engineering {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)), var(--panel);
+  overflow: hidden;
+}
+.bg-engineering::before {
+  --grid-gap: 24px;
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.055) 1px, transparent 1.5px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.045) 0, rgba(255,255,255,0.045) 1px, transparent 1px, transparent var(--grid-gap)),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0, rgba(255,255,255,0.045) 1px, transparent 1px, transparent var(--grid-gap)),
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--accent-2) 28%, transparent) 0, color-mix(in oklab, var(--accent-2) 28%, transparent) 1px, transparent 1px, transparent calc(var(--grid-gap) * 5)),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--accent-2) 22%, transparent) 0, color-mix(in oklab, var(--accent-2) 22%, transparent) 1px, transparent 1px, transparent calc(var(--grid-gap) * 5)),
+    radial-gradient(80% 55% at 72% -10%, color-mix(in oklab, var(--accent-2) 16%, transparent), transparent 60%),
+    radial-gradient(60% 40% at 18% 0%, color-mix(in oklab, #9278ff 12%, transparent), transparent 60%);
+  background-size: var(--grid-gap) var(--grid-gap), auto, auto, auto, auto, auto, auto;
+  opacity: 0.28;
+  -webkit-mask-image: linear-gradient(to right, transparent, black var(--rail-gutter), black calc(100% - var(--rail-gutter)), transparent);
+  mask-image: linear-gradient(to right, transparent, black var(--rail-gutter), black calc(100% - var(--rail-gutter)), transparent);
 }
 
 .border-panel {

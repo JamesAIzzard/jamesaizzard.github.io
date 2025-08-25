@@ -4,13 +4,7 @@
 
 .about-header { margin-bottom: 1.25rem; }
 
-.about-title {
-  font-size: clamp(1.6rem, 2.2vw, 2rem);
-  margin: 0 0 .25rem 0;
-}
-
 .about-tldr {
-  font-size: clamp(1.05rem, 1.6vw, 1.125rem);
   line-height: 1.45;
   max-width: 60ch;
   display: grid;
@@ -204,6 +198,10 @@
       border-top: 0;
       border-left: 1px solid var(--panel-edge);
       padding-left: clamp(0.9rem, 2vw, 1.1rem);
+    }
+    /* Add breathing room at the right edge of Career snapshots */
+    .about-table > .about-cell:first-child {
+      padding-right: clamp(0.9rem, 2vw, 1.1rem);
     }
   }
 

@@ -23,11 +23,6 @@
   .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
   .pt-header { padding-inline: var(--rail-gutter); }
 
-  .pt-title {
-    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-    line-height: 1.2;
-    margin: 0 0 0.25rem 0;
-  }
 
   .pt-subtitle {
     opacity: 0.9;
