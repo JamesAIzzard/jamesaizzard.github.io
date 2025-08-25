@@ -4,8 +4,8 @@
   z-index: 1;
   scroll-margin-top: 80px;
   margin-top: 0;
-  /* reduce bottom padding to tighten gap to next panel */
-  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(0.5rem, 2.5vw, 1rem);
+  /* Blend the table's top edge with the section's top border */
+  padding: 0 0 clamp(0.5rem, 2.5vw, 1rem);
 }
 
 /* Blend with following panel: remove bottom edge border/radius/shadow */
@@ -47,6 +47,16 @@
 .wf-cell {
   padding: 1rem 1rem 0.9rem;
 }
+
+/* Maintain the previous visual spacing without pushing borders down */
+#wf-rhs,
+#wf-lhs .wf-lhs-top {
+  padding-top: calc(1rem + clamp(1.25rem, 4vw, 2rem));
+}
+
+/* Remove the top border on the first row so it doesn't double with the section border */
+#wf-rhs.border-panel { border-top: 0; }
+#wf-lhs .wf-lhs-top.border-panel { border-top: 0; }
 
 .wf-cell h3 {
   margin: 0.25rem 0 0.5rem;

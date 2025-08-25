@@ -22,7 +22,8 @@
 }
 
 #hero-figure {
-  width: min(100%, 980px);
+  /* Match the inner width of the project-types table (container width minus the panels' x padding) */
+  width: calc(100% - 2 * clamp(0.5rem, 2.2vw, 1rem));
   margin: 0 auto;
 }
 
