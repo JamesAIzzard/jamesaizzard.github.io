@@ -17,10 +17,8 @@
   gap: 1rem;
 }
 
-.contact-text h2 {
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  margin-bottom: 0.8rem;
-}
+/* Headings use unified h2 style; adjust spacing per layout if needed */
+.contact-text h2 { margin-bottom: 0.8rem; }
 
 .contact-text p {
   color: var(--muted);
