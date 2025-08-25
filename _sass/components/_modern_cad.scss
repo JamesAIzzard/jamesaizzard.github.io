@@ -77,6 +77,9 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
+    border: 1px solid var(--panel-edge);
+    border-radius: 6px; /* small but visible, applied to whole element */
+    overflow: hidden; /* ensure border corners clip the image */
 }
 
 @media (min-width: 900px) {
@@ -97,8 +100,8 @@
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 12px;
-    border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+    border: 0; /* border lives on the figure */
+    border-radius: 0; /* rounding handled by the figure */
     background: transparent;
 }
 
