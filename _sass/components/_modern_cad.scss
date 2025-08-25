@@ -23,6 +23,7 @@
     margin: 0 0 0.5rem 0;
     font-size: clamp(1.8rem, calc(3vw + 1rem), 3rem);
     line-height: 1.15;
+    text-align: center;
 }
 
 #onshape-sub {
@@ -71,6 +72,7 @@
 }
 
 #onshape-visual {
+    position: relative;
     text-align: center;
     width: 100%;
     max-width: 100%;
@@ -98,6 +100,35 @@
     border-radius: 12px;
     border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
     background: transparent;
+}
+
+/* Small overlay link pinned to the image's top-left */
+.onshape-link {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: var(--accent-2);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.onshape-link::after {
+    content: '›';
+    display: inline-block;
+    margin-left: 0.3rem;
+    line-height: 1;
+    transform: translateX(0);
+    transition: transform 140ms ease;
+}
+
+.onshape-link:hover::after,
+.onshape-link:focus-visible::after {
+    transform: translateX(3px);
 }
 
 #onshape-copy a.button {
