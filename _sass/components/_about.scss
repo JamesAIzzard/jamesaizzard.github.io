@@ -21,7 +21,7 @@
 
 /* Comfortable spacing between short TL;DR paragraphs */
 .about-tldr p { margin: 0; }
-.about-tldr p + p { margin-top: .55rem; }
+.about-tldr p + p { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--panel-edge); }
 
 /* Three-column layout with subtle vertical dividers on wide screens */
 @media (min-width: 900px) {
@@ -32,8 +32,8 @@
   }
   .about-tldr > * { padding-inline: clamp(0.6rem, 1.6vw, 0.9rem); }
   .about-tldr > * + * { border-left: 1px solid var(--panel-edge); }
-  /* Remove stacked spacing when laid out in columns */
-  .about-tldr p + p { margin-top: 0; }
+  /* Remove stacked spacing and mobile dividers when in columns */
+  .about-tldr p + p { margin-top: 0; padding-top: 0; border-top: 0; }
   /* Justify text in desktop columns for clean edges */
   .about-tldr p { text-align: justify; hyphens: auto; }
 }
@@ -226,8 +226,3 @@
 }
 .about-list li { margin: .25rem 0; }
 
-.about-aside {
-  margin-top: .5rem;
-  font-style: italic;
-  color: var(--muted);
-}
