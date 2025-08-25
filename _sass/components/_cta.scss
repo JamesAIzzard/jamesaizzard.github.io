@@ -108,7 +108,7 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.cta-modal-header { display: grid; grid-template-columns: auto 1px 1fr; gap: 0.9rem; align-items: center; }
+.cta-modal-header { display: grid; grid-template-columns: auto 1px 1fr 1px auto; gap: 0.9rem; align-items: center; }
 .cta-modal-divider { width: 1px; height: 100%; background: color-mix(in oklab, #ffffff 16%, transparent); align-self: stretch; }
 .cta-modal-glyph {
   --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent);
@@ -139,8 +139,8 @@
 .cta-modal-dialog h3 { margin: 0 0 .25rem; color: #fff; }
 .cta-modal-dialog p { margin: 0 0 .6rem; color: #fff; }
 
-.cta-modal-actions { display: flex; justify-content: flex-end; }
-.cta-modal-actions .cta-modal-close { margin: 0.4rem 0 0.2rem; }
+.cta-modal-text { align-self: center; }
+.cta-modal-close { justify-self: end; align-self: center; margin: 0; }
 
 /* Remove heading accent colors: all text is white */
 

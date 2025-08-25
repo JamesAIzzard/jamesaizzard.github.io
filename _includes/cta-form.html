@@ -87,7 +87,7 @@
         if (missing.length) {
           openModal(modal, {
             variant: 'info',
-            title: 'A few details',
+            title: 'I need a few more details',
             message: 'Could you add a short subject and your email so I can reply?'
           });
           return;
@@ -116,7 +116,7 @@
             });
             openModal(modal, {
               variant: 'success',
-              title: 'All set — message submitted!',
+              title: 'All set!',
               message: 'Thanks for reaching out — I\'ll get back to you shortly.'
             });
           } else {
@@ -151,8 +151,7 @@
         <h3 id="cta-thanks-title">All set — message submitted!</h3>
         <p id="cta-thanks-msg" class="cta-modal-msg" aria-live="polite">Thanks for reaching out — I'll get back to you shortly.</p>
       </div>
-    </div>
-    <div class="cta-modal-actions">
+      <div class="cta-modal-divider" aria-hidden="true"></div>
       <button type="button" class="cta-modal-close">OK</button>
     </div>
   </div>
