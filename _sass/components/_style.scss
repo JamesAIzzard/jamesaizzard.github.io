@@ -7,6 +7,9 @@
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --maxw: 1080px;
+  /* Typography */
+  --font-size-body: 1rem; /* single source of truth for body copy */
+  --line-height-body: 1.6;
   /* Shared layout tokens */
   --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
   --edge-border: 1px; /* for border-aligned content widths */
@@ -25,6 +28,8 @@ body {
 body {
   color: var(--text);
   font-family: 'Hubot Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
   background:
     radial-gradient(circle at center,
       rgba(255, 255, 255, 0.12) 0%,
@@ -72,6 +77,16 @@ h2 {
 
 p {
   margin: 0.4em 0;
+  font-size: inherit; /* unify paragraph sizing across site */
+  line-height: inherit;
+}
+
+/* Lists inherit the same body sizing as paragraphs */
+ul,
+ol,
+li {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 a {
