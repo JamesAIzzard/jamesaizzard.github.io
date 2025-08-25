@@ -205,6 +205,11 @@
   margin-right: .35em;
 }
 
+/* Legend dots reflect the same blue→green mapping as the meter */
+.xp-legend .dot-l { background: color-mix(in oklab, var(--accent-1) 20%, var(--accent-2) 80%); }
+.xp-legend .dot-c { background: color-mix(in oklab, var(--accent-1) 55%, var(--accent-2) 45%); }
+.xp-legend .dot-e { background: color-mix(in oklab, var(--accent-1) 90%, var(--accent-2) 10%); }
+
 /* ---- Responsive ---- */
 @media (max-width: 720px) {
   .xp-colheads { display: none; }
