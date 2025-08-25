@@ -7,6 +7,9 @@
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --maxw: 1080px;
+  /* Shared layout tokens */
+  --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
+  --edge-border: 1px; /* for border-aligned content widths */
 }
 
 html {
@@ -41,8 +44,13 @@ body {
 
 
 .container {
-  width: min(100% - 2rem, var(--maxw));
+  width: min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw));
   margin-inline: auto;
+}
+
+/* Utility: make an element's visual width align with the container when it has a 1px border either side */
+.edge-width {
+  width: calc(100% - 2 * var(--edge-border));
 }
 
 h1,
