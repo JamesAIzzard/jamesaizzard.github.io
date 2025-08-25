@@ -1,7 +1,7 @@
 :root {
   --bg: #0b0f10;
   --text: #eaeaea;
-  --muted: #cfd3d6;
+  --muted: #a8b0b6; /* slightly dimmer for a more muted tone sitewide */
   --panel: #141a1c;
   --panel-edge: rgba(255, 255, 255, 0.10);
   --accent-1: #09b53d;
@@ -74,6 +74,13 @@ a {
 
 a:hover {
   filter: brightness(1.08);
+}
+
+.muted {
+  color: var(--muted);
+}
+.muted a {
+  color: inherit; /* keep links muted within muted blocks */
 }
 
 .drop-shadow {

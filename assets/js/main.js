@@ -39,3 +39,53 @@
     document.querySelectorAll('.panel-surface--lit').forEach(applyRandomLighting);
   });
 })();
+
+// Simple, seamless marquee for horizontally scrolling chip lists
+(function () {
+  function debounce(fn, delay) {
+    let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(null, args), delay); };
+  }
+
+  function initMarquee(mq) {
+    const track = mq.querySelector('.marquee-track');
+    if (!track) return;
+
+    // Capture the original items so we can rebuild on resize
+    const originals = Array.from(track.children).map(node => node.cloneNode(true));
+
+    function build() {
+      // Reset to originals
+      track.innerHTML = '';
+      // Append one sequence and measure its width
+      originals.forEach(n => track.appendChild(n.cloneNode(true)));
+      const sequenceWidth = track.scrollWidth;
+
+      // Append additional sequences until we can cover container + one full sequence
+      while (track.scrollWidth < mq.clientWidth + sequenceWidth) {
+        originals.forEach(n => track.appendChild(n.cloneNode(true)));
+      }
+
+      // Set animation distance and duration based on one sequence width (px/sec)
+      const pxPerSec = Number(mq.getAttribute('data-speed') || 80); // lower = slower
+      const duration = Math.max(sequenceWidth / pxPerSec, 12); // min 12s to avoid dizzying speed
+
+      track.style.setProperty('--marquee-shift', `${Math.round(sequenceWidth)}px`);
+      track.style.setProperty('--marquee-duration', `${duration}s`);
+    }
+
+    build();
+    // Rebuild on resize
+    window.addEventListener('resize', debounce(build, 150));
+
+    // Rebuild after page assets (fonts/images) load to capture final sizes
+    window.addEventListener('load', build, { once: true });
+
+    // Pause on hover for usability
+    mq.addEventListener('mouseenter', () => { track.style.animationPlayState = 'paused'; });
+    mq.addEventListener('mouseleave', () => { track.style.animationPlayState = 'running'; });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.marquee').forEach(initMarquee);
+  });
+})();

@@ -1,0 +1,276 @@
+
+/* About section */
+.about { padding: clamp(2rem, 5vw, 4rem) 0; }
+
+.about-header { margin-bottom: 1.25rem; }
+
+.about-title {
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  margin: 0 0 .25rem 0;
+}
+
+.about-tldr {
+  font-size: clamp(1.05rem, 1.6vw, 1.125rem);
+  line-height: 1.45;
+  max-width: 60ch;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+/* Comfortable spacing between short TL;DR paragraphs */
+.about-tldr p { margin: 0; }
+.about-tldr p + p { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--panel-edge); }
+
+/* Three-column layout with subtle vertical dividers on wide screens */
+@media (min-width: 900px) {
+  .about-tldr {
+    max-width: none;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start; /* align columns to top */
+  }
+  .about-tldr > * { padding-inline: clamp(0.6rem, 1.6vw, 0.9rem); }
+  .about-tldr > * + * { border-left: 1px solid var(--panel-edge); }
+  /* Remove stacked spacing and mobile dividers when in columns */
+  .about-tldr p + p { margin-top: 0; padding-top: 0; border-top: 0; }
+  /* Justify text in desktop columns for clean edges */
+  .about-tldr p { text-align: justify; hyphens: auto; }
+}
+
+
+.about-ribbon {
+  --ribbon-fade: clamp(10px, 2.5vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.35rem, 0.9vw, 0.55rem);
+  margin-top: 1rem;
+  padding-block: 0.25rem; /* ~25% slimmer height */
+  padding-right: 0.6rem;
+  padding-left: calc(var(--ribbon-fade) + 0.6rem); /* nudge contents away from left fade */
+  border-radius: 8px;
+  border: 1px solid var(--panel-edge);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-mask-image: linear-gradient(to right,
+    transparent,
+    black var(--ribbon-fade),
+    black calc(100% - var(--ribbon-fade)),
+    transparent);
+  mask-image: linear-gradient(to right,
+    transparent,
+    black var(--ribbon-fade),
+    black calc(100% - var(--ribbon-fade)),
+    transparent);
+}
+
+.about-ribbon .marquee { flex: 1 1 auto; min-width: 0; }
+/* Disable inner fade; ribbon provides edge fade */
+.about-ribbon .marquee { -webkit-mask-image: none; mask-image: none; }
+
+.about-ribbon-label {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1;
+  font-size: 0.95em; /* visually align with slightly reduced pills */
+  transform: translateY(-2px); /* nudge up ~3px */
+}
+
+.about-ribbon-label::after {
+  content: "\2192"; /* → */
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: var(--accent-2);
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(0.5px); /* align arrow to text */
+}
+
+/* Compact pill size inside the ribbon to reduce overall height */
+.about-ribbon .pill-btn {
+  padding: 0.38rem 0.6rem;
+  font-size: 0.95em;
+  transform: translateY(0.5px); /* nudge chip text down slightly */
+}
+
+@media (max-width: 700px) {
+  .about-ribbon {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    /* give a little more breathing room top/bottom when stacked */
+    padding-top: 10px;
+    padding-bottom: 5px;
+    /* reduce large left inset so label isn’t overly indented */
+    padding-left: 0.6rem;
+  }
+  .about-ribbon-label {
+    white-space: normal;
+    /* ease the desktop upward nudge when stacked */
+    transform: translateY(-1px);
+    align-self: center;
+    text-align: center;
+  }
+  /* Arrow points down when label sits above the scroller */
+  .about-ribbon-label::after {
+    content: "\2193"; /* ↓ */
+    transform: translateY(0);
+  }
+  /* Keep chip baseline natural in stacked layout */
+  .about-ribbon .pill-btn { transform: none; }
+}
+
+.marquee {
+  --marquee-fade: clamp(16px, 3vw, 48px);
+  position: relative;
+  overflow: hidden;
+  /* edge fades toward the container rails */
+  -webkit-mask-image: linear-gradient(to right,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent);
+  mask-image: linear-gradient(to right,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent);
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem; /* matches about-chips gap */
+  white-space: nowrap;
+  animation-name: marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--marquee-duration, 30s);
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(var(--marquee-shift, 50%) * -1)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Respect reduced motion unless explicitly opted in */
+  .marquee:not([data-allow-motion]) .marquee-track { animation: none; transform: none; }
+}
+
+.about-chips {
+  margin: 1rem 0 1.25rem 0;
+  padding: 0;
+  list-style: none; /* items use .pill-btn styles */
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1.2fr .8fr;
+    gap: 1.25rem;
+  }
+}
+
+/* Sparse table layout for Career/How-I-work */
+.about-table {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--panel-edge); /* horizontal top divider */
+  padding-inline: var(--rail-gutter);
+  margin-top: 1rem;
+}
+
+.about-cell { padding: clamp(0.9rem, 2vw, 1.1rem) 0; }
+
+/* Divider between rows on mobile (stacked) */
+.about-table > .about-cell + .about-cell {
+  border-top: 1px solid var(--panel-edge);
+}
+
+  @media (min-width: 900px) {
+    .about-table {
+      grid-template-columns: 1.2fr .8fr;
+    }
+    /* Switch to a vertical divider between the two columns */
+    .about-table > .about-cell + .about-cell {
+      border-top: 0;
+      border-left: 1px solid var(--panel-edge);
+      padding-left: clamp(0.9rem, 2vw, 1.1rem);
+    }
+  }
+
+.about-card {
+  border-radius: 8px;
+  padding: 1rem clamp(1rem, 2vw, 1.25rem);
+}
+
+.about-h { margin: 0 0 .5rem; }
+
+.about-item {
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  padding-top: .65rem;
+  margin-top: .65rem;
+}
+
+.about-item summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  margin-bottom: .35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem; /* ensure space between <strong> and following text */
+  flex-wrap: wrap; /* allow breaking after the label on narrow screens */
+  color: var(--muted); /* de-emphasize non-strong content */
+}
+
+/* Hide default marker and add a clear plus/minus indicator */
+.about-item summary::-webkit-details-marker { display: none; }
+.about-item summary::before {
+  content: "+";
+  color: var(--accent-2);
+  display: inline-block;
+  width: 1em;
+  margin-right: .35rem;
+  font-weight: 800;
+  line-height: 1;
+  font-style: normal; /* keep marker upright */
+}
+.about-item[open] > summary::before { content: "–"; }
+
+/* Keep labels emphasized and in main colour */
+.about-item summary strong { font-style: normal; color: var(--text); }
+
+.about-item p {
+  margin: 0 0 .2rem;
+  color: inherit; /* use default text color */
+}
+
+/* Add comfortable padding/indent to expanded snapshot content */
+.about-item[open] > p {
+  padding: .35rem 0 .3rem calc(1em + .35rem);
+}
+
+.about-list {
+  margin: 0 0 .75rem 0;
+  padding-left: 1.1rem;
+}
+.about-list li { margin: .25rem 0; position: relative; }
+.about-list li { padding-left: .6rem; }
+.about-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  line-height: 1;
+  color: var(--accent-2);
+  font-weight: 800;
+}
