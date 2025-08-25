@@ -17,24 +17,7 @@
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   }
 
-  .pt-header {
-    position: relative;
-    padding: clamp(1.1rem, 3vw, 1.6rem);
-    /* subtle “glow” reused from the old hero */
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-  }
-
-  .pt-header::before {
-    content: "";
-    position: absolute;
-    inset: -40% -20% auto -20%;
-    height: 220%;
-    background:
-      radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
-      radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
-    filter: blur(28px);
-    pointer-events: none;
-  }
+  .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
 
   .pt-title {
     font-size: clamp(1.25rem, 2.2vw, 1.75rem);

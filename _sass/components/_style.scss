@@ -85,14 +85,33 @@ a:hover {
   @extend .drop-shadow;
 }
 
+/* Explicit variant alias for clarity */
+.panel-surface--flat { @extend .panel-surface; }
+
+/* Lighting variant: gradient “glow” overlay without forcing borders/shadows */
+.panel-surface--lit {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--panel);
+  overflow: hidden;
+}
+.panel-surface--lit::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 220%;
+  background:
+    radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
+    radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
 :where(button, a.button) {
   color: var(--text);
   background: var(--accent-1);
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--accent-1) 94%, white),
-    color-mix(in oklab, var(--accent-1) 88%, black)
-  );
+  background: linear-gradient(180deg,
+      color-mix(in oklab, var(--accent-1) 94%, white),
+      color-mix(in oklab, var(--accent-1) 88%, black));
   border: 1px solid var(--panel-edge);
   border-radius: 6px;
   padding: .55rem .9rem;
@@ -117,8 +136,6 @@ a:hover {
 }
 
 
-/* Unified pill buttons (used by tabs and manufacturing switcher) */
-/* Base */
 .pt-tab,
 .pill-btn {
   appearance: none;
@@ -134,13 +151,16 @@ a:hover {
   transition: border-color .2s ease, background-color .2s ease, transform .06s ease, filter .2s ease;
 }
 
-/* Hover/active affordances */
 .pt-tab:hover,
-.pill-btn:hover { filter: brightness(1.05); }
-.pt-tab:active,
-.pill-btn:active { transform: translateY(1px); }
+.pill-btn:hover {
+  filter: brightness(1.05);
+}
 
-/* Selected/active state */
+.pt-tab:active,
+.pill-btn:active {
+  transform: translateY(1px);
+}
+
 .pt-tab[aria-selected="true"],
 .pt-tab.is-active,
 .pill-btn[aria-selected="true"],
