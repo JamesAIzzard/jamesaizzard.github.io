@@ -54,6 +54,14 @@
 
 .cta:focus-within .cta-extra { display: grid; }
 
+/* On mobile, place the submit button at the bottom when expanded */
+@media (max-width: 599px) {
+  .cta { grid-auto-flow: row; }
+  .cta:focus-within #project { order: 1; }
+  .cta:focus-within .cta-extra { order: 2; }
+  .cta:focus-within button { order: 3; }
+}
+
 .cta textarea {
   resize: vertical;
   min-height: 120px;
