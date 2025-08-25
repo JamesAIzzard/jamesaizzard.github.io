@@ -14,11 +14,29 @@
   line-height: 1.45;
   color: var(--muted);
   max-width: 60ch;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
 }
 
 /* Comfortable spacing between short TL;DR paragraphs */
 .about-tldr p { margin: 0; }
 .about-tldr p + p { margin-top: .55rem; }
+
+/* Three-column layout with subtle vertical dividers on wide screens */
+@media (min-width: 900px) {
+  .about-tldr {
+    max-width: none;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start; /* align columns to top */
+  }
+  .about-tldr > * { padding-inline: clamp(0.6rem, 1.6vw, 0.9rem); }
+  .about-tldr > * + * { border-left: 1px solid var(--panel-edge); }
+  /* Remove stacked spacing when laid out in columns */
+  .about-tldr p + p { margin-top: 0; }
+  /* Justify text in desktop columns for clean edges */
+  .about-tldr p { text-align: justify; hyphens: auto; }
+}
 
 
 .about-ribbon {
