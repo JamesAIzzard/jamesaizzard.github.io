@@ -12,7 +12,6 @@
 .about-tldr {
   font-size: clamp(1.05rem, 1.6vw, 1.125rem);
   line-height: 1.45;
-  color: var(--muted);
   max-width: 60ch;
   display: grid;
   grid-template-columns: 1fr;
@@ -228,6 +227,9 @@
   margin-bottom: .35rem;
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem; /* ensure space between <strong> and following text */
+  flex-wrap: wrap; /* allow breaking after the label on narrow screens */
+  color: var(--muted); /* de-emphasize non-strong content */
 }
 
 /* Hide default marker and add a clear plus/minus indicator */
@@ -240,12 +242,21 @@
   margin-right: .35rem;
   font-weight: 800;
   line-height: 1;
+  font-style: normal; /* keep marker upright */
 }
 .about-item[open] > summary::before { content: "–"; }
 
+/* Keep labels emphasized and in main colour */
+.about-item summary strong { font-style: normal; color: var(--text); }
+
 .about-item p {
   margin: 0 0 .2rem;
-  color: var(--muted);
+  color: inherit; /* use default text color */
+}
+
+/* Add comfortable padding/indent to expanded snapshot content */
+.about-item[open] > p {
+  padding: .35rem 0 .3rem calc(1em + .35rem);
 }
 
 .about-list {
