@@ -117,6 +117,39 @@ a:hover {
 }
 
 
+/* Unified pill buttons (used by tabs and manufacturing switcher) */
+/* Base */
+.pt-tab,
+.pill-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, transform .06s ease, filter .2s ease;
+}
+
+/* Hover/active affordances */
+.pt-tab:hover,
+.pill-btn:hover { filter: brightness(1.05); }
+.pt-tab:active,
+.pill-btn:active { transform: translateY(1px); }
+
+/* Selected/active state */
+.pt-tab[aria-selected="true"],
+.pt-tab.is-active,
+.pill-btn[aria-selected="true"],
+.pill-btn.active {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-width: 2px;
+}
+
 .printout {
   display: block;
   max-width: 100%;
