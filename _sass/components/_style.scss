@@ -210,3 +210,27 @@ a:hover {
   margin-right: 0.15em;
   transform: translateY(0.18em);
 }
+
+/* Mini-quote: add colored quotes around any element, and color <q> marks */
+.mini-quote {
+  position: relative;
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+.mini-quote::before,
+.mini-quote::after {
+  color: var(--accent-1);
+}
+
+.mini-quote::before {
+  content: open-quote;
+}
+
+.mini-quote::after {
+  content: close-quote;
+}
+
+.mini-quote q::before,
+.mini-quote q::after {
+  color: var(--accent-1);
+}
