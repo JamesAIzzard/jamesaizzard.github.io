@@ -1,19 +1,22 @@
 /* Project Types section — unified box with header, tabs row, and two-column content */
 #project-types {
-  /* Merge visually with the panel above */
-  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
+  /* Merge visually with the panel above; even tighter top gap, no bottom padding */
+  padding: clamp(0.4rem, 1.8vw, 0.8rem) 0 0;
 
   &.panel-surface {
     border-top: 0; /* continue colour unbroken from previous panel */
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    margin-top: -1px; /* overlap previous bottom border for a clean seam */
+    margin-top: 0; /* clean join with previous section */
   }
 
   .pt-box {
     position: relative;
     overflow: hidden;
     border-radius: 1rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0; /* let section's bottom border act as the table's bottom edge */
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   }
 
@@ -46,6 +49,8 @@
   /* Panels wrap the two-column grid */
   .pt-panels {
     padding: clamp(0.5rem, 2.2vw, 1rem);
+    /* more breathing room before the section border */
+    padding-bottom: clamp(1.2rem, 3vw, 2rem);
   }
 
   [role="tabpanel"] { outline: none; }

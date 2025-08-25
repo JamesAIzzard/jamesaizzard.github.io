@@ -4,7 +4,16 @@
   z-index: 1;
   scroll-margin-top: 80px;
   margin-top: 0;
-  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
+  /* reduce bottom padding to tighten gap to next panel */
+  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(0.5rem, 2.5vw, 1rem);
+}
+
+/* Blend with following panel: remove bottom edge border/radius/shadow */
+#where-fits.panel-surface {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
 }
 
 #where-fits h2 {
