@@ -7,6 +7,7 @@
   background: rgba(255, 255, 255, 0.07);
   padding: 0.5rem;
   border-radius: 10px;
+  text-align: left; /* ensure footnote and placeholders align left in centered contexts */
 }
 
 .cta input,
@@ -60,6 +61,15 @@
   .cta:focus-within #project { order: 1; }
   .cta:focus-within .cta-extra { order: 2; }
   .cta:focus-within button { order: 3; }
+}
+
+/* Subtle, friendly note shown only when expanded */
+.cta-footnote {
+  margin: -0.1rem 0 0.1rem;
+  color: var(--muted);
+  font-size: 0.9em;
+  text-align: left;
+  justify-self: start;
 }
 
 .cta textarea {
