@@ -14,6 +14,36 @@
   font-weight: 700;
 }
 
+/* Felt-tip style underline for the first word */
+#hero-title .marker-underline {
+  position: relative;
+  display: inline-block;
+  padding: 0 1px; /* slight breathing room */
+}
+
+#hero-title .marker-underline::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  bottom: -0.12em; /* sit just below the glyphs */
+  height: 0.26em; /* a touch taller to support the wave */
+  background-color: var(--accent-1);
+  transform: rotate(-0.3deg);
+  box-shadow:
+    0 1px 1px rgba(0,0,0,0.14);
+  opacity: .96;
+  z-index: -1; /* keep behind the text */
+
+  /* Wavy top edge via SVG mask; keeps color from CSS var */
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 32' preserveAspectRatio='none'><path d='M0 18 C6 14 12 22 18 18 C24 14 30 22 36 18 C42 14 48 22 54 18 C60 14 66 22 72 18 C78 14 84 22 90 18 C96 14 100 22 100 22 L100 32 L0 32 Z' fill='%23000'/></svg>");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 32' preserveAspectRatio='none'><path d='M0 18 C6 14 12 22 18 18 C24 14 30 22 36 18 C42 14 48 22 54 18 C60 14 66 22 72 18 C78 14 84 22 90 18 C96 14 100 22 100 22 L100 32 L0 32 Z' fill='%23000'/></svg>");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
 #hero-subtitle {
   max-width: 60ch;
   margin: 0 auto 1.4rem;
