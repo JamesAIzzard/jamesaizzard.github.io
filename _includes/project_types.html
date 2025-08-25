@@ -1,7 +1,8 @@
 <section id="project-types" class="panel-surface">
     <div class="container">
-        <!-- Unified box: header (rounded top), full-width tabs, then two-column content -->
+
         <div class="pt-box border-panel" data-pt>
+
             <header class="pt-header panel-surface--lit">
                 <h2 class="quote">What do your typical projects look like?</h2>
                 <p class="pt-subtitle">
@@ -12,14 +13,14 @@
 
             <div class="pt-tablist" role="tablist" aria-label="Typical projects">
                 <button class="pt-tab is-active" id="tab-cad" role="tab" aria-selected="true" aria-controls="panel-cad">
-                    CAD maintenance & reverse-engineering
+                    General CAD tasks
                 </button>
                 <button class="pt-tab" id="tab-research" role="tab" aria-selected="false"
                     aria-controls="panel-research">
-                    Research tools & lab equipment
+                    Research & lab equipment development
                 </button>
-                <button class="pt-tab" id="tab-full" role="tab" aria-selected="false" aria-controls="panel-full">
-                    Full product development (to Alpha/Beta)
+                <button class="pt-tab" id="tab-product" role="tab" aria-selected="false" aria-controls="panel-product">
+                    Product development (to Alpha/Beta)
                 </button>
             </div>
 
@@ -34,24 +35,24 @@
                                 <li class="mini-quote">We need a 3D scan and a parametric rebuild.</li>
                                 <li class="mini-quote">I've drawn this thing on a napkin, and I need to get it made.
                                 </li>
-                                <li class="mini-quote">This part has broken, and is no longer available, and I need a replacement.</li>
+                                <li class="mini-quote">This part has broken, and is no longer available, and I need a
+                                    replacement.</li>
+                                <li class="mini-quote">I need to modify this existing part to fit a new assembly.</li>
                             </ul>
-                            <h3>What you get</h3>
+                            <h3>Typical deliverables</h3>
                             <ul class="pt-list">
-                                <li>Clean parametric model + updated drawings</li>
-                                <li>Neutral exports and a short change-log</li>
+                                <li>3D models & manufacturing drawings</li>
                             </ul>
                         </div>
                         <div class="pt-col">
-                            <h3>Mini-gates</h3>
-                            <ol class="pt-steps">
-                                <li>Brief & data capture (scan/measure)</li>
-                                <li>Parametric rebuild</li>
-                                <li>Cross-check against source / key dims</li>
-                                <li>Release package</li>
-                            </ol>
-                            <p class="pt-note">If scanning adds noise (glossy/deep features), I’ll say so and remodel
-                                from key dims.</p>
+                            <h3>Typical characteristics</h3>
+                            <ul class="pt-list">
+                                <li>Well-defined scope and requirements</li>
+                                <li>Generally straightforwards</li>
+                                <li>Typically single fixed price quote</li>
+                                <li>Typically fast turnaround</li>
+                                <li>Single package of work with low uncertainty</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
@@ -61,55 +62,59 @@
                         <div class="pt-col">
                             <h3>Typical briefs</h3>
                             <ul class="pt-list">
-                                <li>Custom rigs to unblock experiments (e.g., oscillation profiles for cell agitation)
-                                </li>
-                                <li>Automated fluid handling with pumps/valves to run transfer protocols</li>
-                                <li>Production helpers to scale hand-built steps (fold/roll, pick-place, in-line checks)
-                                </li>
+                                <li class="mini-quote">I need a custom machine to automate this experiment.</li>
+                                <li class="mini-quote">We need a test-rig to de-risk this aspect of a larger project and
+                                    our main design team doesn't have the bandwidth.</li>
+                                <li class="mini-quote">Our production team is struggling with this aspect of assembly
+                                    and needs this assembly tooling.</li>
+                            </ul>
+                            <h3>Typical deliverables</h3>
+                            <ul class="pt-list">
+                                <li>3D models & manufacturing drawings</li>
+                                <li>Functional prototype</li>
+                                <li>Ongoing support</li>
                             </ul>
                         </div>
                         <div class="pt-col">
-                            <h3>Mini-gates</h3>
-                            <ol class="pt-steps">
-                                <li>Frame scope & constraints</li>
-                                <li>Concepts & architecture</li>
-                                <li>De-risk rigs/tests (fail fast)</li>
-                                <li>Prototype & lab demo</li>
-                            </ol>
-                            <p class="pt-note">If the tool drifts toward regulated use, we reset scope and compliance
-                                expectations early.</p>
+                            <h3>Typical characteristics</h3>
+                            <ul class="pt-list">
+                                <li>May require a phase-gated approach, depending on complexity and risk.</li>
+                                <li>Often collaborative, with scientists, engineers and technicians.</li>
+                                <li>May require analysis and calculations to inform design.</li>
+                                <li>Design work can often be accelerated if started with a clear specification.</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
 
-                <section id="panel-full" role="tabpanel" aria-labelledby="tab-full" hidden>
+                <section id="panel-product" role="tabpanel" aria-labelledby="tab-product" hidden>
                     <div class="pt-grid">
                         <div class="pt-col">
-                            <h3>Best fit</h3>
+                            <h3>Typical briefs</h3>
                             <ul class="pt-list">
-                                <li>From pencil sketch to first working prototypes</li>
-                                <li>I typically take projects through Alpha/Beta; CMO transfer follows with specialist
-                                    support</li>
+                                <li class="mini-quote">I need to turn my idea into a prototype to show an investor.</li>
+                                <li class="mini-quote">Our design team is fully occupied with other projects and we need
+                                    to progress this concept to beta prototype.</li>
+                                <li class="mini-quote">I need to develop the concept for my kickstarter campaign into a
+                                    working device.</li>
                             </ul>
-                            <h3>Deliverables</h3>
+                            <h3>Typical deliverables</h3>
                             <ul class="pt-list">
-                                <li>PRD v1 + traceability, architecture</li>
-                                <li>DFM-minded CAD, costed BoM, test plan</li>
-                                <li>Prototypes and risk log with evidence</li>
+                                <li>Concepts, illustrations, detailed concept selection documentation</li>
+                                <li>3D models & manufacturing drawings</li>
+                                <li>Working prototype(s)</li>
+                                <li>Ongoing support</li>
                             </ul>
                         </div>
                         <div class="pt-col">
-                            <h3>Stage-gate (early-phase)</h3>
-                            <ol class="pt-steps">
-                                <li><strong>G1 · Frame:</strong> brief, constraints, applicable standards, top risks,
-                                    kill-criteria</li>
-                                <li><strong>G2 · Concepts & architecture:</strong> interfaces; options vs baseline</li>
-                                <li><strong>G3 · De-risk:</strong> target 1–3 riskiest assumptions with fast rigs</li>
-                                <li><strong>G4 · Detailed design & prototype:</strong> CAD, drawings; first article(s)
-                                </li>
-                                <li><strong>G5 · Alpha/Beta:</strong> iterate to function/reliability; plan CMO transfer
-                                    if needed</li>
-                            </ol>
+                            <h3>Typical characteristics</h3>
+                            <ul class="pt-list">
+                                <li>Higher risk, typically justifying a phase-gated approach.</li>
+                                <li>Clearly defined phase outputs and progression criteria.</li>
+                                <li>Detailed documentation of design rationale.</li>
+                                <li>Collaboration between design, manufacturing, and marketing teams.</li>
+                                <li>Design work can often be accelerated if started with a clear specification.</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
@@ -117,7 +122,6 @@
         </div>
     </div>
 
-    <!-- Tiny, accessible tabs script (kept inline to avoid more assets) -->
     <script>
         (function () {
             const root = document.querySelector('[data-pt]');

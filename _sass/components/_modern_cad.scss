@@ -93,10 +93,10 @@
 
 #onshape-visual .sketch-svg {
     position: absolute;
-    top: -12px;
-    bottom: -12px;
-    left: -12px;
-    right: -80px; /* push much further on the right side */
+    top: -8px;    /* reduced top outset */
+    bottom: 0;    /* align SVG bottom to image bottom */
+    left: -8px;   /* reduced left outset */
+    right: -80px; /* extended right outset */
     pointer-events: none;
     z-index: 1; /* sit above the image */
     overflow: visible; /* allow drawing beyond the viewBox */
@@ -105,7 +105,7 @@
 #onshape-visual .sketch-svg path {
     fill: var(--accent-1);
     stroke: none;
-    opacity: 1; /* fully opaque */
+    opacity: 0.82; /* slightly more transparent */
 }
 
 @media (min-width: 900px) {
