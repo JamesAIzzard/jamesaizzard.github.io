@@ -89,3 +89,30 @@
     document.querySelectorAll('.marquee').forEach(initMarquee);
   });
 })();
+
+// Experience accordion: allow only one <details> open at a time
+(function () {
+  function initExperienceAccordion() {
+    const section = document.querySelector('#experience');
+    if (!section) return;
+    const groups = Array.from(section.querySelectorAll('details.xp-group'));
+    if (groups.length < 2) return;
+
+    // Ensure only the first initially-open group remains open on load
+    const initiallyOpen = groups.filter(g => g.hasAttribute('open'));
+    if (initiallyOpen.length > 1) {
+      initiallyOpen.slice(1).forEach(g => g.removeAttribute('open'));
+    }
+
+    groups.forEach((d) => {
+      d.addEventListener('toggle', () => {
+        if (!d.open) return; // only act when opening
+        groups.forEach((other) => {
+          if (other !== d && other.open) other.removeAttribute('open');
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initExperienceAccordion);
+})();
