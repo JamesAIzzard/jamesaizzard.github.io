@@ -36,8 +36,8 @@
 /* ---- Layout ---- */
 .xp-header {
   display: grid;
-  gap: .5rem;
-  margin-bottom: 1rem;
+  gap: .3rem;
+  margin-bottom: .5rem;
 }
 
 .xp-header h2 {
@@ -51,25 +51,25 @@
 }
 
 .xp-colheads {
-  margin-top: .5rem;
+  margin-top: .35rem;
   display: grid;
   grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
   gap: 1rem;
   font-size: .9rem;
   color: var(--xp-muted);
   border-bottom: 1px solid var(--xp-border);
-  padding-bottom: .4rem;
+  padding-bottom: .25rem;
 }
 
-.xp-group {
-  margin-top: 1.25rem;
-}
+/* Push groups closer together */
+.xp-group { margin-top: .4rem; }
+.xp-group + .xp-group { margin-top: .3rem; }
 
 .xp-group-title {
-  margin: .75rem 0 .5rem 0;
+  margin: .25rem 0 .2rem 0;
   font-size: 1.05rem;
   font-weight: 600;
-  border-left: 3px solid var(--xp-border);
+  border-left: 3px solid var(--accent-2);
   padding-left: .5rem;
 }
 
@@ -98,15 +98,15 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: .6rem;
+  gap: .25rem;
 }
 
 .xp-row {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
-  gap: 1rem;
-  padding: .6rem .2rem;
+  gap: .8rem;
+  padding: .25rem .2rem;
   border-bottom: 1px dashed var(--xp-border);
 }
 
@@ -114,19 +114,18 @@
   border-bottom: 0;
 }
 
-.xp-skill {
-  font-weight: 550;
-}
+.xp-skill { font-weight: 550; }
 
 .xp-note {
-  opacity: .9;
+  font-size: .9em;
+  color: var(--muted);
 }
 
 /* ---- Thermometer ---- */
 .xp-thermo {
-  --h: 18px;            /* overall height */
-  --bulb: 16px;         /* bulb diameter */
-  --tube-h: 10px;       /* tube height */
+  --h: 16px;            /* overall height */
+  --bulb: 14px;         /* bulb diameter */
+  --tube-h: 9px;        /* tube height */
   --level: 50%;         /* 0%..100% */
   /* Dynamic fill colour blends site accents by level */
   --mix-green: var(--level);
@@ -193,7 +192,7 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin-top: .5rem;
   font-size: .9rem;
   color: var(--xp-muted);
 }
@@ -211,8 +210,8 @@
   .xp-colheads { display: none; }
   .xp-row {
     grid-template-columns: 1fr;
-    gap: .35rem;
-    padding: .65rem 0;
+    gap: .2rem;
+    padding: .35rem 0;
   }
   .xp-note { opacity: .85; }
 }
