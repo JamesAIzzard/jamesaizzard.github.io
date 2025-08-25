@@ -1,25 +1,39 @@
-/* Project Types section — visually aligned with your existing panels */
+/* Project Types section — unified box with header, tabs row, and two-column content */
 #project-types {
-  margin-block: clamp(2rem, 6vw, 4rem);
+  /* Merge visually with the panel above */
+  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.5rem, 5vw, 2.25rem);
 
-  .pt-hero {
+  &.panel-surface {
+    border-top: 0; /* continue colour unbroken from previous panel */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: -1px; /* overlap previous bottom border for a clean seam */
+  }
+
+  .pt-box {
     position: relative;
     overflow: hidden;
     border-radius: 1rem;
-    padding: clamp(1.25rem, 3vw, 2rem);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  }
+
+  .pt-header {
+    position: relative;
+    padding: clamp(1.1rem, 3vw, 1.6rem);
+    /* subtle “glow” reused from the old hero */
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-    /* subtle “GitHub glow” */
-    &::before {
-      content: "";
-      position: absolute;
-      inset: -40% -20% auto -20%;
-      height: 220%;
-      background:
-        radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
-        radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
-      filter: blur(28px);
-      pointer-events: none;
-    }
+  }
+
+  .pt-header::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 220%;
+    background:
+      radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
+      radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
+    filter: blur(28px);
+    pointer-events: none;
   }
 
   .pt-title {
@@ -34,93 +48,98 @@
     margin: 0;
   }
 
-  .pt-tabs {
-    margin-top: 1rem;
-    border-radius: 1rem;
-    padding: 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-
-    .pt-tablist {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      flex-wrap: wrap;
-    }
-
-    .pt-tab {
-      appearance: none;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      color: inherit;
-      padding: 0.5rem 0.75rem;
-      border-radius: 999px;
-      font: inherit;
-      line-height: 1;
-      cursor: pointer;
-      transition: border-color .2s ease, background-color .2s ease, transform .06s ease;
-      &[aria-selected="true"], &.is-active {
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(255,255,255,0.24);
-      }
-      &:active { transform: translateY(1px); }
-    }
-
-    .pt-panels {
-      padding: clamp(1rem, 3vw, 1.5rem);
-    }
-
-    [role="tabpanel"] {
-      outline: none;
-    }
+  /* Tabs row spans full width under header */
+  .pt-tablist {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-top: 1px solid var(--panel-edge);
+    border-bottom: 1px solid var(--panel-edge);
+    flex-wrap: wrap;
+    background: rgba(255,255,255,0.02);
   }
+
+  .pt-tab {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.03);
+    color: inherit;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease, transform .06s ease;
+  }
+  .pt-tab[aria-selected="true"], .pt-tab.is-active {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.24);
+  }
+  .pt-tab:active { transform: translateY(1px); }
+
+  /* Panels wrap the two-column grid */
+  .pt-panels {
+    padding: clamp(0.5rem, 2.2vw, 1rem);
+  }
+
+  [role="tabpanel"] { outline: none; }
 
   .pt-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(1rem, 3vw, 1.5rem);
+    column-gap: 0;
+    row-gap: 0;
+    border-top: 1px solid var(--panel-edge); /* separator below tabs */
     @media (min-width: 900px) {
       grid-template-columns: 1fr 1fr;
     }
   }
 
   .pt-col {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 0.75rem;
-    padding: clamp(0.75rem, 2vw, 1rem);
+    padding: clamp(0.9rem, 2.2vw, 1.1rem);
+  }
+
+  /* Internal dividers for the “table” look */
+  .pt-grid > .pt-col + .pt-col {
+    border-top: 1px solid var(--panel-edge);
+  }
+  @media (min-width: 900px) {
+    .pt-grid > .pt-col + .pt-col {
+      border-top: 0;
+      border-left: 1px solid var(--panel-edge);
+    }
   }
 
   .pt-list {
     margin: 0.25rem 0 1rem;
     padding-left: 1.1rem;
-    li { margin: 0.25rem 0; }
   }
+  .pt-list li { margin: 0.25rem 0; }
 
   .pt-steps {
     counter-reset: step;
     list-style: none;
     margin: 0.25rem 0 1rem;
     padding: 0;
-    li {
-      position: relative;
-      padding-left: 2rem;
-      margin: 0.4rem 0;
-      &::before {
-        counter-increment: step;
-        content: counter(step);
-        position: absolute;
-        left: 0;
-        top: 0.05rem;
-        width: 1.35rem; height: 1.35rem;
-        display: grid; place-items: center;
-        border-radius: 50%;
-        border: 1px solid rgba(255,255,255,0.18);
-        background: rgba(255,255,255,0.06);
-        font-size: 0.8rem;
-        line-height: 1;
-      }
-    }
+  }
+  .pt-steps li {
+    position: relative;
+    padding-left: 2rem;
+    margin: 0.4rem 0;
+  }
+  .pt-steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    width: 1.35rem; height: 1.35rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+    line-height: 1;
   }
 
   .pt-note {

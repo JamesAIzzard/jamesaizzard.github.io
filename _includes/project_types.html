@@ -1,18 +1,15 @@
 <section id="project-types" class="panel-surface">
   <div class="container">
-
-    <div class="pt-hero border-panel">
-      <div class="pt-hero-inner">
+    <!-- Unified box: header (rounded top), full-width tabs, then two-column content -->
+    <div class="pt-box border-panel" data-pt>
+      <header class="pt-header">
         <h2 class="pt-title">What do my typical projects look like?</h2>
         <p class="pt-subtitle">
           Three common paths, from straightforward CAD updates to research tools and full product development
           through alpha/beta. Pick a tab to see how I run each.
         </p>
-      </div>
-    </div>
+      </header>
 
-
-    <div class="pt-tabs border-panel" data-pt>
       <div class="pt-tablist" role="tablist" aria-label="Typical projects">
         <button class="pt-tab is-active" id="tab-cad" role="tab" aria-selected="true" aria-controls="panel-cad">
           CAD maintenance & reverse-engineering
@@ -26,7 +23,6 @@
       </div>
 
       <div class="pt-panels">
-
         <section id="panel-cad" role="tabpanel" aria-labelledby="tab-cad">
           <div class="pt-grid">
             <div class="pt-col">
@@ -54,7 +50,6 @@
           </div>
         </section>
 
-
         <section id="panel-research" role="tabpanel" aria-labelledby="tab-research" hidden>
           <div class="pt-grid">
             <div class="pt-col">
@@ -78,7 +73,6 @@
           </div>
         </section>
 
-        <!-- Panel: Full product development -->
         <section id="panel-full" role="tabpanel" aria-labelledby="tab-full" hidden>
           <div class="pt-grid">
             <div class="pt-col">
