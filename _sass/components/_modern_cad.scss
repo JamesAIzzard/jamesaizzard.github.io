@@ -34,7 +34,8 @@
 /* Layout: simple flex, mobile first */
 #onshape-stage {
     margin-top: clamp(1.5rem, 4vw, 3rem);
-    padding: clamp(1rem, 3vw, 2rem);
+    padding-block: clamp(1rem, 3vw, 2rem);
+    padding-inline: 0; /* inline gutters come from the section container */
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -106,8 +107,37 @@
     text-align: center;
 }
 
+/* Uniform side gutters from the vertical rails for all content in this section */
+#modern-cad > .container { padding-inline: var(--rail-gutter); }
+
 @media (min-width: 900px) {
     #onshape-copy a.button {
         width: max-content;
     }
+}
+
+/* Continue the container edge lines down this section */
+#modern-cad {
+    position: relative;
+}
+
+#modern-cad::before,
+#modern-cad::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 1px solid var(--panel-edge);
+    pointer-events: none;
+}
+
+/* Left line aligned to container's left edge */
+#modern-cad::before {
+    left: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
+}
+
+/* Right line aligned to container's right edge */
+#modern-cad::after {
+    right: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
 }

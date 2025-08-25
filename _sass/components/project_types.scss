@@ -21,6 +21,7 @@
   }
 
   .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
+  .pt-header { padding-inline: var(--rail-gutter); }
 
   .pt-title {
     font-size: clamp(1.25rem, 2.2vw, 1.75rem);
@@ -38,7 +39,7 @@
   .pt-tablist {
     display: flex;
     gap: 0.5rem;
-    padding: 0.75rem;
+    padding: 0.75rem var(--rail-gutter);
     border-top: 1px solid var(--panel-edge);
     border-bottom: 1px solid var(--panel-edge);
     flex-wrap: wrap;
@@ -48,9 +49,10 @@
 
   /* Panels wrap the two-column grid */
   .pt-panels {
-    padding: clamp(0.5rem, 2.2vw, 1rem);
-    /* more breathing room before the section border */
+    /* top/bottom spacing unchanged; unify side gutters to the rail */
+    padding-top: clamp(0.5rem, 2.2vw, 1rem);
     padding-bottom: clamp(1.2rem, 3vw, 2rem);
+    padding-inline: var(--rail-gutter);
   }
 
   [role="tabpanel"] { outline: none; }

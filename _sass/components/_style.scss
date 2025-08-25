@@ -10,6 +10,7 @@
   /* Shared layout tokens */
   --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
   --edge-border: 1px; /* for border-aligned content widths */
+  --rail-gutter: clamp(0.8rem, 2.2vw, 1rem); /* uniform inset from the vertical rails */
 }
 
 html {

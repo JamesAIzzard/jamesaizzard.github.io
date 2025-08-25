@@ -45,7 +45,7 @@
 }
 
 .wf-cell {
-  padding: 1rem 1rem 0.9rem;
+  padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
 }
 
 /* Maintain the previous visual spacing without pushing borders down */
