@@ -108,7 +108,8 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.cta-modal-header { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; }
+.cta-modal-header { display: grid; grid-template-columns: auto 1px 1fr; gap: 0.9rem; align-items: center; }
+.cta-modal-divider { width: 1px; height: 100%; background: color-mix(in oklab, #ffffff 16%, transparent); align-self: stretch; }
 .cta-modal-glyph {
   --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent);
   display: grid; place-items: center;
@@ -116,6 +117,7 @@
   background: var(--glyph-bg);
   border: 1px solid color-mix(in oklab, var(--panel-edge) 60%, transparent);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  color: #fff;
 }
 .cta-modal-glyph::before {
   content: "\2139"; /* information */
@@ -126,33 +128,21 @@
 }
 
 /* Variant glyphs and colors */
-.cta-modal-dialog.success .cta-modal-glyph {
-  --glyph-bg: color-mix(in oklab, var(--accent-1) 22%, transparent);
-  color: var(--accent-1);
-}
+.cta-modal-dialog.success .cta-modal-glyph { --glyph-bg: color-mix(in oklab, var(--accent-1) 22%, transparent); color: #fff; }
 .cta-modal-dialog.success .cta-modal-glyph::before { content: "\2713"; /* check */ }
 
-.cta-modal-dialog.error .cta-modal-glyph {
-  --glyph-bg: color-mix(in oklab, #ff6b6b 18%, transparent);
-  color: #ff6b6b;
-}
+.cta-modal-dialog.error .cta-modal-glyph { --glyph-bg: color-mix(in oklab, #ff6b6b 18%, transparent); color: #fff; }
 .cta-modal-dialog.error .cta-modal-glyph::before { content: "\26A0"; /* warning */ }
 
-.cta-modal-dialog.info .cta-modal-glyph {
-  --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent);
-  color: var(--accent-2);
-}
+.cta-modal-dialog.info .cta-modal-glyph { --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent); color: #fff; }
 
-.cta-modal-dialog h3 { margin: 0 0 .25rem; }
+.cta-modal-dialog h3 { margin: 0 0 .25rem; color: #fff; }
 .cta-modal-dialog p { margin: 0 0 .6rem; color: #fff; }
 
 .cta-modal-actions { display: flex; justify-content: flex-end; }
 .cta-modal-actions .cta-modal-close { margin: 0.4rem 0 0.2rem; }
 
-/* Success/error heading accents */
-.cta-modal-dialog.success h3 { color: var(--accent-1); }
-.cta-modal-dialog.error h3 { color: #ff8a8a; }
-.cta-modal-dialog.info h3 { color: var(--accent-2); }
+/* Remove heading accent colors: all text is white */
 
 /* Prevent background scroll while modal open */
 body.modal-open { overflow: hidden; }
