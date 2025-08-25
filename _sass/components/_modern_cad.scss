@@ -80,9 +80,30 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
-    border: 1px solid var(--panel-edge);
-    border-radius: 6px; /* small but visible, applied to whole element */
-    overflow: hidden; /* ensure border corners clip the image */
+    border-radius: 6px; /* default rounding for non-sketched use */
+    overflow: hidden; /* default: clip inner image corners */
+}
+
+/* SVG-based hand-drawn/sketched frame that sits slightly outside the image */
+#onshape-visual.sketch-frame {
+    border: 0;
+    border-radius: 0; /* hard corners */
+    overflow: visible; /* allow the frame to extend out */
+}
+
+#onshape-visual .sketch-svg {
+    position: absolute;
+    inset: -12px; /* more outset around the figure */
+    width: calc(100% + 24px);
+    height: calc(100% + 24px);
+    pointer-events: none;
+    z-index: 1; /* sit above the image */
+}
+
+#onshape-visual .sketch-svg path {
+    fill: var(--accent-1);
+    stroke: none;
+    opacity: 1; /* fully opaque */
 }
 
 @media (min-width: 900px) {
@@ -106,6 +127,8 @@
     border: 0; /* border lives on the figure */
     border-radius: 0; /* rounding handled by the figure */
     background: transparent;
+    position: relative;
+    z-index: 0; /* keep below the sketch frame */
 }
 
 /* Small overlay link pinned to the image's top-left */
@@ -120,7 +143,7 @@
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    z-index: 1;
+    z-index: 2; /* above the sketch frame */
 }
 
 .onshape-link::after {
