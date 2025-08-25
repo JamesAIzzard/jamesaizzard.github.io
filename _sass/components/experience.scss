@@ -128,6 +128,10 @@
   --bulb: 16px;         /* bulb diameter */
   --tube-h: 10px;       /* tube height */
   --level: 50%;         /* 0%..100% */
+  /* Dynamic fill colour blends site accents by level */
+  --mix-green: var(--level);
+  --mix-blue: calc(100% - var(--level));
+  --fill-color: color-mix(in oklab, var(--accent-1) var(--mix-green), var(--accent-2) var(--mix-blue));
 
   position: relative;
   display: inline-block;
@@ -167,7 +171,14 @@
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--level);
-  background: linear-gradient(90deg, var(--xp-thermo-fill) 0%, var(--xp-thermo-fill-2) 100%);
+  /* Fallback solid if color-mix unsupported */
+  background: var(--xp-thermo-fill);
+  /* Dynamic gradient from blue→green based on --level */
+  background: linear-gradient(
+    90deg,
+    var(--fill-color) 0%,
+    color-mix(in oklab, var(--fill-color) 88%, black) 100%
+  );
 }
 
 /* Optional ticks (subtle) — comment out if you don’t want them */
