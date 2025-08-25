@@ -17,6 +17,67 @@
   margin: 0;
 }
 
+.about-ribbon {
+  --ribbon-fade: clamp(10px, 2.5vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.35rem, 0.9vw, 0.55rem);
+  margin-top: 1rem;
+  padding-block: 0.25rem; /* ~25% slimmer height */
+  padding-right: 0.6rem;
+  padding-left: calc(var(--ribbon-fade) + 0.6rem); /* nudge contents away from left fade */
+  border-radius: 8px;
+  border: 1px solid var(--panel-edge);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-mask-image: linear-gradient(to right,
+    transparent,
+    black var(--ribbon-fade),
+    black calc(100% - var(--ribbon-fade)),
+    transparent);
+  mask-image: linear-gradient(to right,
+    transparent,
+    black var(--ribbon-fade),
+    black calc(100% - var(--ribbon-fade)),
+    transparent);
+}
+
+.about-ribbon .marquee { flex: 1 1 auto; min-width: 0; }
+/* Disable inner fade; ribbon provides edge fade */
+.about-ribbon .marquee { -webkit-mask-image: none; mask-image: none; }
+
+.about-ribbon-label {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1;
+  font-size: 0.95em; /* visually align with slightly reduced pills */
+  transform: translateY(-0.5px); /* nudge up slightly */
+}
+
+.about-ribbon-label::after {
+  content: "\2192"; /* → */
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: var(--accent-1);
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(0.5px); /* align arrow to text */
+}
+
+/* Compact pill size inside the ribbon to reduce overall height */
+.about-ribbon .pill-btn {
+  padding: 0.38rem 0.6rem;
+  font-size: 0.95em;
+  transform: translateY(0.5px); /* nudge chip text down slightly */
+}
+
+@media (max-width: 700px) {
+  .about-ribbon { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .about-ribbon-label { white-space: normal; }
+}
+
 .marquee {
   --marquee-fade: clamp(16px, 3vw, 48px);
   position: relative;
