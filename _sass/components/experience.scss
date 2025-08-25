@@ -1,0 +1,222 @@
+/* Experience section
+   Drop this into your SCSS partials folder (e.g. _sass/_experience.scss)
+   and @import "experience"; from your main site.scss.
+*/
+
+/* ---- Theme knobs (override to match your palette) ---- */
+.xp-section {
+  --xp-text:           var(--text, #eaeaea);
+  --xp-muted:          color-mix(in srgb, var(--xp-text) 60%, transparent);
+  --xp-border:         color-mix(in srgb, var(--xp-text) 30%, transparent);
+  --xp-card:           color-mix(in srgb, #000 80%, #fff 20%); /* subtle panel on dark */
+  --xp-thermo-track:   color-mix(in srgb, var(--xp-text) 10%, transparent);
+  --xp-thermo-fill:    #4ade80; /* fallback green */
+  --xp-thermo-fill-2:  #22c55e; /* gradient tail */
+
+  color: var(--xp-text);
+}
+
+/* Section spacing and rail gutters to match the site rhythm */
+#experience {
+  scroll-margin-top: 80px;
+  margin-top: 0;
+  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.25rem, 5vw, 2rem);
+}
+#experience > .container { padding-inline: var(--rail-gutter); }
+
+/* If you already have .visually-hidden, you can remove this. */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---- Layout ---- */
+.xp-header {
+  display: grid;
+  gap: .3rem;
+  margin-bottom: .5rem;
+}
+
+.xp-header h2 {
+  margin: 0;
+  letter-spacing: .2px;
+}
+
+.xp-sub {
+  margin: 0;
+  opacity: .8;
+}
+
+.xp-colheads {
+  margin-top: .35rem;
+  display: grid;
+  grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
+  gap: 1rem;
+  font-size: .9rem;
+  color: var(--xp-muted);
+  border-bottom: 1px solid var(--xp-border);
+  padding-bottom: .25rem;
+}
+
+/* Push groups closer together */
+.xp-group { margin-top: .4rem; }
+.xp-group + .xp-group { margin-top: .3rem; }
+
+.xp-group-title {
+  margin: .25rem 0 .2rem 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-left: 3px solid var(--accent-2);
+  padding-left: .5rem;
+}
+
+/* Collapsible controls: style <summary> and add +/– marker */
+.xp-group summary::-webkit-details-marker { display: none; }
+.xp-group .xp-group-title {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.xp-group .xp-group-title::before {
+  content: "+";
+  color: var(--accent-2);
+  display: inline-block;
+  width: 1em;
+  margin-right: .1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.xp-group[open] > .xp-group-title::before { content: "\2013"; } /* en dash */
+
+.xp-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .25rem;
+}
+
+.xp-row {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
+  gap: .8rem;
+  padding: .25rem .2rem;
+  border-bottom: 1px dashed var(--xp-border);
+}
+
+.xp-row:last-child {
+  border-bottom: 0;
+}
+
+.xp-skill { font-weight: 550; }
+
+.xp-note {
+  font-size: .9em;
+  color: var(--muted);
+}
+
+/* ---- Thermometer ---- */
+.xp-thermo {
+  --h: 16px;            /* overall height */
+  --bulb: 14px;         /* bulb diameter */
+  --tube-h: 9px;        /* tube height */
+  --level: 50%;         /* 0%..100% */
+  /* Dynamic fill colour blends site accents by level */
+  --mix-green: var(--level);
+  --mix-blue: calc(100% - var(--level));
+  --fill-color: color-mix(in oklab, var(--accent-1) var(--mix-green), var(--accent-2) var(--mix-blue));
+
+  position: relative;
+  display: inline-block;
+  height: var(--h);
+  width: 100%;
+  padding-left: calc(var(--bulb) + 4px);
+}
+
+.xp-thermo::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--bulb);
+  height: var(--bulb);
+  border-radius: 999px;
+  transform: translateY(-50%);
+  border: 2px solid var(--xp-border);
+  background: var(--xp-thermo-track);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, #000 20%, transparent);
+}
+
+.xp-thermo .tube {
+  position: absolute;
+  left: calc(var(--bulb) - 4px);
+  right: 0;
+  top: 50%;
+  height: var(--tube-h);
+  transform: translateY(-50%);
+  border-radius: 999px;
+  border: 2px solid var(--xp-border);
+  background: var(--xp-thermo-track);
+  overflow: hidden;
+}
+
+.xp-thermo .fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--level);
+  /* Fallback solid if color-mix unsupported */
+  background: var(--xp-thermo-fill);
+  /* Dynamic gradient from blue→green based on --level */
+  background: linear-gradient(
+    90deg,
+    var(--fill-color) 0%,
+    color-mix(in oklab, var(--fill-color) 88%, black) 100%
+  );
+}
+
+/* Optional ticks (subtle) — comment out if you don’t want them */
+.xp-thermo .tube {
+  background-image:
+    linear-gradient(90deg, color-mix(in srgb, var(--xp-text) 8%, transparent) 1px, transparent 1px);
+  background-size: 20% 100%;
+}
+
+/* ---- Legend ---- */
+.xp-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: .5rem;
+  font-size: .9rem;
+  color: var(--xp-muted);
+}
+
+.xp-legend i {
+  display: inline-block;
+  width: .65em; height: .65em;
+  border-radius: 50%;
+  background: var(--xp-thermo-fill);
+  margin-right: .35em;
+}
+
+/* Legend dots reflect the same blue→green mapping as the meter */
+.xp-legend .dot-l { background: color-mix(in oklab, var(--accent-1) 20%, var(--accent-2) 80%); }
+.xp-legend .dot-c { background: color-mix(in oklab, var(--accent-1) 55%, var(--accent-2) 45%); }
+.xp-legend .dot-e { background: color-mix(in oklab, var(--accent-1) 90%, var(--accent-2) 10%); }
+
+/* ---- Responsive ---- */
+@media (max-width: 720px) {
+  .xp-colheads { display: none; }
+  .xp-row {
+    grid-template-columns: 1fr;
+    gap: .2rem;
+    padding: .35rem 0;
+  }
+  .xp-note { opacity: .85; }
+}
