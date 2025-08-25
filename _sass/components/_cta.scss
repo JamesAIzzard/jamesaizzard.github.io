@@ -80,3 +80,58 @@
 /* Honeypot: keep out of layout and accessibility tree */
 .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .hp-field { opacity: 0; pointer-events: none; }
+
+/* CTA modal */
+.cta-modal { position: fixed; inset: 0; display: none; z-index: 999; }
+.cta-modal.open { display: block; }
+.cta-modal-backdrop {
+  position: absolute; inset: 0;
+  background: radial-gradient(80% 60% at 50% 10%, rgba(0,0,0,0.55), rgba(0,0,0,0.66));
+  backdrop-filter: saturate(120%) blur(2px);
+}
+.cta-modal-dialog {
+  position: relative;
+  width: min(560px, calc(100% - 2rem));
+  margin: 12vh auto 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent), var(--panel);
+  border-radius: 14px;
+  padding: 1rem 1rem 0.9rem;
+  color: var(--text);
+  text-align: left;
+  border: 1px solid color-mix(in oklab, var(--panel-edge) 90%, transparent);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.35);
+}
+.cta-modal.open .cta-modal-dialog { animation: ctaModalIn 200ms ease-out; }
+
+@keyframes ctaModalIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cta-modal-header { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; }
+.cta-modal-glyph {
+  --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent);
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 999px;
+  background: var(--glyph-bg);
+  border: 1px solid color-mix(in oklab, var(--panel-edge) 60%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.cta-modal-glyph::before { content: "\2713"; /* check mark */ font-size: 24px; line-height: 1; }
+
+.cta-modal-dialog.success .cta-modal-glyph { --glyph-bg: color-mix(in oklab, var(--accent-1) 22%, transparent); color: var(--accent-1); }
+.cta-modal-dialog.error .cta-modal-glyph { --glyph-bg: color-mix(in oklab, #ff6b6b 22%, transparent); color: #ff6b6b; }
+.cta-modal-dialog.error .cta-modal-glyph::before { content: "\26A0"; /* warning */ }
+
+.cta-modal-dialog h3 { margin: 0 0 .25rem; }
+.cta-modal-dialog p { margin: 0 0 .6rem; color: var(--muted); }
+
+.cta-modal-actions { display: flex; justify-content: flex-end; }
+.cta-modal-actions .cta-modal-close { margin: 0.4rem 0 0.2rem; }
+
+/* Success/error heading accents */
+.cta-modal-dialog.success h3 { color: var(--accent-1); }
+.cta-modal-dialog.error h3 { color: #ff8a8a; }
+
+/* Prevent background scroll while modal open */
+body.modal-open { overflow: hidden; }

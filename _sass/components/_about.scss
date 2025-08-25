@@ -38,10 +38,9 @@
   align-items: center;
   gap: clamp(0.35rem, 0.9vw, 0.55rem);
   margin-top: 1rem;
-  padding-block: 0.25rem; /* ~25% slimmer height */
+  padding-block: 0.25rem;
   padding-right: 0.6rem;
   padding-left: calc(var(--ribbon-fade) + 0.6rem); /* nudge contents away from left fade */
-  border-radius: 8px;
   border: 1px solid var(--panel-edge);
   background: rgba(255, 255, 255, 0.06);
   -webkit-mask-image: linear-gradient(to right,
