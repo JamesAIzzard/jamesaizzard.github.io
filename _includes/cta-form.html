@@ -1,4 +1,4 @@
-<form class="cta drop-shadow border-panel" action="https://formsubmit.co/YOUR.EMAIL@EXAMPLE.COM" method="POST"
+<form class="cta drop-shadow border-panel" action="https://formsubmit.co/jamesaizzard@gmail.com" method="POST"
   aria-label="Project inquiry">
 
   <input type="hidden" name="_subject" value="Website contact: jamesaizzard.github.io">
@@ -86,9 +86,9 @@
         if (!email || !email.value || !email.value.trim()) missing.push('email');
         if (missing.length) {
           openModal(modal, {
-            variant: 'error',
-            title: 'Almost there',
-            message: 'Please add a short subject and your email so I can reply.'
+            variant: 'info',
+            title: 'A few details',
+            message: 'Could you add a short subject and your email so I can reply?'
           });
           return;
         }

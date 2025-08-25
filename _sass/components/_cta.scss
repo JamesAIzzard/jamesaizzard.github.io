@@ -117,14 +117,34 @@
   border: 1px solid color-mix(in oklab, var(--panel-edge) 60%, transparent);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
 }
-.cta-modal-glyph::before { content: "\2713"; /* check mark */ font-size: 24px; line-height: 1; }
+.cta-modal-glyph::before {
+  content: "\2139"; /* information */
+  display: block;
+  font-size: 24px;
+  line-height: 1;
+  transform: translateY(1px); /* optical centering tweak */
+}
 
-.cta-modal-dialog.success .cta-modal-glyph { --glyph-bg: color-mix(in oklab, var(--accent-1) 22%, transparent); color: var(--accent-1); }
-.cta-modal-dialog.error .cta-modal-glyph { --glyph-bg: color-mix(in oklab, #ff6b6b 22%, transparent); color: #ff6b6b; }
+/* Variant glyphs and colors */
+.cta-modal-dialog.success .cta-modal-glyph {
+  --glyph-bg: color-mix(in oklab, var(--accent-1) 22%, transparent);
+  color: var(--accent-1);
+}
+.cta-modal-dialog.success .cta-modal-glyph::before { content: "\2713"; /* check */ }
+
+.cta-modal-dialog.error .cta-modal-glyph {
+  --glyph-bg: color-mix(in oklab, #ff6b6b 18%, transparent);
+  color: #ff6b6b;
+}
 .cta-modal-dialog.error .cta-modal-glyph::before { content: "\26A0"; /* warning */ }
 
+.cta-modal-dialog.info .cta-modal-glyph {
+  --glyph-bg: color-mix(in oklab, var(--accent-2) 22%, transparent);
+  color: var(--accent-2);
+}
+
 .cta-modal-dialog h3 { margin: 0 0 .25rem; }
-.cta-modal-dialog p { margin: 0 0 .6rem; color: var(--muted); }
+.cta-modal-dialog p { margin: 0 0 .6rem; color: #fff; }
 
 .cta-modal-actions { display: flex; justify-content: flex-end; }
 .cta-modal-actions .cta-modal-close { margin: 0.4rem 0 0.2rem; }
@@ -132,6 +152,7 @@
 /* Success/error heading accents */
 .cta-modal-dialog.success h3 { color: var(--accent-1); }
 .cta-modal-dialog.error h3 { color: #ff8a8a; }
+.cta-modal-dialog.info h3 { color: var(--accent-2); }
 
 /* Prevent background scroll while modal open */
 body.modal-open { overflow: hidden; }
