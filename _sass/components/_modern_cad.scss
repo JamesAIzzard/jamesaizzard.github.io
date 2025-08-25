@@ -93,11 +93,13 @@
 
 #onshape-visual .sketch-svg {
     position: absolute;
-    inset: -12px; /* more outset around the figure */
-    width: calc(100% + 24px);
-    height: calc(100% + 24px);
+    top: -12px;
+    bottom: -12px;
+    left: -12px;
+    right: -80px; /* push much further on the right side */
     pointer-events: none;
     z-index: 1; /* sit above the image */
+    overflow: visible; /* allow drawing beyond the viewBox */
 }
 
 #onshape-visual .sketch-svg path {
@@ -136,7 +138,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    color: var(--accent-2);
+    color: var(--text);
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 2px;
