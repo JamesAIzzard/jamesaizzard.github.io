@@ -53,14 +53,14 @@
   gap: 0.6rem;
 }
 
-.cta:focus-within .cta-extra { display: grid; }
+.cta.is-active .cta-extra { display: grid; }
 
 /* On mobile, place the submit button at the bottom when expanded */
 @media (max-width: 599px) {
   .cta { grid-auto-flow: row; }
-  .cta:focus-within #project { order: 1; }
-  .cta:focus-within .cta-extra { order: 2; }
-  .cta:focus-within button { order: 3; }
+  .cta.is-active #project { order: 1; }
+  .cta.is-active .cta-extra { order: 2; }
+  .cta.is-active button { order: 3; }
 }
 
 /* Subtle, friendly note shown only when expanded */

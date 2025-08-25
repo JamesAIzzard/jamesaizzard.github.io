@@ -59,6 +59,11 @@
 
     document.querySelectorAll('form.cta').forEach(function (form) {
       if (form.__ctaBound) return; form.__ctaBound = true;
+      // Keep CTA expanded once interacted, to avoid iOS tap-collapse on submit
+      function activateCTA() { form.classList.add('is-active'); }
+      form.addEventListener('focusin', activateCTA);
+      form.addEventListener('pointerdown', activateCTA, { passive: true });
+      form.addEventListener('touchstart', activateCTA, { passive: true });
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         // Resolve modal at submit-time to ensure element exists
@@ -119,6 +124,8 @@
           if (res && res.ok) {
             if (dialog) dialog.classList.remove('loading');
             try { form.reset(); } catch (_) { }
+            // Collapse CTA after successful submit
+            form.classList.remove('is-active');
             if (document.activeElement && typeof document.activeElement.blur === 'function') {
               document.activeElement.blur();
             }
