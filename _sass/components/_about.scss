@@ -180,6 +180,34 @@
   }
 }
 
+/* Sparse table layout for Career/How-I-work */
+.about-table {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--panel-edge); /* horizontal top divider */
+  padding-inline: var(--rail-gutter);
+  margin-top: 1rem;
+}
+
+.about-cell { padding: clamp(0.9rem, 2vw, 1.1rem) 0; }
+
+/* Divider between rows on mobile (stacked) */
+.about-table > .about-cell + .about-cell {
+  border-top: 1px solid var(--panel-edge);
+}
+
+  @media (min-width: 900px) {
+    .about-table {
+      grid-template-columns: 1.2fr .8fr;
+    }
+    /* Switch to a vertical divider between the two columns */
+    .about-table > .about-cell + .about-cell {
+      border-top: 0;
+      border-left: 1px solid var(--panel-edge);
+      padding-left: clamp(0.9rem, 2vw, 1.1rem);
+    }
+  }
+
 .about-card {
   border-radius: 8px;
   padding: 1rem clamp(1rem, 2vw, 1.25rem);
@@ -225,4 +253,3 @@
   padding-left: 1.1rem;
 }
 .about-list li { margin: .25rem 0; }
-
