@@ -22,7 +22,7 @@
 }
 
 #where-fits p {
-  color: var(--muted);
+  color: inherit; /* use default text color */
   line-height: 1.6;
 }
 
