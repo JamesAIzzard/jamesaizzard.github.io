@@ -152,27 +152,4 @@
   }
 }
 
-/* Continue the container edge lines through the manufacturing section,
-   aligning with the shared container width and ending at the section's bottom border */
-#manufacturing {
-  position: relative;
-}
-
-#manufacturing::before,
-#manufacturing::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  border-left: 1px solid var(--panel-edge);
-  pointer-events: none;
-}
-
-#manufacturing::before {
-  left: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
-}
-
-#manufacturing::after {
-  right: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
-}
+/* (Rails removed) Keep uniform side gutters only */

@@ -48,6 +48,25 @@
   padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
 }
 
+/* Bottom corner radii to match Typical Projects' top corners */
+/* Mobile (stacked): round both bottom corners of the final cell */
+#wf-lhs .wf-lhs-bottom {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+@media (min-width: 900px) {
+  /* Desktop: main text (left) gets bottom-left only; not-a-fit (right, bottom) gets bottom-right only */
+  #wf-rhs {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 0;
+  }
+  #wf-lhs .wf-lhs-bottom {
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 0;
+  }
+}
+
 /* Maintain the previous visual spacing without pushing borders down */
 #wf-rhs,
 #wf-lhs .wf-lhs-top {

@@ -107,6 +107,9 @@
     text-align: center;
 }
 
+/* Add separation from the section above */
+#modern-cad { padding-top: clamp(1.25rem, 4vw, 2rem); }
+
 /* Uniform side gutters from the vertical rails for all content in this section */
 #modern-cad > .container { padding-inline: var(--rail-gutter); }
 
@@ -116,28 +119,4 @@
     }
 }
 
-/* Continue the container edge lines down this section */
-#modern-cad {
-    position: relative;
-}
-
-#modern-cad::before,
-#modern-cad::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 0;
-    border-left: 1px solid var(--panel-edge);
-    pointer-events: none;
-}
-
-/* Left line aligned to container's left edge */
-#modern-cad::before {
-    left: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
-}
-
-/* Right line aligned to container's right edge */
-#modern-cad::after {
-    right: calc(50% - (min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw)) / 2));
-}
+/* (Rails removed) Keep uniform side gutters only */
