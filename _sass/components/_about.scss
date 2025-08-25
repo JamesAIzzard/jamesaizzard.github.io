@@ -14,8 +14,12 @@
   line-height: 1.45;
   color: var(--muted);
   max-width: 60ch;
-  margin: 0;
 }
+
+/* Comfortable spacing between short TL;DR paragraphs */
+.about-tldr p { margin: 0; }
+.about-tldr p + p { margin-top: .55rem; }
+
 
 .about-ribbon {
   --ribbon-fade: clamp(10px, 2.5vw, 40px);
