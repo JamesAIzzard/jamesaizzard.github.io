@@ -1,5 +1,32 @@
-<form class="cta drop-shadow border-panel" action="/contact.html" method="get" role="search" aria-label="Project inquiry">
-    <label class="visually-hidden" for="project">What are you working on?</label>
-    <input id="project" name="q" type="text" placeholder="What are you working on?" autocomplete="off">
-    <button type="submit">Start the conversation</button>
+<form class="cta drop-shadow border-panel" action="/contact.html" method="get" aria-label="Project inquiry">
+  <label class="visually-hidden" for="project">What are you working on?</label>
+  <input id="project" name="q" type="text" placeholder="What are you working on?" autocomplete="off">
+  <button type="submit">Start the conversation</button>
+
+  <div class="cta-extra" aria-hidden="false">
+    <label class="visually-hidden" for="details">Add a few details (optional)</label>
+    <textarea id="details" name="details" rows="4" placeholder="Add a few details (optional)"></textarea>
+
+    <label class="visually-hidden" for="email">Your email, I can normally respond within a day.</label>
+    <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email, I can normally respond within a day.">
+  </div>
+
+  <div class="hp" aria-hidden="true">
+    <label for="company" class="visually-hidden">Company (leave blank)</label>
+    <input id="company" class="hp-field" type="text" name="company" tabindex="-1" autocomplete="off" placeholder="Company">
+  </div>
 </form>
+
+<script>
+  (function () {
+    document.querySelectorAll('form.cta').forEach(function(form){
+      if (form.__ctaBound) return; form.__ctaBound = true;
+      form.addEventListener('submit', function (e) {
+        var hp = form.querySelector('.hp-field');
+        if (hp && hp.value && hp.value.trim().length > 0) {
+          e.preventDefault(); // likely a bot; do not submit
+        }
+      });
+    });
+  })();
+  </script>

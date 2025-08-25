@@ -9,7 +9,8 @@
   border-radius: 10px;
 }
 
-.cta input {
+.cta input,
+.cta textarea {
   border: none;
   background: white;
   border-radius: 6px;
@@ -22,7 +23,7 @@
   padding: 0.9rem 1.1rem;
 }
 
-.cta input:focus {
+.cta :where(input, textarea):focus {
   outline: none;
   box-shadow: 0 0 0 3px var(--ring);
 }
@@ -43,3 +44,21 @@
     /* tighter top/bottom spacing on mobile */
   }
 }
+
+/* Progressive reveal area (hidden when not focused) */
+.cta-extra {
+  grid-column: 1 / -1; /* span full width under the main row */
+  display: none; /* keep collapsed layout identical to current */
+  gap: 0.6rem;
+}
+
+.cta:focus-within .cta-extra { display: grid; }
+
+.cta textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Honeypot: keep out of layout and accessibility tree */
+.hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.hp-field { opacity: 0; pointer-events: none; }
