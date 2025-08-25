@@ -1,0 +1,131 @@
+/* Project Types section — visually aligned with your existing panels */
+#project-types {
+  margin-block: clamp(2rem, 6vw, 4rem);
+
+  .pt-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    /* subtle “GitHub glow” */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -40% -20% auto -20%;
+      height: 220%;
+      background:
+        radial-gradient(60% 40% at 30% 10%, rgba(146,120,255,0.28), transparent 60%),
+        radial-gradient(40% 30% at 70% 0%, rgba(72,197,255,0.22), transparent 60%);
+      filter: blur(28px);
+      pointer-events: none;
+    }
+  }
+
+  .pt-title {
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    line-height: 1.2;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .pt-subtitle {
+    opacity: 0.9;
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .pt-tabs {
+    margin-top: 1rem;
+    border-radius: 1rem;
+    padding: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+
+    .pt-tablist {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+    }
+
+    .pt-tab {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: inherit;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      font: inherit;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color .2s ease, background-color .2s ease, transform .06s ease;
+      &[aria-selected="true"], &.is-active {
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.24);
+      }
+      &:active { transform: translateY(1px); }
+    }
+
+    .pt-panels {
+      padding: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    [role="tabpanel"] {
+      outline: none;
+    }
+  }
+
+  .pt-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    @media (min-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pt-col {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.75rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
+  }
+
+  .pt-list {
+    margin: 0.25rem 0 1rem;
+    padding-left: 1.1rem;
+    li { margin: 0.25rem 0; }
+  }
+
+  .pt-steps {
+    counter-reset: step;
+    list-style: none;
+    margin: 0.25rem 0 1rem;
+    padding: 0;
+    li {
+      position: relative;
+      padding-left: 2rem;
+      margin: 0.4rem 0;
+      &::before {
+        counter-increment: step;
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0.05rem;
+        width: 1.35rem; height: 1.35rem;
+        display: grid; place-items: center;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.06);
+        font-size: 0.8rem;
+        line-height: 1;
+      }
+    }
+  }
+
+  .pt-note {
+    opacity: 0.85;
+    font-size: 0.95em;
+    margin: 0.5rem 0 0;
+  }
+}
