@@ -1,92 +1,96 @@
-<section id="experience" class="xp-section" aria-labelledby="xp-title">
-  <header class="xp-header">
-    <h2 id="xp-title">Experience</h2>
-    <p class="xp-sub">A quick overview of where I'm strongest — and where I’m still learning.</p>
-    <div class="xp-colheads" aria-hidden="true">
-      <span>Skill</span>
-      <span>Experience</span>
-      <span>Notes</span>
+<section id="experience" class="panel-surface">
+  <div class="container">
+    <div class="xp-section" aria-labelledby="xp-title">
+      <header class="xp-header">
+        <h2 id="xp-title">Experience</h2>
+        <p class="xp-sub">A quick overview of where I'm strongest — and where I’m still learning.</p>
+        <div class="xp-colheads" aria-hidden="true">
+          <span>Skill</span>
+          <span>Experience</span>
+          <span>Notes</span>
+        </div>
+      </header>
+
+      <!-- Group: Designing For -->
+      <details class="xp-group" aria-labelledby="xp-g-design" open>
+        <summary id="xp-g-design" class="xp-group-title">Designing For</summary>
+        <ul class="xp-rows" role="rowgroup">
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">Machining</span>
+
+            <!-- Thermometer: set --level: 0%..100% -->
+            <span class="xp-thermo" style="--level: 92%" title="Very experienced (92%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="92">Machining: very experienced</meter>
+
+            <span class="xp-note">CNC milling/turning, jigs & fixtures, tolerances, surface finishes.</span>
+          </li>
+
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">Moulding</span>
+            <span class="xp-thermo" style="--level: 60%" title="Moderately experienced (60%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="60">Moulding: moderately experienced</meter>
+            <span class="xp-note">DFM, draft/parting, gating basics; lean on specialist partners for tooling.</span>
+          </li>
+        </ul>
+      </details>
+
+      <!-- Group: Documentation -->
+      <details class="xp-group" aria-labelledby="xp-g-docs" open>
+        <summary id="xp-g-docs" class="xp-group-title">Documentation</summary>
+        <ul class="xp-rows" role="rowgroup">
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">DFMEA</span>
+            <span class="xp-thermo" style="--level: 80%" title="Experienced (80%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="80">DFMEA: experienced</meter>
+            <span class="xp-note">Severity/occurrence/detection, control plans, risk-based design decisions.</span>
+          </li>
+
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">Sketching</span>
+            <span class="xp-thermo" style="--level: 78%" title="Experienced (78%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="78">Sketching: experienced</meter>
+            <span class="xp-note">Fast whiteboard-to-CAD communication; concept sprints; stakeholder reviews.</span>
+          </li>
+        </ul>
+      </details>
+
+      <!-- Group: Other -->
+      <details class="xp-group" aria-labelledby="xp-g-other" open>
+        <summary id="xp-g-other" class="xp-group-title">Other</summary>
+        <ul class="xp-rows" role="rowgroup">
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">PCB Design</span>
+            <span class="xp-thermo" style="--level: 18%" title="Not experienced (18%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="18">PCB design: not experienced</meter>
+            <span class="xp-note">Fit/keepouts/review only; partner with electronics engineers.</span>
+          </li>
+
+          <li class="xp-row" role="row">
+            <span class="xp-skill" role="rowheader">Firmware</span>
+            <span class="xp-thermo" style="--level: 25%" title="Beginner (25%)" aria-hidden="true">
+              <span class="tube"><span class="fill"></span></span>
+            </span>
+            <meter class="sr-only" min="0" max="100" value="25">Firmware: beginner</meter>
+            <span class="xp-note">Comfortable reading code/logs; not writing production firmware.</span>
+          </li>
+        </ul>
+      </details>
+
+      <footer class="xp-legend">
+        <span><i aria-hidden="true">●</i> 0–30%: learning</span>
+        <span><i aria-hidden="true">●</i> 40–70%: competent</span>
+        <span><i aria-hidden="true">●</i> 80–100%: experienced</span>
+      </footer>
     </div>
-  </header>
-
-  <!-- Group: Designing For -->
-  <section class="xp-group" aria-labelledby="xp-g-design">
-    <h3 id="xp-g-design" class="xp-group-title">Designing For</h3>
-    <ul class="xp-rows" role="rowgroup">
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">Machining</span>
-
-        <!-- Thermometer: set --level: 0%..100% -->
-        <span class="xp-thermo" style="--level: 92%" title="Very experienced (92%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="92">Machining: very experienced</meter>
-
-        <span class="xp-note">CNC milling/turning, jigs & fixtures, tolerances, surface finishes.</span>
-      </li>
-
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">Moulding</span>
-        <span class="xp-thermo" style="--level: 60%" title="Moderately experienced (60%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="60">Moulding: moderately experienced</meter>
-        <span class="xp-note">DFM, draft/parting, gating basics; lean on specialist partners for tooling.</span>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Group: Documentation -->
-  <section class="xp-group" aria-labelledby="xp-g-docs">
-    <h3 id="xp-g-docs" class="xp-group-title">Documentation</h3>
-    <ul class="xp-rows" role="rowgroup">
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">DFMEA</span>
-        <span class="xp-thermo" style="--level: 80%" title="Experienced (80%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="80">DFMEA: experienced</meter>
-        <span class="xp-note">Severity/occurrence/detection, control plans, risk-based design decisions.</span>
-      </li>
-
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">Sketching</span>
-        <span class="xp-thermo" style="--level: 78%" title="Experienced (78%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="78">Sketching: experienced</meter>
-        <span class="xp-note">Fast whiteboard-to-CAD communication; concept sprints; stakeholder reviews.</span>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Group: Other -->
-  <section class="xp-group" aria-labelledby="xp-g-other">
-    <h3 id="xp-g-other" class="xp-group-title">Other</h3>
-    <ul class="xp-rows" role="rowgroup">
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">PCB Design</span>
-        <span class="xp-thermo" style="--level: 18%" title="Not experienced (18%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="18">PCB design: not experienced</meter>
-        <span class="xp-note">Fit/keepouts/review only; partner with electronics engineers.</span>
-      </li>
-
-      <li class="xp-row" role="row">
-        <span class="xp-skill" role="rowheader">Firmware</span>
-        <span class="xp-thermo" style="--level: 25%" title="Beginner (25%)" aria-hidden="true">
-          <span class="tube"><span class="fill"></span></span>
-        </span>
-        <meter class="sr-only" min="0" max="100" value="25">Firmware: beginner</meter>
-        <span class="xp-note">Comfortable reading code/logs; not writing production firmware.</span>
-      </li>
-    </ul>
-  </section>
-
-  <footer class="xp-legend">
-    <span><i aria-hidden="true">●</i> 0–30%: learning</span>
-    <span><i aria-hidden="true">●</i> 40–70%: competent</span>
-    <span><i aria-hidden="true">●</i> 80–100%: experienced</span>
-  </footer>
+  </div>
 </section>

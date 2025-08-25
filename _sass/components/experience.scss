@@ -16,6 +16,14 @@
   color: var(--xp-text);
 }
 
+/* Section spacing and rail gutters to match the site rhythm */
+#experience {
+  scroll-margin-top: 80px;
+  margin-top: 0;
+  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.25rem, 5vw, 2rem);
+}
+#experience > .container { padding-inline: var(--rail-gutter); }
+
 /* If you already have .visually-hidden, you can remove this. */
 .sr-only {
   position: absolute !important;
@@ -64,6 +72,26 @@
   border-left: 3px solid var(--xp-border);
   padding-left: .5rem;
 }
+
+/* Collapsible controls: style <summary> and add +/– marker */
+.xp-group summary::-webkit-details-marker { display: none; }
+.xp-group .xp-group-title {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.xp-group .xp-group-title::before {
+  content: "+";
+  color: var(--accent-2);
+  display: inline-block;
+  width: 1em;
+  margin-right: .1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.xp-group[open] > .xp-group-title::before { content: "\2013"; } /* en dash */
 
 .xp-rows {
   list-style: none;
