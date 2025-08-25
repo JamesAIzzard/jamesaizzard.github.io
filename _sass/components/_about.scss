@@ -53,7 +53,7 @@
   font-weight: 600;
   line-height: 1;
   font-size: 0.95em; /* visually align with slightly reduced pills */
-  transform: translateY(-0.5px); /* nudge up slightly */
+  transform: translateY(-2px); /* nudge up ~3px */
 }
 
 .about-ribbon-label::after {
@@ -74,8 +74,30 @@
 }
 
 @media (max-width: 700px) {
-  .about-ribbon { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-  .about-ribbon-label { white-space: normal; }
+  .about-ribbon {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    /* give a little more breathing room top/bottom when stacked */
+    padding-top: 10px;
+    padding-bottom: 5px;
+    /* reduce large left inset so label isn’t overly indented */
+    padding-left: 0.6rem;
+  }
+  .about-ribbon-label {
+    white-space: normal;
+    /* ease the desktop upward nudge when stacked */
+    transform: translateY(-1px);
+    align-self: center;
+    text-align: center;
+  }
+  /* Arrow points down when label sits above the scroller */
+  .about-ribbon-label::after {
+    content: "\2193"; /* ↓ */
+    transform: translateY(0);
+  }
+  /* Keep chip baseline natural in stacked layout */
+  .about-ribbon .pill-btn { transform: none; }
 }
 
 .marquee {
