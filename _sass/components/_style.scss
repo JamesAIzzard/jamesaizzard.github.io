@@ -220,6 +220,17 @@ a:hover {
   transform: translateY(0.18em);
 }
 
+/* Add closing quote for symmetry */
+.quote::after {
+  content: "\201D"; /* right double quotation mark */
+  display: inline-block;
+  color: var(--accent-1);
+  font-size: 1.1em; /* slightly larger than text without disrupting layout */
+  line-height: 1;
+  margin-left: 0.15em;
+  transform: translateY(0.05em);
+}
+
 /* Mini-quote: add colored quotes around any element, and color <q> marks */
 .mini-quote {
   position: relative;
