@@ -17,10 +17,46 @@
   margin: 0;
 }
 
+.marquee {
+  --marquee-fade: clamp(16px, 3vw, 48px);
+  position: relative;
+  overflow: hidden;
+  /* edge fades toward the container rails */
+  -webkit-mask-image: linear-gradient(to right,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent);
+  mask-image: linear-gradient(to right,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent);
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem; /* matches about-chips gap */
+  white-space: nowrap;
+  animation-name: marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--marquee-duration, 30s);
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(var(--marquee-shift, 50%) * -1)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Respect reduced motion unless explicitly opted in */
+  .marquee:not([data-allow-motion]) .marquee-track { animation: none; transform: none; }
+}
+
 .about-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
   margin: 1rem 0 1.25rem 0;
   padding: 0;
   list-style: none; /* items use .pill-btn styles */
