@@ -7,6 +7,10 @@
   --accent-1: #09b53d;
   --accent-2: #408bf4;
   --maxw: 1080px;
+  /* Shared layout tokens */
+  --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
+  --edge-border: 1px; /* for border-aligned content widths */
+  --rail-gutter: clamp(0.8rem, 2.2vw, 1rem); /* uniform inset from the vertical rails */
 }
 
 html {
@@ -41,8 +45,13 @@ body {
 
 
 .container {
-  width: min(100% - 2rem, var(--maxw));
+  width: min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw));
   margin-inline: auto;
+}
+
+/* Utility: make an element's visual width align with the container when it has a 1px border either side */
+.edge-width {
+  width: calc(100% - 2 * var(--edge-border));
 }
 
 h1,
@@ -85,14 +94,31 @@ a:hover {
   @extend .drop-shadow;
 }
 
+.panel-surface--flat { @extend .panel-surface; }
+
+.panel-surface--lit {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), var(--panel);
+  overflow: hidden;
+}
+.panel-surface--lit::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 220%;
+  background:
+    radial-gradient(var(--lit-a-w, 64%) var(--lit-a-h, 42%) at var(--lit-a-x, 28%) var(--lit-a-y, 8%), rgba(146,120,255, var(--lit-a-alpha, 0.36)), transparent 60%),
+    radial-gradient(var(--lit-b-w, 46%) var(--lit-b-h, 34%) at var(--lit-b-x, 68%) var(--lit-b-y, 2%), rgba(72,197,255, var(--lit-b-alpha, 0.28)), transparent 60%);
+  filter: blur(var(--lit-blur, 36px));
+  pointer-events: none;
+}
+
 :where(button, a.button) {
   color: var(--text);
   background: var(--accent-1);
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--accent-1) 94%, white),
-    color-mix(in oklab, var(--accent-1) 88%, black)
-  );
+  background: linear-gradient(180deg,
+      color-mix(in oklab, var(--accent-1) 94%, white),
+      color-mix(in oklab, var(--accent-1) 88%, black));
   border: 1px solid var(--panel-edge);
   border-radius: 6px;
   padding: .55rem .9rem;
@@ -116,6 +142,40 @@ a:hover {
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-1) 35%, transparent);
 }
 
+
+.pt-tab,
+.pill-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, transform .06s ease, filter .2s ease;
+}
+
+.pt-tab:hover,
+.pill-btn:hover {
+  filter: brightness(1.05);
+}
+
+.pt-tab:active,
+.pill-btn:active {
+  transform: translateY(1px);
+}
+
+.pt-tab[aria-selected="true"],
+.pt-tab.is-active,
+.pill-btn[aria-selected="true"],
+.pill-btn.active {
+  background: transparent;
+  border-color: var(--accent-1);
+  border-width: 2px;
+}
 
 .printout {
   display: block;
@@ -143,4 +203,43 @@ a:hover {
   border: 0;
   padding: 0;
   margin: -1px;
+}
+
+/* Decorative leading quote */
+.quote {
+  position: relative;
+}
+
+.quote::before {
+  content: "\201C"; /* left double quotation mark */
+  display: inline-block;
+  color: var(--accent-1);
+  font-size: 2.4em;
+  line-height: 0;
+  margin-right: 0.15em;
+  transform: translateY(0.18em);
+}
+
+/* Mini-quote: add colored quotes around any element, and color <q> marks */
+.mini-quote {
+  position: relative;
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+.mini-quote::before,
+.mini-quote::after {
+  color: var(--accent-1);
+}
+
+.mini-quote::before {
+  content: open-quote;
+}
+
+.mini-quote::after {
+  content: close-quote;
+}
+
+.mini-quote q::before,
+.mini-quote q::after {
+  color: var(--accent-1);
 }

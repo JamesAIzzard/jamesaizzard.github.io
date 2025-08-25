@@ -22,8 +22,10 @@
 }
 
 #hero-figure {
-  width: min(100%, 980px);
+  width: 100%;
   margin: 0 auto;
+  border: 1px solid var(--panel-edge);
+  border-radius: 12px;
 }
 
 #hero-figure>img {
@@ -33,6 +35,9 @@
   height: auto;
   border-radius: 12px;
 }
+
+/* Remove the image's own border so the figure's border sets the visual width */
+#hero-figure > img.border-panel { border: 0; }
 
 @media (max-width: 700px) {
   #hero-subtitle {
