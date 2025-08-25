@@ -82,7 +82,7 @@
   content: "\2192"; /* → */
   display: inline-block;
   margin-left: 0.45rem;
-  color: var(--accent-1);
+  color: var(--accent-2);
   font-weight: 700;
   line-height: 1;
   transform: translateY(0.5px); /* align arrow to text */
@@ -234,7 +234,7 @@
 .about-item summary::-webkit-details-marker { display: none; }
 .about-item summary::before {
   content: "+";
-  color: var(--accent-1);
+  color: var(--accent-2);
   display: inline-block;
   width: 1em;
   margin-right: .35rem;
@@ -260,6 +260,6 @@
   left: 0;
   top: 0.1em;
   line-height: 1;
-  color: var(--accent-1);
+  color: var(--accent-2);
   font-weight: 800;
 }
