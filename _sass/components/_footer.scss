@@ -5,6 +5,9 @@
   color: #a6a8bd;
   text-align: left;
   font-size: 0.95rem;
+  /* Center footer content vertically within this min-height */
+  display: flex;
+  align-items: center;
   /* Show utility border only on the top edge */
   border-left: 0;
   border-right: 0;
@@ -16,7 +19,7 @@
   display: flex;
   align-items: center;
   padding-inline: 1rem; /* same as #site-header .container */
-  height: 100%;
+  /* Let height be intrinsic; parent flex centers the row */
 }
 
 /* Invert the drop shadow so it defines the top edge */
