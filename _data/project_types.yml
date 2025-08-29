@@ -1,0 +1,52 @@
+---
+types:
+  - briefs:
+      - We inherited non-parametric legacy CAD/drawings and need clean updates.
+      - We need a 3D scan and a parametric rebuild.
+      - I've drawn this thing on a napkin, and I need to get it made.
+      - This part has broken, and is no longer available, and I need a replacement.
+      - I need to modify this existing part to fit a new assembly.
+    characteristics:
+      - Well-defined scope and requirements
+      - Generally straightforward
+      - Typically single fixed price quote
+      - Typically fast turnaround
+      - Single package of work with low uncertainty
+    deliverables:
+      - 3D models & manufacturing drawings
+    id: cad
+    label: General CAD
+  - briefs:
+      - I need a custom machine to automate this experiment.
+      - We need a test-rig to de-risk this aspect of a larger project and our main design team doesn't have the bandwidth.
+      - Our production team is struggling with this aspect of assembly and needs this assembly tooling.
+    characteristics:
+      - May require a phase-gated approach, depending on complexity and risk.
+      - Often collaborative, with scientists, engineers and technicians.
+      - Collaboration with an electrical engineer & software developer.
+      - May require analysis and calculations to inform design.
+      - Often requires building one or multiple prototypes.
+    deliverables:
+      - 3D models & manufacturing drawings
+      - Functional prototype
+      - Ongoing support
+    id: research
+    label: Research & Equipment Development
+  - briefs:
+      - I need to turn my idea into a prototype to show an investor.
+      - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
+      - I need to develop the concept for my kickstarter campaign into a working device.
+    characteristics:
+      - Higher risk, typically justifying a phase-gated approach.
+      - Clearly defined phase outputs and progression criteria.
+      - Detailed documentation of design rationale.
+      - Collaboration with an industrial designer.
+      - Collaboration with an electrical engineer & software developer.
+      - Collaboration with various stakeholders throughout the process.
+    deliverables:
+      - Concepts, illustrations, detailed concept selection documentation
+      - 3D models & manufacturing drawings
+      - Working prototype(s)
+      - Ongoing support
+    id: product
+    label: Product Development
