@@ -22,6 +22,40 @@
             <div class="pt-panels">
                 {% for t in pt.types %}
                 <section class="pt-panel"{% unless forloop.first %} hidden{% endunless %}>
+                    <div class="pt-scales">
+                        <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
+                            <span class="pt-scale-label">Time</span>
+                            <div class="pt-scale-dots" aria-hidden="true">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% case t.scales.time %}
+                                {% when 1 %}Short{% when 3 %}Long{% else %}Medium{% endcase %}
+                            </span>
+                        </div>
+                        <div class="pt-scale phases" data-mode="{{ t.scales.phases | default: 'single' }}">
+                            <span class="pt-scale-label">Phases</span>
+                            <div class="pt-scale-toggle" aria-hidden="true">
+                                <span class="opt" data-opt="single">Single</span>
+                                <span class="opt" data-opt="multi">Multi</span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% if t.scales.phases == 'multi' %}Multi‑phase{% else %}Single phase{% endif %}
+                            </span>
+                        </div>
+                        <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
+                            <span class="pt-scale-label">Pricing</span>
+                            <div class="pt-scale-toggle" aria-hidden="true">
+                                <span class="opt" data-opt="fixed">Fixed</span>
+                                <span class="opt" data-opt="hourly">Hourly</span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% if t.scales.pricing == 'hourly' %}Hourly{% else %}Fixed{% endif %}
+                            </span>
+                        </div>
+                    </div>
                     <div class="pt-grid">
                         <div class="pt-col">
                             <h3>Typical briefs</h3>

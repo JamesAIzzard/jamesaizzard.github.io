@@ -16,6 +16,10 @@ types:
       - 3D models & manufacturing drawings
     id: cad
     label: General CAD
+    scales:
+      time: 1
+      phases: single
+      pricing: fixed
   - briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
       - We need a 3D scan and a parametric rebuild.
@@ -32,6 +36,10 @@ types:
       - 3D models & manufacturing drawings
     id: cad
     label: Concept Development
+    scales:
+      time: 2
+      phases: single
+      pricing: fixed
   - briefs:
       - I need a custom machine to automate this experiment.
       - We need a test-rig to de-risk this aspect of a larger project and our main design team doesn't have the bandwidth.
@@ -48,6 +56,10 @@ types:
       - Ongoing support
     id: research
     label: Research & Equipment Development
+    scales:
+      time: 2
+      phases: multi
+      pricing: hourly
   - briefs:
       - I need to turn my idea into a prototype to show an investor.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
@@ -66,6 +78,10 @@ types:
       - Ongoing support
     id: product
     label: Simple Product Development
+    scales:
+      time: 2
+      phases: multi
+      pricing: fixed
   - briefs:
       - I need to turn my idea into a prototype to show an investor.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
@@ -84,3 +100,7 @@ types:
       - Ongoing support
     id: product
     label: Complex Product Development
+    scales:
+      time: 3
+      phases: multi
+      pricing: fixed
