@@ -73,9 +73,17 @@
                         </div>
                         <div class="pt-col">
                             <h3>Typical characteristics</h3>
-                            <ul class="pt-list">
+                            <ul class="pt-list pt-chars">
                                 {% for item in t.characteristics %}
-                                <li>{{ item }}</li>
+                                  {% if item.head %}
+                                    <li><span class="pt-char-head">{{ item.head }}:</span> <span class="pt-char-desc">{{ item.desc }}</span></li>
+                                  {% elsif item contains ':' %}
+                                    {% assign head = item | split: ':' | first | strip %}
+                                    {% assign desc = item | remove_first: head | remove_first: ':' | strip %}
+                                    <li><span class="pt-char-head">{{ head }}:</span> <span class="pt-char-desc">{{ desc }}</span></li>
+                                  {% else %}
+                                    <li>{{ item }}</li>
+                                  {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

@@ -17,6 +17,14 @@
   gap: 1rem;
 }
 
+/* Make the contact headline nearly as large as the hero title */
+.contact-text h1 {
+  font-size: clamp(1.9rem, calc(3.3vw + 0.95rem), 3.2rem);
+  line-height: 1.15;
+  margin: 0.4rem 0 0.6rem;
+  font-weight: 700;
+}
+
 /* Headings use unified h2 style; adjust spacing per layout if needed */
 .contact-text h2 { margin-bottom: 0.8rem; }
 

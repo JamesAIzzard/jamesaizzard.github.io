@@ -144,6 +144,17 @@
     padding-left: 1.1rem;
   }
   .pt-list li { margin: 0.25rem 0; }
+  .pt-list li::marker { color: var(--accent-1); }
+
+  /* Characteristics: emphasize heading term, keep description readable */
+  .pt-chars .pt-char-head {
+    font-weight: 600;
+  }
+  .pt-chars .pt-char-desc {
+    opacity: 0.95;
+  }
+  /* Characteristics: ensure standard bullets */
+  .pt-chars { list-style: disc; }
 
   .pt-steps {
     counter-reset: step;
