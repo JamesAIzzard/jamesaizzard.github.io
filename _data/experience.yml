@@ -1,145 +1,138 @@
+---
 groups:
   - id: core
-    title: Core Mechanical Design
+    items:
+      - level: 95
+        note: Core competency. Extensive experience designing diverse mechanisms and integrating electromechanical actuators.
+        skill: Mechanisms & Electromechanical
+      - level: 80
+        note: Extensive experience selecting and integrating bearing types, with a solid understanding of fits, preload, lubrication, and service life/limitations.
+        skill: Bearings
+      - level: 80
+        note: Experienced in selecting and integrating belts, pulleys, gears, lead screws, and chain drives, with a clear grasp of efficiency, backlash, and operating limits.
+        skill: Power transmission
+      - level: 90
+        note: Extensive experience designing enclosures and chassis across environments and manufacturing processes, with consideration for EMC, thermal management, cleanability, and fluid/particulate ingress and containment. Delivered safety-rated laser enclosures and interlocked access panels.
+        skill: Enclosures & Chassis
+      - level: 85
+        note: Designed IP-rated enclosures and both pressurised-fluid and vacuum systems, often requiring stringent chemical compatibility and cleanliness.
+        skill: Sealing & IP
+      - level: 60
+        note: Working knowledge of pneumatics and hydraulics. I would seek specialist input for complex circuit design and sizing, but I am comfortable implementing systems to a provided specification and designing the surrounding mechanics.
+        skill: Fluid Power Systems
+      - level: 60
+        note: Working knowledge of microfluidics. I would seek specialist input for fluidic design, modelling, and surface chemistry, but I am experienced in implementing printed, embossed, machined, and moulded components to a specialist specification.
+        skill: Microfluidics
+      - level: 80
+        note: Significant experience with the mechanical aspects of optical systems, including kinematic mounts and precision alignment features. I would involve an optical specialist for optical design and analysis, and I am comfortable implementing their specifications.
+        skill: Optics & Kinematic Alignment
     open: true
-    items:
-      - skill: "Mechanisms & electromechanical"
-        level: 95
-        note: "Bread-and-butter: precision linkages, actuators, motion systems."
-      - skill: "Enclosures & chassis"
-        level: 90
-        note: "From lab instruments to rugged housings; serviceability, thermal and EMC basics considered."
-      - skill: "Sealing & IP"
-        level: 85
-        note: "O-rings, gaskets, IP68 experience."
-      - skill: "Pneumatics"
-        level: 50
-        note: "Comfortable specifying valves/regulators and plumbing; partner for full circuit design."
-      - skill: "Hydraulics"
-        level: 50
-        note: "Implements to spec; collaborate with a hydraulic specialist on circuit design."
-      - skill: "Microfluidics"
-        level: 30
-        note: "Confident integrating existing chips/pumps; co-design new microfeatures with specialists."
-      - skill: "Kinematic alignment"
-        level: 80
-        note: "3-2-1 datums, fine adjusters and flexures for optics-grade positioning."
-      - skill: "Bearings"
-        level: 80
-        note: "Fits, preloads and life calculations across rolling and plain bearings."
-      - skill: "Power transmission"
-        level: 75
-        note: "Belts, gears, couplings and basic balancing."
-
+    title: Core Mechanical Design
   - id: dfm
+    items:
+      - level: 100
+        note: Trusted local partners, fast turnarounds; jigs/fixtures and sensible tolerances.
+        skill: CNC machining
+      - level: 90
+        note: Bend allowances, hems, PEMs, welded frames; clean flat-pattern workflows.
+        skill: Sheet metal
+      - level: 100
+        note: Trusted local partners for SLS/SLA/FDM/large-format.
+        skill: 3D printing
+      - level: 100
+        note: Lots of experience, trusted local partners.
+        skill: Laser / water-jet cutting
+      - level: 75
+        note: Experience with covers, guards and packaging; will seek early design reviews with supplier.
+        skill: Thermoforming
+      - level: 60
+        note: Solid grounding; will involve the foundry on gating, shrink and NDT from the outset.
+        skill: Casting
+      - level: 75
+        note: Good experience, but will seek design reviews with the supplier early.
+        skill: Injection moulding
+      - level: 30
+        note: Feasible with supplier input.
+        skill: Custom extrusions
     title: Designing for Manufacture
-    items:
-      - skill: "CNC machining"
-        level: 100
-        note: "Trusted local partners, fast turnarounds; jigs/fixtures and sensible tolerances."
-      - skill: "Sheet metal"
-        level: 90
-        note: "Bend allowances, hems, PEMs, welded frames; clean flat-pattern workflows."
-      - skill: "3D printing"
-        level: 100
-        note: "Trusted local partners for SLS/SLA/FDM/large-format."
-      - skill: "Laser / water-jet cutting"
-        level: 100
-        note: "Lots of experience, trusted local partners."
-      - skill: "Thermoforming"
-        level: 75
-        note: "Experience with covers, guards and packaging; will seek early design reviews with supplier."
-      - skill: "Casting"
-        level: 60
-        note: "Solid grounding; will involve the foundry on gating, shrink and NDT from the outset."
-      - skill: "Injection moulding"
-        level: 75
-        note: "Good experience, but will seek design reviews with the supplier early."
-      - skill: "Custom extrusions"
-        level: 30
-        note: "Feasible with supplier input."
-
   - id: docs
+    items:
+      - level: 75
+        note: Competent at sketching, but not an artist!
+        skill: Concept sketching
+      - level: 75
+        note: Lots of experience on large, regulated programmes.
+        skill: DFMEA
+      - level: 85
+        note: Crisp, decision-oriented write-ups with traceable assumptions.
+        skill: Technical reports
+      - level: 85
+        note: Can produce marketing-ready visuals.
+        skill: Rendering
     title: Documentation
-    items:
-      - skill: "Concept sketching"
-        level: 75
-        note: "Competent at sketching, but not an artist!"
-      - skill: "DFMEA"
-        level: 75
-        note: "Lots of experience on large, regulated programmes."
-      - skill: "Technical reports"
-        level: 85
-        note: "Crisp, decision-oriented write-ups with traceable assumptions."
-      - skill: "Rendering"
-        level: 85
-        note: "Can produce marketing-ready visuals."
-
   - id: analysis
+    items:
+      - level: 85
+        note: Good experience coding monte carlo assembly simulations in Python.
+        skill: Tolerance stacks & GD&T
+      - level: 90
+        note: Prefer to use Jupyter notebooks for calculations.
+        skill: General engineering calcs
+      - level: 90
+        note: Confident with frames, shafts and free-body diagrams.
+        skill: Statics
+      - level: 75
+        note: Reasonably confident, but would need to research specific topics.
+        skill: Dynamics
+      - level: 50
+        note: Would seek specialist input for detailed calculations.
+        skill: Fluid dynamics
+      - level: 40
+        note: Would seek specialist input for detailed calculations.
+        skill: Thermodynamics
+      - level: 90
+        note: Confident with all common calculations.
+        skill: Mechanics of materials
     title: Analysis & Calculations
-    items:
-      - skill: "Tolerance stacks & GD&T"
-        level: 85
-        note: "Good experience coding monte carlo assembly simulations in Python."
-      - skill: "General engineering calcs"
-        level: 90
-        note: "Prefer to use Jupyter notebooks for calculations."
-      - skill: "Statics"
-        level: 90
-        note: "Confident with frames, shafts and free-body diagrams."
-      - skill: "Dynamics"
-        level: 75
-        note: "Reasonably confident, but would need to research specific topics."
-      - skill: "Fluid dynamics"
-        level: 50
-        note: "Would seek specialist input for detailed calculations."
-      - skill: "Thermodynamics"
-        level: 40
-        note: "Would seek specialist input for detailed calculations."
-      - skill: "Mechanics of materials"
-        level: 90
-        note: "Confident with all common calculations."
-
   - id: electronics
+    items:
+      - level: 95
+        note: Spec and integrate motors, drives and sensors; tidy cable routing and basic EMC consideration.
+        skill: Systems integration
+      - level: 85
+        note: Interlocks/light curtains integrated mechanically; circuits reviewed by an electrical engineer.
+        skill: Safety systems
+      - level: 10
+        note: Engage an electronics engineer for all board design; I support mechanical integration.
+        skill: Custom PCB Design
+      - level: 100
+        note: Confident integrating PCB's into mechanical assemblies, and working with ECAD data.
+        skill: PCB Integration
+      - level: 80
+        note: Happy implementing a design with a qualified reviewer signing off.
+        skill: High-voltage systems
+      - level: 50
+        note: Confident integrating modules/antennas; defer to RF specialist for layout and compliance.
+        skill: RF systems
+      - level: 30
+        note: Basic probing/logs with a scope; deeper faults go to an electrical engineer.
+        skill: Debugging electronic systems
     title: Electronics
-    items:
-      - skill: "Systems integration"
-        level: 95
-        note: "Spec and integrate motors, drives and sensors; tidy cable routing and basic EMC consideration."
-      - skill: "Safety systems"
-        level: 85
-        note: "Interlocks/light curtains integrated mechanically; circuits reviewed by an electrical engineer."
-      - skill: "Custom PCB Design"
-        level: 10
-        note: "Engage an electronics engineer for all board design; I support mechanical integration."
-      - skill: "PCB Integration"
-        level: 100
-        note: "Confident integrating PCB's into mechanical assemblies, and working with ECAD data."
-      - skill: "High-voltage systems"
-        level: 80
-        note: "Happy implementing a design with a qualified reviewer signing off."
-      - skill: "RF systems"
-        level: 50
-        note: "Confident integrating modules/antennas; defer to RF specialist for layout and compliance."
-      - skill: "Debugging electronic systems"
-        level: 30
-        note: "Basic probing/logs with a scope; deeper faults go to an electrical engineer."
-
   - id: software
-    title: Software
     items:
-      - skill: "SolidWorks"
-        level: 95
-        note: "Advanced assemblies, drawings and surfacing; happy rescuing legacy models."
-      - skill: "Creo"
-        level: 75
-        note: "Comfortable with parametric workflows and large assemblies."
-      - skill: "Onshape"
-        level: 100
-        note: "Very confident with Onshape's unique features and workflows."
-      - skill: "Python"
-        level: 95
-        note: "Automation, data tools and testing; Jupyter for transparent calcs."
-      - skill: "C#"
-        level: 50
-        note: "Hands-on experience a few years back; could pick it up again."
+      - level: 95
+        note: Advanced assemblies, drawings and surfacing; happy rescuing legacy models.
+        skill: SolidWorks
+      - level: 75
+        note: Comfortable with parametric workflows and large assemblies.
+        skill: Creo
+      - level: 100
+        note: Very confident with Onshape's unique features and workflows.
+        skill: Onshape
+      - level: 95
+        note: Automation, data tools and testing; Jupyter for transparent calcs.
+        skill: Python
+      - level: 50
+        note: Hands-on experience a few years back; could pick it up again.
+        skill: C#
+    title: Software

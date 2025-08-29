@@ -3,7 +3,7 @@
         <div class="xp-section" aria-labelledby="xp-title">
             <header class="xp-header">
                 <h2 id="xp-title">Experience</h2>
-                <p class="xp-sub">A quick overview of where I'm strongest — and where I'm still learning.</p>
+                <p class="muted">A quick overview of where I'm strongest — and where I'm still learning.</p>
                 <div class="xp-colheads" aria-hidden="true">
                     <span>Skill</span>
                     <span>Experience</span>
@@ -26,7 +26,7 @@
                         <span class="xp-thermo" style="--level: {{ item.level }}%" title="{{ lvl_label }} ({{ item.level }}%)" aria-hidden="true">
                             <span class="tube"><span class="fill"></span></span>
                         </span>
-                        <meter class="sr-only" min="0" max="100" value="{{ item.level }}">{{ item.skill }}: {{ lvl_label | downcase }}</meter>
+                        <meter class="visually-hidden" min="0" max="100" value="{{ item.level }}">{{ item.skill }}: {{ lvl_label | downcase }}</meter>
                         <span class="xp-note">{{ item.note }}</span>
                     </li>
                     {% endfor %}
