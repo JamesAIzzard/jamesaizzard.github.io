@@ -1,53 +1,19 @@
-/* Experience section
-   Drop this into your SCSS partials folder (e.g. _sass/_experience.scss)
-   and @import "experience"; from your main site.scss.
-*/
-
-/* ---- Theme knobs (override to match your palette) ---- */
 .xp-section {
-  --xp-text:           var(--text, #eaeaea);
-  --xp-muted:          color-mix(in srgb, var(--xp-text) 60%, transparent);
-  --xp-border:         color-mix(in srgb, var(--xp-text) 30%, transparent);
   --xp-card:           color-mix(in srgb, #000 80%, #fff 20%); /* subtle panel on dark */
-  --xp-thermo-track:   color-mix(in srgb, var(--xp-text) 10%, transparent);
+  --xp-thermo-track:   color-mix(in srgb, var(--text) 10%, transparent);
   --xp-thermo-fill:    #4ade80; /* fallback green */
   --xp-thermo-fill-2:  #22c55e; /* gradient tail */
 
-  color: var(--xp-text);
+  color: var(--text);
 }
 
-/* Section spacing and rail gutters to match the site rhythm */
-#experience {
-  scroll-margin-top: 80px;
-  margin-top: 0;
-  padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(1.25rem, 5vw, 2rem);
-}
+#experience { scroll-margin-top: 80px; }
 #experience > .container { padding-inline: var(--rail-gutter); }
 
-/* If you already have .visually-hidden, you can remove this. */
-.sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 0, 0);
-  white-space: nowrap; border: 0;
-}
-
-/* ---- Layout ---- */
 .xp-header {
   display: grid;
   gap: .3rem;
   margin-bottom: .5rem;
-}
-
-.xp-header h2 {
-  margin: 0;
-  letter-spacing: .2px;
-}
-
-.xp-sub {
-  margin: 0;
-  opacity: .8;
 }
 
 .xp-colheads {
@@ -56,12 +22,11 @@
   grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
   gap: 1rem;
   font-size: .9rem;
-  color: var(--xp-muted);
-  border-bottom: 1px solid var(--xp-border);
+  color: var(--muted);
+  border-bottom: 1px solid var(--panel-edge);
   padding-bottom: .25rem;
 }
 
-/* Push groups closer together */
 .xp-group { margin-top: .4rem; }
 .xp-group + .xp-group { margin-top: .3rem; }
 
@@ -107,7 +72,7 @@
   grid-template-columns: 1fr minmax(160px, 260px) 1.5fr;
   gap: .8rem;
   padding: .25rem .2rem;
-  border-bottom: 1px dashed var(--xp-border);
+  border-bottom: 1px dashed var(--panel-edge);
 }
 
 .xp-row:last-child {
@@ -148,7 +113,7 @@
   height: var(--bulb);
   border-radius: 999px;
   transform: translateY(-50%);
-  border: 2px solid var(--xp-border);
+  border: 2px solid var(--panel-edge);
   background: var(--xp-thermo-track);
   box-shadow: inset 0 0 0 2px color-mix(in srgb, #000 20%, transparent);
 }
@@ -161,7 +126,7 @@
   height: var(--tube-h);
   transform: translateY(-50%);
   border-radius: 999px;
-  border: 2px solid var(--xp-border);
+  border: 2px solid var(--panel-edge);
   background: var(--xp-thermo-track);
   overflow: hidden;
 }
@@ -180,10 +145,9 @@
   );
 }
 
-/* Optional ticks (subtle) — comment out if you don’t want them */
 .xp-thermo .tube {
   background-image:
-    linear-gradient(90deg, color-mix(in srgb, var(--xp-text) 8%, transparent) 1px, transparent 1px);
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 8%, transparent) 1px, transparent 1px);
   background-size: 20% 100%;
 }
 
@@ -194,7 +158,7 @@
   flex-wrap: wrap;
   margin-top: .5rem;
   font-size: .9rem;
-  color: var(--xp-muted);
+  color: var(--muted);
 }
 
 .xp-legend i {
@@ -210,7 +174,6 @@
 .xp-legend .dot-c { background: color-mix(in oklab, var(--accent-1) 55%, var(--accent-2) 45%); }
 .xp-legend .dot-e { background: color-mix(in oklab, var(--accent-1) 90%, var(--accent-2) 10%); }
 
-/* ---- Responsive ---- */
 @media (max-width: 720px) {
   .xp-colheads { display: none; }
   .xp-row {
