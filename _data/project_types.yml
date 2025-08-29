@@ -21,19 +21,21 @@ types:
       phases: single
       pricing: fixed
   - briefs:
-      - We inherited non-parametric legacy CAD/drawings and need clean updates.
-      - We need a 3D scan and a parametric rebuild.
-      - I've drawn this thing on a napkin, and I need to get it made.
-      - This part has broken, and is no longer available, and I need a replacement.
-      - I need to modify this existing part to fit a new assembly.
+      - I need to turn my idea into a prototype to show an investor.
+      - I need help understanding the feasibility of my idea.
+      - I need some graphics to illustrate my concept.
+      - I need a detailed concept to get an early quote from a manufacturer.
+      - I need a visual model of my idea to help with fundraising.
     characteristics:
-      - Well-defined scope and requirements
-      - Generally straightforward
-      - Typically single fixed price quote
+      - Fairly open-ended scope and requirements
+      - Low risk, often justifying a single phase approach.
+      - Fixed price quote possible, depending on clarity of brief.
       - Typically fast turnaround
-      - Single package of work with low uncertainty
+      - Often some iteration as we explore the possible directions.
     deliverables:
-      - 3D models & manufacturing drawings
+      - Physical models
+      - 3D models & renderings
+      - Illustrations & concept documentation
     id: cad
     label: Concept Development
     scales:
@@ -61,16 +63,17 @@ types:
       phases: multi
       pricing: hourly
   - briefs:
-      - I need to turn my idea into a prototype to show an investor.
+      - I need to develop this concept into a manufacturable product.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
       - I need to develop the concept for my kickstarter campaign into a working device.
     characteristics:
-      - Higher risk, typically justifying a phase-gated approach.
+      - Simple product, single part or small assembly, often purely mechanical (no electronics or software).
+      - Typically involves a few phases depending on complexity and how well defined the brief is.
       - Clearly defined phase outputs and progression criteria.
       - Detailed documentation of design rationale.
-      - Collaboration with an industrial designer.
-      - Collaboration with an electrical engineer & software developer.
-      - Collaboration with various stakeholders throughout the process.
+      - May require collaboration with an industrial designer.
+      - May require collaboration with an electrical engineer & software developer.
+      - May require collaboration with various stakeholders throughout the process.
     deliverables:
       - Concepts, illustrations, detailed concept selection documentation
       - 3D models & manufacturing drawings
@@ -81,7 +84,7 @@ types:
     scales:
       time: 2
       phases: multi
-      pricing: fixed
+      pricing: hourly
   - briefs:
       - I need to turn my idea into a prototype to show an investor.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
@@ -90,9 +93,9 @@ types:
       - Higher risk, typically justifying a phase-gated approach.
       - Clearly defined phase outputs and progression criteria.
       - Detailed documentation of design rationale.
-      - Collaboration with an industrial designer.
-      - Collaboration with an electrical engineer & software developer.
-      - Collaboration with various stakeholders throughout the process.
+      - May require collaboration with an industrial designer.
+      - May require collaboration with an electrical engineer & software developer.
+      - May require collaboration with various stakeholders throughout the process.
     deliverables:
       - Concepts, illustrations, detailed concept selection documentation
       - 3D models & manufacturing drawings
@@ -103,4 +106,4 @@ types:
     scales:
       time: 3
       phases: multi
-      pricing: fixed
+      pricing: hourly
