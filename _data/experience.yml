@@ -117,19 +117,25 @@ groups:
     title: Electronics
   - id: software
     items:
-      - level: 95
-        note: Advanced assemblies, drawings and surfacing; happy rescuing legacy models.
-        skill: SolidWorks
-      - level: 75
-        note: Comfortable with parametric workflows and large assemblies.
-        skill: Creo
       - level: 100
-        note: Very confident with Onshape's unique features and workflows.
+        note: Very confident with Onshape's cloud-native workflows, collaboration tools, and unique feature set.
         skill: Onshape
       - level: 95
-        note: Automation, data tools and testing; Jupyter for transparent calcs.
+        note: Extensive experience with complex assemblies, detailed drawings, and surfacing. Comfortable rescuing and repairing legacy models.
+        skill: SolidWorks
+      - level: 75
+        note: Competent with parametric workflows and managing large assemblies. Would refresh knowledge as needed on a new project.
+        skill: PTC Creo
+      - level: 75
+        note: Significant experience a few years ago. Would refresh knowledge as needed on a new project.
+        skill: Autodesk Inventor
+      - level: 75
+        note: Confident producing photorealistic renderings. I would defer to a specialist for complex scenes or animations.
+        skill: Keyshot                
+      - level: 95
+        note: Strong capability in automation, data handling, and testing. Comfortable using Jupyter notebooks for transparent, version-controlled calculations. Confident building cleanly architected larger applications.
         skill: Python
       - level: 50
-        note: Hands-on experience a few years back; could pick it up again.
+        note: Hands-on experience a few years back. Could pick it up again quickly if required, though not a current core skill.
         skill: C#
     title: Software
