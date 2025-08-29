@@ -14,6 +14,8 @@
   --container-inline-gutter: 1rem; /* matches 100% - 2rem container rule */
   --edge-border: 1px; /* for border-aligned content widths */
   --rail-gutter: clamp(0.8rem, 2.2vw, 1rem); /* uniform inset from the vertical rails */
+  /* Section spacing */
+  --section-pad-y: clamp(1.25rem, 4vw, 2rem);
 }
 
 html {
@@ -52,6 +54,11 @@ body {
 .container {
   width: min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw));
   margin-inline: auto;
+}
+
+/* Default spacing for all sections; easy to override per-section */
+:where(section) {
+  padding: var(--section-pad-y) 0;
 }
 
 /* Utility: make an element's visual width align with the container when it has a 1px border either side */

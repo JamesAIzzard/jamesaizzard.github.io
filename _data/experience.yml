@@ -3,7 +3,7 @@ groups:
   - id: core
     items:
       - level: 95
-        note: Core competency. Extensive experience designing diverse mechanisms and integrating electromechanical actuators.
+        note: Extensive experience designing diverse mechanisms and integrating electromechanical actuators.
         skill: Mechanisms & Electromechanical
       - level: 80
         note: Extensive experience selecting and integrating bearing types, with a solid understanding of fits, preload, lubrication, and service life/limitations.
@@ -23,7 +23,7 @@ groups:
       - level: 60
         note: Working knowledge of microfluidics. I would seek specialist input for fluidic design, modelling, and surface chemistry, but I am experienced in implementing printed, embossed, machined, and moulded components to a specialist specification.
         skill: Microfluidics
-      - level: 80
+      - level: 90
         note: Significant experience with the mechanical aspects of optical systems, including kinematic mounts and precision alignment features. I would involve an optical specialist for optical design and analysis, and I am comfortable implementing their specifications.
         skill: Optics & Kinematic Alignment
     open: true
@@ -31,43 +31,40 @@ groups:
   - id: dfm
     items:
       - level: 100
-        note: Trusted local partners, fast turnarounds; jigs/fixtures and sensible tolerances.
-        skill: CNC machining
+        note: Extensive experience across 3-, 4-, and 5-axis milling/turning, tolerance stacks, surface finish, fixturing, and cost drivers. Strong local supplier network.
+        skill: CNC Machining
       - level: 90
-        note: Bend allowances, hems, PEMs, welded frames; clean flat-pattern workflows.
-        skill: Sheet metal
+        note: Extensive experience with bend design (K-factor, minimum flange, radii), hardware, weldments, and finishing. Proven local suppliers.
+        skill: Sheet Metal
       - level: 100
-        note: Trusted local partners for SLS/SLA/FDM/large-format.
-        skill: 3D printing
+        note: Experienced with FDM, SLA, SLS/MJF; design for orientation, supports, tolerances, and post-processing. Strong local supplier network. I run two FDM printers in house for very early prototyping and design exploration.
+        skill: 3D Printing
       - level: 100
-        note: Lots of experience, trusted local partners.
-        skill: Laser / water-jet cutting
+        note: Regular use for prototypes and production, mindful of kerf/HAZ/taper, etc. Strong local suppliers.
+        skill: Laser, Waterjet Cutting & Photo-etching
       - level: 75
-        note: Experience with covers, guards and packaging; will seek early design reviews with supplier.
+        note: Comfortable designing parts and trim features with draw ratios, radii, and draft in mind. I collaborate closely with specialist suppliers on tooling and forming parameters.
         skill: Thermoforming
-      - level: 60
-        note: Solid grounding; will involve the foundry on gating, shrink and NDT from the outset.
-        skill: Casting
       - level: 75
-        note: Good experience, but will seek design reviews with the supplier early.
-        skill: Injection moulding
-      - level: 30
-        note: Feasible with supplier input.
-        skill: Custom extrusions
+        note: Good working knowledge. I have experience designing with draft, specific wall thickness, ribs, and control of sink/warp, and collaborate with toolmakers on gating/cooling, tolerances, and material selection.
+        skill: Injection Moulding
+      - level: 60
+        note: Some experience designing castable components with draft, wall thickness, ribs, and feature control in mind. I rely on supplier DFM feedback for finer details such as gating, cooling, and tolerance management, and engage toolmakers early in the process to guide the design. As with moulding, I would engage the supplier early in the process to guide the design.
+        skill: Casting
     title: Designing for Manufacture
   - id: docs
     items:
       - level: 75
-        note: Competent at sketching, but not an artist!
-        skill: Concept sketching
+        note: Competent at producing clear sketches to communicate ideas and mechanisms. Not a professional illustrator, but effective at rapid concept visualisation.
+        skill: Concept Sketching
       - level: 75
-        note: Lots of experience on large, regulated programmes.
+        note: Experienced in contributing to DFMEA as part of large, regulated programmes.
         skill: DFMEA
       - level: 85
-        note: Crisp, decision-oriented write-ups with traceable assumptions.
-        skill: Technical reports
+        note: Strong experience writing concise, decision-oriented reports with clear, traceable assumptions and recommendations.
+        skill: Technical Reports
       - level: 85
-        note: Can produce marketing-ready visuals.
+        note: Capable of producing polished, marketing-ready visuals to support presentations, proposals, and design reviews.
         skill: Rendering
     title: Documentation
   - id: analysis
