@@ -5,27 +5,27 @@ groups:
       - level: 95
         note: Extensive experience designing diverse mechanisms and integrating electromechanical actuators.
         skill: Mechanisms & Electromechanical
+      - level: 90
+        note: Extensive experience designing enclosures and chassis across environments and manufacturing processes, with consideration for EMC, thermal management, cleanability, and fluid/particulate ingress and containment. Delivered safety-rated laser enclosures and interlocked access panels.
+        skill: Enclosures & Chassis
+      - level: 90
+        note: Significant experience with the mechanical aspects of optical systems, including kinematic mounts and precision alignment features. I would involve an optical specialist for optical design and analysis, and I am comfortable implementing their specifications.
+        skill: Optics & Kinematic Alignment
+      - level: 85
+        note: Designed IP-rated enclosures and both pressurised-fluid and vacuum systems, often requiring stringent chemical compatibility and cleanliness.
+        skill: Sealing & IP Ratings
       - level: 80
         note: Extensive experience selecting and integrating bearing types, with a solid understanding of fits, preload, lubrication, and service life/limitations.
         skill: Bearings
       - level: 80
         note: Experienced in selecting and integrating belts, pulleys, gears, lead screws, and chain drives, with a clear grasp of efficiency, backlash, and operating limits.
         skill: Power transmission
-      - level: 90
-        note: Extensive experience designing enclosures and chassis across environments and manufacturing processes, with consideration for EMC, thermal management, cleanability, and fluid/particulate ingress and containment. Delivered safety-rated laser enclosures and interlocked access panels.
-        skill: Enclosures & Chassis
-      - level: 85
-        note: Designed IP-rated enclosures and both pressurised-fluid and vacuum systems, often requiring stringent chemical compatibility and cleanliness.
-        skill: Sealing & IP
       - level: 60
         note: Working knowledge of pneumatics and hydraulics. I would seek specialist input for complex circuit design and sizing, but I am comfortable implementing systems to a provided specification and designing the surrounding mechanics.
         skill: Fluid Power Systems
       - level: 60
         note: Working knowledge of microfluidics. I would seek specialist input for fluidic design, modelling, and surface chemistry, but I am experienced in implementing printed, embossed, machined, and moulded components to a specialist specification.
         skill: Microfluidics
-      - level: 90
-        note: Significant experience with the mechanical aspects of optical systems, including kinematic mounts and precision alignment features. I would involve an optical specialist for optical design and analysis, and I am comfortable implementing their specifications.
-        skill: Optics & Kinematic Alignment
     open: true
     title: Core Mechanical Design
   - id: dfm
@@ -33,15 +33,15 @@ groups:
       - level: 100
         note: Extensive experience across 3-, 4-, and 5-axis milling/turning, tolerance stacks, surface finish, fixturing, and cost drivers. Strong local supplier network.
         skill: CNC Machining
-      - level: 90
-        note: Extensive experience with bend design (K-factor, minimum flange, radii), hardware, weldments, and finishing. Proven local suppliers.
-        skill: Sheet Metal
       - level: 100
         note: Experienced with FDM, SLA, SLS/MJF; design for orientation, supports, tolerances, and post-processing. Strong local supplier network. I run two FDM printers in house for very early prototyping and design exploration.
         skill: 3D Printing
       - level: 100
         note: Regular use for prototypes and production, mindful of kerf/HAZ/taper, etc. Strong local suppliers.
         skill: Laser, Waterjet Cutting & Photo-etching
+      - level: 90
+        note: Extensive experience with bend design (K-factor, minimum flange, radii), hardware, weldments, and finishing. Proven local suppliers.
+        skill: Sheet Metal
       - level: 75
         note: Comfortable designing parts and trim features with draw ratios, radii, and draft in mind. I collaborate closely with specialist suppliers on tooling and forming parameters.
         skill: Thermoforming
@@ -54,66 +54,66 @@ groups:
     title: Designing for Manufacture
   - id: docs
     items:
-      - level: 75
-        note: Competent at producing clear sketches to communicate ideas and mechanisms. Not a professional illustrator, but effective at rapid concept visualisation.
-        skill: Concept Sketching
-      - level: 75
-        note: Experienced in contributing to DFMEA as part of large, regulated programmes.
-        skill: DFMEA
       - level: 85
         note: Strong experience writing concise, decision-oriented reports with clear, traceable assumptions and recommendations.
         skill: Technical Reports
       - level: 85
         note: Capable of producing polished, marketing-ready visuals to support presentations, proposals, and design reviews.
         skill: Rendering
+      - level: 75
+        note: Competent at producing clear sketches to communicate ideas and mechanisms. Not a professional illustrator, but effective at rapid concept visualisation.
+        skill: Concept Sketching
+      - level: 75
+        note: Experienced in contributing to DFMEA as part of large, regulated programmes.
+        skill: DFMEA
     title: Documentation
   - id: analysis
     items:
-      - level: 85
-        note: Good experience coding monte carlo assembly simulations in Python.
-        skill: Tolerance stacks & GD&T
       - level: 90
-        note: Prefer to use Jupyter notebooks for calculations.
-        skill: General engineering calcs
+        note: Extensive experience performing and presenting a broad range of engineering calculations using Jupyter/Python. Comfortable with uncertainty quantification and sensitivity analysis to identify key parameters and validate assumptions.
+        skill: General Engineering Calcs
       - level: 90
-        note: Confident with frames, shafts and free-body diagrams.
+        note: Confident with vectors, equilibrium, resultants, structures, internal forces, simple friction, inertia, etc. Lots of experience modelling complex static systems with Jupyter/Python to inform and validate designs.
         skill: Statics
+      - level: 90
+        note: Confident with stress/strain, beams, torsion, buckling, bolted/interference joints, and fatigue basics. Apply appropriate safety factors and validate with calculation and test where needed.
+        skill: Mechanics of Materials
+      - level: 85
+        note: Trained and experienced with datum strategy and GD&T (ASME Y14.5 and ISO GPS). Experience performing and visualising worst-case/RSS stacks and Monte Carlo assembly simulations in Python.
+        skill: Tolerance Stacks & GD&T
       - level: 75
-        note: Reasonably confident, but would need to research specific topics.
+        note: Working knowledge of kinematics and kinetics. Practical experience of vibrations and resonance in mechanisms. I can research more complex topics to develop calculations as needed.
         skill: Dynamics
       - level: 50
-        note: Would seek specialist input for detailed calculations.
-        skill: Fluid dynamics
+        note: Good understanding of basic fluid principles, but am less confident with advanced topics. I would seek specialist input for complex fluid systems, but I'm always willing to research and learn where required.
+        skill: Fluid Dynamics
       - level: 40
-        note: Would seek specialist input for detailed calculations.
+        note: I have some experience with basic heat transfer calculations and estimates, but would seek specialist input for more complex thermal systems. I'm always willing to research and learn where required.
         skill: Thermodynamics
-      - level: 90
-        note: Confident with all common calculations.
-        skill: Mechanics of materials
     title: Analysis & Calculations
   - id: electronics
     items:
       - level: 95
-        note: Spec and integrate motors, drives and sensors; tidy cable routing and basic EMC consideration.
-        skill: Systems integration
-      - level: 85
-        note: Interlocks/light curtains integrated mechanically; circuits reviewed by an electrical engineer.
-        skill: Safety systems
-      - level: 10
-        note: Engage an electronics engineer for all board design; I support mechanical integration.
-        skill: Custom PCB Design
-      - level: 100
-        note: Confident integrating PCB's into mechanical assemblies, and working with ECAD data.
+        note: Experienced in specifying and integrating motors, drives, sensors, and controllers. Comfortable with tidy cable routing, grounding, and basic EMC considerations.
+        skill: Systems Integration
+      - level: 90
+        note: Confident in integrating PCBs into mechanical assemblies, interpreting ECAD data, and ensuring accessibility, thermal management, and serviceability.
         skill: PCB Integration
+      - level: 85
+        note: Experienced in integrating interlocks, light curtains, and e-stops into mechanical systems. I would involve an electrical engineer to design and sign off circuits.
+        skill: Safety Systems
       - level: 80
-        note: Happy implementing a design with a qualified reviewer signing off.
-        skill: High-voltage systems
+        note: Broad experience implementing high-voltage designs and enclosures which have been specified by an electrical engineer. Final review and sign-off by a qualified electrical engineer.
+        skill: High-Voltage Systems
       - level: 50
-        note: Confident integrating modules/antennas; defer to RF specialist for layout and compliance.
-        skill: RF systems
+        note: Some experience integrating RF modules and antennas mechanically, with awareness of shielding and placement effects. I'd require RF specialists for layout and compliance.
+        skill: RF Systems
       - level: 30
-        note: Basic probing/logs with a scope; deeper faults go to an electrical engineer.
-        skill: Debugging electronic systems
+        note: Basic capability for probing signals and logging with an oscilloscope. I engage electrical engineers for deeper fault-finding and circuit-level troubleshooting.
+        skill: Debugging Electronic Systems
+      - level: 10
+        note: Not a capability I offer directly. I engage electronics engineers for all board design and support them with mechanical integration requirements.
+        skill: Custom PCB Design
     title: Electronics
   - id: software
     items:
