@@ -1,12 +1,25 @@
 .site-footer {
-  padding: 3rem 0 4rem;
+  /* Match header row visual height */
+  padding: 0; /* handled by inner container for parity with header */
+  min-height: calc(36px + 2 * 0.9rem); /* logo height + vertical padding */
   color: #a6a8bd;
-  text-align: center;
+  text-align: left;
   font-size: 0.95rem;
+  /* Center footer content vertically within this min-height */
+  display: flex;
+  align-items: center;
   /* Show utility border only on the top edge */
   border-left: 0;
   border-right: 0;
   border-bottom: 0;
+}
+
+/* Mirror header container spacing and vertically center content */
+.site-footer .container {
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem; /* same as #site-header .container */
+  /* Let height be intrinsic; parent flex centers the row */
 }
 
 /* Invert the drop shadow so it defines the top edge */

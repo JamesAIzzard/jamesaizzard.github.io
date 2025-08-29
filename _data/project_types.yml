@@ -1,0 +1,186 @@
+---
+types:
+  - id: cad
+    label: General CAD
+    briefs:
+      - We inherited non-parametric legacy CAD/drawings and need clean updates.
+      - We need a 3D scan and a parametric rebuild.
+      - I've drawn this thing on a napkin, and I need to get it made.
+      - This part has broken, and is no longer available, and I need a replacement.
+      - I need to modify this existing part to fit a new assembly.
+    characteristics:
+      - head: Scope & requirements
+        desc: Well-defined; creation, updates or modifications to geometry.
+      - head: Uncertainty & risk
+        desc: Low; constraints are clear and solution is straightforward.
+      - head: Phasing
+        desc: Single pass with a clear hand-off.
+      - head: Pricing
+        desc: A fixed-price quote is often possible.
+      - head: Turnaround
+        desc: Fast (days).
+      - head: Collaboration
+        desc: Usually solo; check-ins with you and suppliers as needed.
+      - head: Analysis & calculations
+        desc: Minimal; tolerance/fit checks where required.
+      - head: Prototyping
+        desc: Manufactured parts are often required.
+      - head: Documentation & rationale
+        desc: Parametric CAD and manufacturing drawings.
+    deliverables:
+      - Physical parts
+      - Parametric CAD
+      - Manufacturing drawings
+    scales:
+      time: 1
+      phases: single
+      pricing: fixed
+
+  - id: concept
+    label: Concept Development
+    briefs:
+      - I need to turn my idea into a prototype to show an investor.
+      - Can we create some concepts to explore the feasibility of my idea?
+      - I need some graphics to illustrate my concept.
+      - I need a detailed concept to get an early quote from a manufacturer.
+      - I need a visual model of my idea to help with fundraising.
+    characteristics:
+      - head: Scope & requirements
+        desc: Emerging; intent is clear but details are open.
+      - head: Uncertainty & risk
+        desc: Low to moderate; exploration within a defined envelope.
+      - head: Phasing
+        desc: Single phase with iterative reviews; can extend if needed.
+      - head: Pricing
+        desc: Fixed-price concept package may be possible when the brief is clear.
+      - head: Turnaround
+        desc: Generally fast (days to weeks).
+      - head: Collaboration
+        desc: Light; mainly with the founder/product owner.
+      - head: Analysis & calculations
+        desc: First-order calculations to support design options.
+      - head: Prototyping
+        desc: Sketch, visual models and physical mock-ups.
+      - head: Documentation & rationale
+        desc: Concepts, renderings, and selection rationale.
+    deliverables:
+      - Physical models
+      - Parametric CAD
+      - Renderings
+      - Illustrations
+      - Concept selection documentation
+    scales:
+      time: 2
+      phases: single
+      pricing: fixed
+
+  - id: research
+    label: Research & Equipment Development
+    briefs:
+      - I need a custom machine to automate this experiment.
+      - We need a test-rig to de-risk this aspect of a larger project and our main design team doesn't have the bandwidth.
+      - Our production team is struggling with this aspect of assembly and needs this assembly tooling.
+    characteristics:
+      - head: Scope & requirements
+        desc: Technical goal clearly defined; solution space open.
+      - head: Uncertainty & risk
+        desc: Moderate; empirical learning expected.
+      - head: Phasing
+        desc: Phase-gated typically (explore → prototype → refine).
+      - head: Pricing
+        desc: Typically hourly; fixed-price blocks for well-bounded tasks.
+      - head: Turnaround
+        desc: Weeks to a couple of months, driven by experiments, lead times and complexity.
+      - head: Collaboration
+        desc: Often requires collaboration with scientists/engineers/operators.
+      - head: Analysis & calculations
+        desc: Targeted calculations/measurements to inform design choices.
+      - head: Prototyping
+        desc: Often requires one or more functional rigs with incremental testing.
+      - head: Documentation & rationale
+        desc: Parametric CAD, manufacturing drawings, and design rationale.
+    deliverables:
+      - Parametric CAD
+      - Manufacturing drawings
+      - Assembly drawings
+      - Functional prototype
+      - Ongoing support
+    scales:
+      time: 2
+      phases: multi
+      pricing: hourly
+
+  - id: product-simple
+    label: Simple Product Development
+    briefs:
+      - I need to develop this concept into a manufacturable product.
+      - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
+      - I need to develop the concept for my Kickstarter campaign into a working device.
+    characteristics:
+      - head: Scope & requirements
+        desc: Focused scope; single part or small assembly, often purely mechanical.
+      - head: Uncertainty & risk
+        desc: Moderate; depending on complexity and novelty.
+      - head: Phasing
+        desc: Phase-gated typically (refine brief → concepts → de-risk → detail → alpha → beta → handover).
+      - head: Pricing
+        desc: Typically hourly with milestone reviews; fixed-price for discrete, well-defined packages.
+      - head: Turnaround
+        desc: Several weeks to a few months, depending on supplier lead times.
+      - head: Collaboration
+        desc: Often requires collaboration with industrial designers, electrical/software engineers, suppliers, and stakeholders.
+      - head: Analysis & calculations
+        desc: Deeper analysis and verification planning as appropriate.
+      - head: Prototyping
+        desc: One or more working prototypes for fit/function.
+      - head: Documentation & rationale
+        desc: Formal design documentation with traceable decisions.
+    deliverables:
+      - Concepts and illustrations
+      - Detailed design rationale documentation
+      - Parametric CAD
+      - Manufacturing drawings
+      - Assembly drawings
+      - Working prototype(s)
+      - Ongoing support
+    scales:
+      time: 2
+      phases: multi
+      pricing: hourly
+
+  - id: product-complex
+    label: Complex Product Development
+    briefs:
+      - I need to turn my idea into a beta prototype, suitable for volume production, to show an investor.
+      - I need to progress this concept to a beta prototype, ready for handover to our contract manufacturer.
+    characteristics:
+      - head: Scope & requirements
+        desc: System-level product with multiple subsystems.
+      - head: Uncertainty & risk
+        desc: Higher; often higher complexity.
+      - head: Phasing
+        desc: Phase-gated typically (refine brief → concepts → de-risk → detail → alpha → beta → handover).
+      - head: Pricing
+        desc: Typically hourly with milestone reviews; fixed-price for discrete, well-defined packages.
+      - head: Turnaround
+        desc: Multiple months; schedule driven by iteration and supply chain.
+      - head: Collaboration
+        desc: Often requires collaboration with industrial designers, electrical/software engineers, suppliers, and stakeholders.
+      - head: Analysis & calculations
+        desc: Deeper analysis and verification planning as appropriate.
+      - head: Prototyping
+        desc: Several builds across alpha → beta with structured testing.
+      - head: Documentation & rationale
+        desc: Formal design documentation with traceable decisions.
+    deliverables:
+      - Concepts and illustrations
+      - Detailed design rationale documentation
+      - Parametric CAD
+      - Manufacturing drawings
+      - Assembly drawings
+      - Working prototype(s)
+      - Ongoing support
+    scales:
+      time: 3
+      phases: multi
+      pricing: hourly

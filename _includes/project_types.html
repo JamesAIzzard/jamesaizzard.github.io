@@ -3,6 +3,8 @@
 
         <div class="pt-box border-panel" data-pt>
 
+            {% assign pt = site.data.project_types %}
+
             <header class="pt-header panel-surface--lit">
                 <h2 class="quote">What do your typical projects look like?</h2>
                 <p class="pt-subtitle">
@@ -11,115 +13,83 @@
                 </p>
             </header>
 
-            <div class="pt-tablist" role="tablist" aria-label="Typical projects">
-                <button class="pt-tab is-active" id="tab-cad" role="tab" aria-selected="true" aria-controls="panel-cad">
-                    General CAD tasks
-                </button>
-                <button class="pt-tab" id="tab-research" role="tab" aria-selected="false"
-                    aria-controls="panel-research">
-                    Research & lab equipment development
-                </button>
-                <button class="pt-tab" id="tab-product" role="tab" aria-selected="false" aria-controls="panel-product">
-                    Product development (to Alpha/Beta)
-                </button>
+            <div class="pt-tablist">
+                {% for t in pt.types %}
+                <button class="pt-tab{% if forloop.first %} is-active{% endif %}">{{ t.label }}</button>
+                {% endfor %}
             </div>
 
             <div class="pt-panels">
-                <section id="panel-cad" role="tabpanel" aria-labelledby="tab-cad">
+                {% for t in pt.types %}
+                <section class="pt-panel"{% unless forloop.first %} hidden{% endunless %}>
+                    <div class="pt-scales">
+                        <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
+                            <span class="pt-scale-label">Time</span>
+                            <div class="pt-scale-dots" aria-hidden="true">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% case t.scales.time %}
+                                {% when 1 %}Shorter{% when 3 %}Longer{% else %}Medium{% endcase %}
+                            </span>
+                        </div>
+                        <div class="pt-scale phases" data-mode="{{ t.scales.phases | default: 'single' }}">
+                            <span class="pt-scale-label">Phases</span>
+                            <div class="pt-scale-toggle" aria-hidden="true">
+                                <span class="opt" data-opt="single">Single</span>
+                                <span class="opt" data-opt="multi">Multi</span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% if t.scales.phases == 'multi' %}Multi‑phase{% else %}Single phase{% endif %}
+                            </span>
+                        </div>
+                        <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
+                            <span class="pt-scale-label">Pricing</span>
+                            <div class="pt-scale-toggle" aria-hidden="true">
+                                <span class="opt" data-opt="fixed">Fixed</span>
+                                <span class="opt" data-opt="hourly">Hourly</span>
+                            </div>
+                            <span class="pt-scale-text">
+                                {% if t.scales.pricing == 'hourly' %}Typically hourly{% else %}Typically fixed{% endif %}
+                            </span>
+                        </div>
+                    </div>
                     <div class="pt-grid">
                         <div class="pt-col">
                             <h3>Typical briefs</h3>
                             <ul class="pt-list">
-                                <li class="mini-quote">We inherited non-parametric legacy CAD/drawings and need clean
-                                    updates.</li>
-                                <li class="mini-quote">We need a 3D scan and a parametric rebuild.</li>
-                                <li class="mini-quote">I've drawn this thing on a napkin, and I need to get it made.
-                                </li>
-                                <li class="mini-quote">This part has broken, and is no longer available, and I need a
-                                    replacement.</li>
-                                <li class="mini-quote">I need to modify this existing part to fit a new assembly.</li>
+                                {% for item in t.briefs %}
+                                <li class="mini-quote">{{ item }}</li>
+                                {% endfor %}
                             </ul>
                             <h3>Typical deliverables</h3>
                             <ul class="pt-list">
-                                <li>3D models & manufacturing drawings</li>
+                                {% for item in t.deliverables %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
                             </ul>
                         </div>
                         <div class="pt-col">
                             <h3>Typical characteristics</h3>
-                            <ul class="pt-list">
-                                <li>Well-defined scope and requirements</li>
-                                <li>Generally straightforward</li>
-                                <li>Typically single fixed price quote</li>
-                                <li>Typically fast turnaround</li>
-                                <li>Single package of work with low uncertainty</li>
+                            <ul class="pt-list pt-chars">
+                                {% for item in t.characteristics %}
+                                  {% if item.head %}
+                                    <li><span class="pt-char-head">{{ item.head }}:</span> <span class="pt-char-desc">{{ item.desc }}</span></li>
+                                  {% elsif item contains ':' %}
+                                    {% assign head = item | split: ':' | first | strip %}
+                                    {% assign desc = item | remove_first: head | remove_first: ':' | strip %}
+                                    <li><span class="pt-char-head">{{ head }}:</span> <span class="pt-char-desc">{{ desc }}</span></li>
+                                  {% else %}
+                                    <li>{{ item }}</li>
+                                  {% endif %}
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
                 </section>
-
-                <section id="panel-research" role="tabpanel" aria-labelledby="tab-research" hidden>
-                    <div class="pt-grid">
-                        <div class="pt-col">
-                            <h3>Typical briefs</h3>
-                            <ul class="pt-list">
-                                <li class="mini-quote">I need a custom machine to automate this experiment.</li>
-                                <li class="mini-quote">We need a test-rig to de-risk this aspect of a larger project and
-                                    our main design team doesn't have the bandwidth.</li>
-                                <li class="mini-quote">Our production team is struggling with this aspect of assembly
-                                    and needs this assembly tooling.</li>
-                            </ul>
-                            <h3>Typical deliverables</h3>
-                            <ul class="pt-list">
-                                <li>3D models & manufacturing drawings</li>
-                                <li>Functional prototype</li>
-                                <li>Ongoing support</li>
-                            </ul>
-                        </div>
-                        <div class="pt-col">
-                            <h3>Typical characteristics</h3>
-                            <ul class="pt-list">
-                                <li>May require a phase-gated approach, depending on complexity and risk.</li>
-                                <li>Often collaborative, with scientists, engineers and technicians.</li>
-                                <li>Collaboration with an electrical engineer & software developer.</li>
-                                <li>May require analysis and calculations to inform design.</li>
-                                <li>Often requires building one or multiple prototypes.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="panel-product" role="tabpanel" aria-labelledby="tab-product" hidden>
-                    <div class="pt-grid">
-                        <div class="pt-col">
-                            <h3>Typical briefs</h3>
-                            <ul class="pt-list">
-                                <li class="mini-quote">I need to turn my idea into a prototype to show an investor.</li>
-                                <li class="mini-quote">Our design team is fully occupied with other projects and we need
-                                    to progress this concept to beta prototype.</li>
-                                <li class="mini-quote">I need to develop the concept for my kickstarter campaign into a
-                                    working device.</li>
-                            </ul>
-                            <h3>Typical deliverables</h3>
-                            <ul class="pt-list">
-                                <li>Concepts, illustrations, detailed concept selection documentation</li>
-                                <li>3D models & manufacturing drawings</li>
-                                <li>Working prototype(s)</li>
-                                <li>Ongoing support</li>
-                            </ul>
-                        </div>
-                        <div class="pt-col">
-                            <h3>Typical characteristics</h3>
-                            <ul class="pt-list">
-                                <li>Higher risk, typically justifying a phase-gated approach.</li>
-                                <li>Clearly defined phase outputs and progression criteria.</li>
-                                <li>Detailed documentation of design rationale.</li>
-                                <li>Collaboration with an industrial designer.</li>
-                                <li>Collaboration with an electrical engineer & software developer.</li>
-                                <li>Collaboration with various stakeholders throughout the process.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -128,25 +98,19 @@
         (function () {
             const root = document.querySelector('[data-pt]');
             if (!root) return;
-            const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
-            const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+            const tabs = Array.from(root.querySelectorAll('.pt-tab'));
+            const panels = Array.from(root.querySelectorAll('.pt-panel'));
 
             function activate(idx) {
                 tabs.forEach((t, i) => {
                     const selected = i === idx;
                     t.classList.toggle('is-active', selected);
-                    t.setAttribute('aria-selected', selected ? 'true' : 'false');
-                    const panel = document.getElementById(t.getAttribute('aria-controls'));
-                    if (panel) panel.hidden = !selected;
+                    if (panels[i]) panels[i].hidden = !selected;
                 });
             }
 
             tabs.forEach((t, i) => {
                 t.addEventListener('click', () => activate(i));
-                t.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowRight') { e.preventDefault(); activate((i + 1) % tabs.length); tabs[(i + 1) % tabs.length].focus(); }
-                    if (e.key === 'ArrowLeft') { e.preventDefault(); activate((i - 1 + tabs.length) % tabs.length); tabs[(i - 1 + tabs.length) % tabs.length].focus(); }
-                });
             });
         })();
     </script>
