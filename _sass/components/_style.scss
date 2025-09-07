@@ -337,3 +337,26 @@ a:hover {
 .btn-pill:active { transform: translateY(0); filter: brightness(0.98); }
 .btn--accent-1 { --btn-accent: var(--accent-1); }
 .btn--accent-2 { --btn-accent: var(--accent-2); }
+
+/* Unify legibility for both green and blue pill buttons */
+.btn--accent-1,
+.btn--accent-2 {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 1px 2px rgba(0,0,0,0.45),
+    0 0 1px rgba(0,0,0,0.25);
+}
+
+.btn--accent-1 svg,
+.btn--accent-2 svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25));
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+/* Nudge arrow/icons on hover for both green and blue accent buttons */
+.btn--accent-1:hover svg,
+.btn--accent-2:hover svg {
+  transform: translateX(3px);
+}
