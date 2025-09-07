@@ -54,6 +54,9 @@ body {
   flex-direction: column;
 }
 
+/* Ensure elements with the HTML hidden attribute are truly hidden */
+template, [hidden] { display: none !important; }
+
 
 .container {
   width: min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw));

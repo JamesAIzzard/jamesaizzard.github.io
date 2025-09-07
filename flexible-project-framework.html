@@ -21,9 +21,60 @@ body_class: ff-page
             <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
             {% endfor %}
           </div>
-        {% for p in site.data.flexible_framework.intro %}
-        <p class="muted">{{ p }}</p>
-        {% endfor %}
+
+          <!-- Scales row for the selected project type -->
+          <div data-ff-pt-scales>
+            {% for t in pt.types %}
+            <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+              <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
+                <span class="pt-scale-label">Time</span>
+                <div class="pt-scale-dots" aria-hidden="true">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <span class="pt-scale-text">
+                  {% case t.scales.time %}
+                  {% when 1 %}Shorter{% when 3 %}Longer{% else %}Medium{% endcase %}
+                </span>
+              </div>
+              <div class="pt-scale stages">
+                <span class="pt-scale-label">Stages</span>
+                <div class="pt-scale-toggle" aria-hidden="true">
+                  {% for sid in t.stage_ids %}
+                  <span class="opt">{{ sid }}</span>
+                  {% endfor %}
+                </div>
+                <span class="pt-scale-text">Typical stages</span>
+              </div>
+              <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
+                <span class="pt-scale-label">Pricing</span>
+                <div class="pt-scale-toggle" aria-hidden="true">
+                  <span class="opt" data-opt="fixed">Fixed</span>
+                  <span class="opt" data-opt="hourly">Hourly</span>
+                </div>
+                <span class="pt-scale-text">
+                  {% if t.scales.pricing == 'hourly' %}Typically hourly{% else %}Typically fixed{% endif %}
+                </span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        <div data-ff-pt-intro>
+          {% for t in pt.types %}
+          <div class="ff-intro" data-pt-intro-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+            {% if t.framework_intro %}
+              {% for p in t.framework_intro %}
+              <p class="muted">{{ p }}</p>
+              {% endfor %}
+            {% else %}
+              {% for p in site.data.flexible_framework.intro %}
+              <p class="muted">{{ p }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
 
         <div class="ff-accordion" data-ff-accordion>
           {% for s in site.data.flexible_framework.stages %}
@@ -43,40 +94,6 @@ body_class: ff-page
         <div class="pt-panels" data-ff-pt-panels>
           {% for t in pt.types %}
           <section class="pt-panel" data-pt-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
-            <div class="pt-scales">
-              <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
-                <span class="pt-scale-label">Time</span>
-                <div class="pt-scale-dots" aria-hidden="true">
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                </div>
-                <span class="pt-scale-text">
-                  {% case t.scales.time %}
-                  {% when 1 %}Shorter{% when 3 %}Longer{% else %}Medium{% endcase %}
-                </span>
-              </div>
-              <div class="pt-scale phases" data-mode="{{ t.scales.phases | default: 'single' }}">
-                <span class="pt-scale-label">Phases</span>
-                <div class="pt-scale-toggle" aria-hidden="true">
-                  <span class="opt" data-opt="single">Single</span>
-                  <span class="opt" data-opt="multi">Multi</span>
-                </div>
-                <span class="pt-scale-text">
-                  {% if t.scales.phases == 'multi' %}Multi-phase{% else %}Single phase{% endif %}
-                </span>
-              </div>
-              <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
-                <span class="pt-scale-label">Pricing</span>
-                <div class="pt-scale-toggle" aria-hidden="true">
-                  <span class="opt" data-opt="fixed">Fixed</span>
-                  <span class="opt" data-opt="hourly">Hourly</span>
-                </div>
-                <span class="pt-scale-text">
-                  {% if t.scales.pricing == 'hourly' %}Typically hourly{% else %}Typically fixed{% endif %}
-                </span>
-              </div>
-            </div>
             <div class="pt-grid">
               <div class="pt-col">
                 <h3>Typical briefs</h3>
@@ -123,10 +140,14 @@ body_class: ff-page
     const tabsRoot = document.querySelector('[data-ff-pt-tabs]');
     const acc = document.querySelector('[data-ff-accordion]');
     const panelsRoot = document.querySelector('[data-ff-pt-panels]');
-    if(!tabsRoot || !acc) return;
+    const scalesRoot = document.querySelector('[data-ff-pt-scales]');
+    const introsRoot = document.querySelector('[data-ff-pt-intro]');
+    if(!tabsRoot) return;
     const tabs = Array.from(tabsRoot.querySelectorAll('.pt-tab'));
-    const stages = Array.from(acc.querySelectorAll('details[data-stage]'));
+    const stages = acc ? Array.from(acc.querySelectorAll('details[data-stage]')) : [];
     const panels = panelsRoot ? Array.from(panelsRoot.querySelectorAll('[data-pt-panel]')) : [];
+    const scalePanels = scalesRoot ? Array.from(scalesRoot.querySelectorAll('[data-pt-scales-panel]')) : [];
+    const introPanels = introsRoot ? Array.from(introsRoot.querySelectorAll('[data-pt-intro-panel]')) : [];
 
     // Map project type -> applicable stages (from site data)
     const ptMap = {
@@ -137,11 +158,13 @@ body_class: ff-page
 
     function applySelection(ptId){
       const on = new Set((ptMap[ptId]||[]).map(String));
-      stages.forEach(d => {
-        const id = d.getAttribute('data-stage');
-        const active = on.has(id);
-        d.classList.toggle('is-off', !active);
-      });
+      if (stages.length) {
+        stages.forEach(d => {
+          const id = d.getAttribute('data-stage');
+          const active = on.has(id);
+          d.classList.toggle('is-off', !active);
+        });
+      }
     }
 
     function activateTab(btn){
@@ -150,6 +173,12 @@ body_class: ff-page
       applySelection(id);
       if (panels.length) {
         panels.forEach(p => p.hidden = (p.getAttribute('data-pt-panel') !== id));
+      }
+      if (scalePanels.length) {
+        scalePanels.forEach(p => p.hidden = (p.getAttribute('data-pt-scales-panel') !== id));
+      }
+      if (introPanels.length) {
+        introPanels.forEach(p => p.hidden = (p.getAttribute('data-pt-intro-panel') !== id));
       }
     }
 

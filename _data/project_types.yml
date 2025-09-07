@@ -2,6 +2,9 @@
 types:
   - id: cad
     label: General CAD
+    framework_intro:
+      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
+      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
     stage_ids: [S1, S5, S6, S7, S8]
     briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
@@ -39,6 +42,9 @@ types:
 
   - id: concept
     label: Concept Development
+    framework_intro:
+      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
+      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
     stage_ids: [S1, S2, S3, S4]
     briefs:
       - I need to turn my idea into a prototype to show an investor.
@@ -78,6 +84,9 @@ types:
 
   - id: research
     label: Research & Equipment Development
+    framework_intro:
+      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
+      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need a custom machine to automate this experiment.
@@ -115,6 +124,9 @@ types:
 
   - id: product-simple
     label: Simple Product Development
+    framework_intro:
+      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
+      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to develop this concept into a manufacturable product.
@@ -154,6 +166,9 @@ types:
 
   - id: product-complex
     label: Complex Product Development
+    framework_intro:
+      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
+      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to turn my idea into a beta prototype, suitable for volume production, to show an investor.

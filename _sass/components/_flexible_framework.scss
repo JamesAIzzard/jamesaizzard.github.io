@@ -261,3 +261,12 @@ body.ff-page #project-types {
 #project-types .ff-accordion details.is-off { opacity: 0.45; }
 #project-types .ff-accordion details.is-off summary { filter: saturate(0.7); }
 
+/* Framework page: remove dashed borders above/below the widget bar */
+body.ff-page #project-types .pt-scales {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+/* Tighten space between expanders and the details block */
+body.ff-page #project-types .ff-accordion { margin-bottom: clamp(0.2rem, 0.8vw, 0.6rem); }
+body.ff-page #project-types .pt-panels { padding-top: 0; }
