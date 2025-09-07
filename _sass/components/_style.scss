@@ -316,3 +316,24 @@ a:hover {
 .mini-quote q::after {
   color: var(--accent-1);
 }
+
+/* Reusable pill button with configurable accent */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--btn-accent, var(--accent-1)) 94%, white),
+    color-mix(in oklab, var(--btn-accent, var(--accent-1)) 88%, black));
+  border: 1px solid var(--panel-edge);
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.28);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+.btn-pill:hover { transform: translateY(-1px); }
+.btn-pill:active { transform: translateY(0); filter: brightness(0.98); }
+.btn--accent-1 { --btn-accent: var(--accent-1); }
+.btn--accent-2 { --btn-accent: var(--accent-2); }

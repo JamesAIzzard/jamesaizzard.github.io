@@ -169,11 +169,31 @@
     text-align: center;
 }
 
-#modern-cad { padding-top: clamp(1.25rem, 4vw, 2rem); }
+#modern-cad { padding-top: 0; }
 #modern-cad #onshape-header { margin-bottom: clamp(0.4rem, 1.4vw, 0.8rem); }
 
 /* Uniform side gutters from the vertical rails for all content in this section */
-#modern-cad > .container { padding-inline: var(--rail-gutter); }
+#modern-cad > .container { padding-inline: 0; }
+
+/* Inner rounded container that continues from previous section */
+#modern-cad .mc-box {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--panel-edge); /* single dividing line to split the joined pill */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--panel);
+}
+
+/* Rail-aligned padding for content inside the container */
+#modern-cad .mc-box > #onshape-header {
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  padding-inline: var(--rail-gutter);
+}
+#modern-cad .mc-box > #onshape-stage {
+  padding-bottom: clamp(1.2rem, 3vw, 2rem);
+  padding-inline: var(--rail-gutter);
+}
 
 @media (min-width: 900px) {
     #onshape-copy a.button {
