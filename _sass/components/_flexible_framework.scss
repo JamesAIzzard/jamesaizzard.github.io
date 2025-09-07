@@ -288,6 +288,27 @@ body.ff-page #project-types .pt-header {
   }
 }
 
+/* Mobile: keep the icon modest and tuck it to the right below the intro */
+@media (max-width: 899px) {
+  /* Fade the art and place it behind the text on mobile */
+  body.ff-page #project-types .pt-header .ff-robot {
+    position: absolute;
+    left: 50%;
+    top: 0.2rem;
+    transform: translateX(-50%);
+    width: clamp(220px, 78vw, 420px);
+    height: auto;
+    opacity: 0.08;
+    filter: none;
+    pointer-events: none;
+  }
+  body.ff-page #project-types .pt-header > h2,
+  body.ff-page #project-types .pt-header > .pt-subtitle {
+    position: relative;
+    z-index: 1; /* ensure text sits above the faint art */
+  }
+}
+
 /* Prominent callout to emphasize flexibility of the framework */
 body.ff-page #project-types .ff-callout {
   margin: clamp(0.5rem, 1.5vw, 0.9rem) 0 clamp(0.6rem, 1.8vw, 1rem);
