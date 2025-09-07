@@ -1,0 +1,39 @@
+---
+layout: default
+title: Flexible Project Framework
+permalink: /flexible-project-framework/
+description: A flexible, staged framework for product development with expandable details for each phase.
+body_class: ff-page
+---
+
+<section id="project-types" class="panel-surface">
+  <div class="container">
+    <div class="ff-box border-panel">
+      <header class="pt-header panel-surface--lit">
+        <h2>Flexible Project Framework</h2>
+        <p class="pt-subtitle">{{ site.data.flexible_framework.subheading }}</p>
+      </header>
+
+      <div class="ff-body">
+        {% for p in site.data.flexible_framework.intro %}
+        <p class="muted">{{ p }}</p>
+        {% endfor %}
+
+        <div class="ff-accordion">
+          {% for s in site.data.flexible_framework.stages %}
+          <details>
+            <summary><span class="ff-step">{{ s.id }}</span> {{ s.title }}</summary>
+            <div class="ff-panel">
+              <p><strong>Goal:</strong> {{ s.goal }}</p>
+              <p><strong>Inputs:</strong> {{ s.inputs }}</p>
+              <p><strong>Activities:</strong> {{ s.activities }}</p>
+              <p><strong>Outputs:</strong> {{ s.outputs }}</p>
+              <p><strong>Exit:</strong> {{ s.exit }}</p>
+            </div>
+          </details>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

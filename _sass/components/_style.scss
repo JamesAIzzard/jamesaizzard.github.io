@@ -47,7 +47,11 @@ body {
       transparent 70%),
     var(--bg);
   background-blend-mode: screen, screen, screen, normal;
+  /* Sticky footer layout */
+  min-height: 100vh;
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -55,6 +59,9 @@ body {
   width: min(calc(100% - 2 * var(--container-inline-gutter)), var(--maxw));
   margin-inline: auto;
 }
+
+/* Allow main content to grow and push footer to bottom */
+main { flex: 1 0 auto; display: block; }
 
 /* Default spacing for all sections; easy to override per-section */
 :where(section) {

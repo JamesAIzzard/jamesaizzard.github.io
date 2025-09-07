@@ -167,3 +167,92 @@
 #project-types .fp-arrow-link:hover .fp-arrow { transform: translateX(3px); }
 
 /* Legibility for buttons is now unified globally via .btn--accent-* in _style.scss */
+
+/* Accordion styles for the framework page */
+#project-types .ff-accordion {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+#project-types .ff-accordion details {
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.6rem;
+  background: color-mix(in oklab, var(--panel) 92%, black);
+  overflow: hidden;
+}
+
+#project-types .ff-accordion summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+}
+
+#project-types .ff-accordion summary::-webkit-details-marker { display: none; }
+
+#project-types .ff-accordion summary::after {
+  content: '\25BC';
+  margin-left: auto;
+  font-size: 0.9em;
+  transform: rotate(0deg);
+  transition: transform 120ms ease;
+}
+
+#project-types .ff-accordion details[open] summary::after {
+  transform: rotate(-180deg);
+}
+
+#project-types .ff-accordion .ff-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: #fff;
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--accent-2) 94%, white),
+    color-mix(in oklab, var(--accent-2) 88%, black));
+  border: 1px solid var(--panel-edge);
+  width: 2.1rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.25);
+}
+
+#project-types .ff-accordion .ff-panel {
+  padding: 0 1rem 0.9rem;
+}
+
+/* Full-page framework overrides: keep the inner frame rounded top and bottom,
+   and stretch the frame to fill the available page height */
+body.ff-page main { display: flex; flex-direction: column; }
+body.ff-page #project-types { flex: 1 1 auto; display: flex; }
+/* Let the container keep its global max-width & auto margins like the homepage */
+body.ff-page #project-types .container { display: flex; flex-direction: column; /* no flex-grow here */ }
+body.ff-page #project-types .ff-box {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  /* restore bottom radii and bottom border for standalone page */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-bottom: 1px solid var(--panel-edge);
+}
+body.ff-page #project-types .ff-body { flex: 1 1 auto; }
+
+/* On the full page, add vertical breathing room between the outer background
+   and the inner lit frame, matching default section rhythm */
+body.ff-page #project-types {
+  padding: var(--section-pad-y) 0;
+}
+
+/* Consistent inner rail gutters for body content */
+#project-types .ff-body {
+  padding-inline: var(--rail-gutter);
+  padding-bottom: clamp(1rem, 3vw, 1.5rem);
+}
