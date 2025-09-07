@@ -151,7 +151,11 @@
   }
 }
 
-#project-types .fp-cta { display: flex; margin: 0; justify-content: center; align-items: center; }
+#project-types .fp-cta { display: flex; margin: 0; justify-content: flex-start; align-items: center; }
+@media (min-width: 900px) {
+  /* Center the button within the RHS area, while the container stays stretched for the background */
+  #project-types .fp-cta { justify-content: center; }
+}
 
 #project-types .fp-arrow-link { @extend .btn-pill; }
 

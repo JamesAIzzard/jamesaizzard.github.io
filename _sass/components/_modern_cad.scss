@@ -1,15 +1,17 @@
 /* Modern CAD section */
 
-/* Header: title/subtitle on left, logo on right */
+/* Header: stack on mobile; two-column (headings | actions) on desktop */
 #onshape-header {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: 'headings';
+    grid-template-areas:
+        'headings'
+        'actions';
     align-items: center;
     gap: clamp(0.6rem, 1.6vw, 1rem);
 }
 .onshape-headings { grid-area: headings; }
-#onshape-header .onshape-actions { display: none; }
+#onshape-header .onshape-actions { grid-area: actions; display: inline-flex; justify-self: start; }
 
 .onshape-headings {
     display: grid;
@@ -72,23 +74,22 @@
 }
 
 @media (min-width: 900px) {
-    /* Desktop: grid layout to place actions under image */
+    /* Desktop: figure left, copy right; actions live in header on the right */
     #onshape-stage {
         display: grid;
         grid-template-columns: min(42%, 520px) 1fr;
-        grid-template-rows: auto auto;
         grid-template-areas:
-            'figure copy'
-            'actions copy';
+            'figure copy';
         align-items: start;
         column-gap: 2rem;
         row-gap: 1rem;
     }
 
     #onshape-header {
-        grid-template-columns: 1fr;
-        grid-template-areas: 'headings';
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'headings actions';
     }
+    #onshape-header .onshape-actions { justify-self: center; align-self: center; }
 }
 
 #onshape-copy {
@@ -125,8 +126,8 @@
     #onshape-copy { grid-area: copy; }
 }
 
-/* Actions sit under the image */
-#onshape-stage .onshape-actions { grid-area: actions; }
+/* Actions are rendered in the header (hidden under the image on stage) */
+#onshape-stage .onshape-actions { display: none; }
 
 #onshape-visual img {
     display: block;
@@ -201,18 +202,18 @@
   padding-inline: var(--rail-gutter);
 }
 
-/* Overrides: left-align header, actions under image, larger figure, tighter pill end */
-#onshape-header { grid-template-areas: 'headings'; }
-#onshape-header .onshape-actions { display: none; }
+/* Overrides: ensure header shows actions; keep actions in header, not under image */
+@media (max-width: 899px) {
+  #onshape-header { grid-template-areas: 'headings' 'actions'; grid-template-columns: 1fr; }
+  #onshape-header .onshape-actions { display: inline-flex; justify-self: start; }
+}
 
 @media (min-width: 900px) {
   #onshape-stage {
     display: grid;
     grid-template-columns: minmax(460px, 48%) 1fr;
-    grid-template-rows: auto auto;
     grid-template-areas:
-      'figure copy'
-      'actions copy';
+      'figure copy';
     align-items: start;
     column-gap: 2rem;
     row-gap: 1rem;
@@ -221,8 +222,8 @@
   #onshape-copy { grid-area: copy; }
 }
 
-#onshape-stage .onshape-actions { grid-area: actions; justify-self: center; align-self: start; }
-.onshape-actions { gap: 0.5rem; padding: 0.35rem 0.4rem 0.35rem 0.45rem; margin-inline: auto; }
+#onshape-stage .onshape-actions { display: none; }
+.onshape-actions { gap: 0.5rem; padding: 0.35rem 0.45rem; margin-inline: 0; }
 .onshape-actions #onshape-logo { margin-right: 0; }
 
 @media (min-width: 900px) {
