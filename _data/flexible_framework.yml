@@ -1,9 +1,5 @@
 subheading: >-
-  Every project follows its own path. Instead of a rigid, one-size-fits-all process, I use a flexible framework of stages that can be added, removed, or reordered to fit the job. Small projects may only need one or two steps; larger ones may use the full set. By building and testing early, we address risk early, making it easier to adapt while changes are still simple and low-cost.
-
-intro:
-  - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-  - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+  Every project follows its own path. Instead of a rigid, one-size-fits-all process, I use a flexible framework of stages that can be added, removed, or reordered to fit the job. Small projects may only need one or two steps; larger ones may use the full set. With emphasis on building and testing early, we address risk early, making it easier to adapt while changes are still simple and low-cost.
 
 stages:
   - id: S1
@@ -12,60 +8,60 @@ stages:
     inputs: Client goals, assumptions, constraints, any legacy files or sketches.
     activities: 30-60 min call, assumptions capture, outline success criteria.
     outputs: Concise, documented brief, initial risks, acceptance tests.
-    exit: Client confirms the brief is correct enough to proceed.
+    exit: Stakeholders agree the brief is correct enough to proceed.
 
   - id: S2
     title: Explore Concepts
     goal: Generate a broad option set.
     inputs: S1 outputs.
     activities: Concept exploration, morphological analysis, first-order calculations, simple models or sketches.
-    outputs: Short concept pack with pros, cons, and key uncertainties.
+    outputs: Short concept document with pros, cons, and key uncertainties.
     exit: Multiple viable options worth review.
 
   - id: S3
     title: Select Concepts
-    goal: Choose the most promising direction.
-    inputs: Concept pack.
-    activities: Joint review, light scoring against acceptance tests and constraints.
-    outputs: Selected concept(s) with the reason for selection.
-    exit: Stakeholders agree the selection and what must be proven next.
+    goal: Choose the most promising design direction.
+    inputs: Documented initial concepts.
+    activities: Joint review, evaluating concepts against acceptance tests and constraints.
+    outputs: Selected concept(s) with clear justification for selection.
+    exit: Stakeholders agree with the selection and what must be proven next.
 
   - id: S4
     title: De-risk
     goal: Build confidence that the selected concept is feasible.
-    inputs: Selected concept(s) and risk hotspots.
+    inputs: Selected concept(s) and associated risks.
     activities: Cheapest decisive tests, quick CAD where needed, supplier sanity checks on tricky features. Fail fast if required.
-    outputs: Evidence pack, test notes, go or pivot decision.
-    exit: Risks reduced to an acceptable level for detailed design.
+    outputs: Evidence pack, quick prototypes, test notes, go or pivot decision.
+    exit: Risks reduced to an acceptable level for detailed design to proceed.
 
   - id: S5
     title: Detail Design
     goal: Prepare a build-ready definition.
     inputs: Feasible concept.
-    activities: Parametric CAD, initial manufacturing drawings, preliminary BOM.
-    outputs: CAD data, drawing set for prototype, BOM.
+    activities: Parametric CAD, initial manufacturing drawings, preliminary BOM, preliminary costing.
+    outputs: CAD data, drawing set for prototype, costed BOM.
     exit: Definition is sufficient to get firm quotes and place orders.
 
   - id: S6
     title: Supplier Sync and Build Plan
     goal: Confirm manufacturability, cost, and lead time.
     inputs: S5 package.
-    activities: RFQs, DFM calls, process selection, refine tolerances only where value exists.
-    outputs: Build plan, updated drawings if needed, committed lead times.
+    activities: RFQs, DFM reviews, assembly reviews, minor design tweaks, place orders.
+    outputs: Build plan, updated drawings if needed, lead time commitment from suppliers.
     exit: Orders can be placed with confidence.
 
   - id: S7
     title: Build and Test
     goal: Prove the design in reality.
-    inputs: Manufactured components.
+    inputs: Manufactured and sourced components.
     activities: Assemble, test, document results. Iterate S5 to S7 if needed. If S4 was thorough, revisiting S2 to S3 should be unnecessary.
     outputs: Functional prototype(s), test report, prioritised issues list.
-    exit: Performance meets acceptance tests or we have a clear fix plan.
+    exit: Performance meets acceptance tests.
 
   - id: S8
     title: Production Handover and Support
     goal: Enable reliable production.
     inputs: Converged design and test evidence.
-    activities: Release manufacturing data, support supplier onboarding, oversee first build as needed.
+    activities: Release manufacturing data, support supplier onboarding, oversee first builds as needed.
     outputs: Released manufacturing pack, change log, first build support, agreed support window.
     exit: Supplier confirms readiness and first build runs to plan.

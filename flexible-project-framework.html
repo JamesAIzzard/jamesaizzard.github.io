@@ -11,13 +11,13 @@ body_class: ff-page
     <div class="ff-box border-panel">
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Project Framework</h2>
-        <p class="pt-subtitle">{{ site.data.flexible_framework.subheading }}</p>
+        <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
         <img class="ff-robot" src="/assets/images/graph.png" alt="" aria-hidden="true">
       </header>
 
       <div class="ff-body">
           <div class="pt-tablist" data-ff-pt-tabs>
-            {% assign pt = site.data.project_types %}
+            {% assign pt = site.data.flexible_framework.project_types %}
             {% for t in pt.types %}
             <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
             {% endfor %}
@@ -60,7 +60,7 @@ body_class: ff-page
               <p class="muted">{{ p }}</p>
               {% endfor %}
             {% else %}
-              {% for p in site.data.flexible_framework.intro %}
+              {% for p in site.data.flexible_framework.project_stages.intro %}
               <p class="muted">{{ p }}</p>
               {% endfor %}
             {% endif %}
@@ -73,7 +73,7 @@ body_class: ff-page
         </div>
 
         <div class="ff-accordion" data-ff-accordion>
-          {% for s in site.data.flexible_framework.stages %}
+          {% for s in site.data.flexible_framework.project_stages.stages %}
           <details data-stage="{{ s.id }}">
             <summary><span class="ff-step">{{ s.id }}</span> {{ s.title }}</summary>
             <div class="ff-panel">
@@ -147,7 +147,7 @@ body_class: ff-page
 
     // Map project type -> applicable stages (from site data)
     const ptMap = {
-      {% for t in site.data.project_types.types %}
+      {% for t in site.data.flexible_framework.project_types.types %}
       {{ t.id | jsonify }}: {{ t.stage_ids | jsonify }}{% unless forloop.last %},{% endunless %}
       {% endfor %}
     };
