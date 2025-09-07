@@ -12,7 +12,7 @@ body_class: ff-page
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Project Framework</h2>
         <p class="pt-subtitle">{{ site.data.flexible_framework.subheading }}</p>
-        <img class="ff-robot" src="/assets/images/robot.png" alt="" aria-hidden="true">
+        <img class="ff-robot" src="/assets/images/graph.png" alt="" aria-hidden="true">
       </header>
 
       <div class="ff-body">
@@ -28,7 +28,7 @@ body_class: ff-page
             {% for t in pt.types %}
             <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
               <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
-                <span class="pt-scale-label">Time</span>
+                <span class="pt-scale-label">Project duration</span>
                 <div class="pt-scale-dots" aria-hidden="true">
                   <span class="dot"></span>
                   <span class="dot"></span>
@@ -36,7 +36,7 @@ body_class: ff-page
                 </div>
                 <span class="pt-scale-text">
                   {% case t.scales.time %}
-                  {% when 1 %}Shorter{% when 3 %}Longer{% else %}Medium{% endcase %}
+                  {% when 1 %}Shorter (days–weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
                 </span>
               </div>
               <div class="pt-scale stages">

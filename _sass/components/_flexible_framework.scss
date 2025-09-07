@@ -260,16 +260,32 @@ body.ff-page #project-types {
 }
 
 /* Page-specific robot image: float to the right of title + subtitle */
-body.ff-page #project-types .pt-header { padding-right: clamp(72px, 12vw, 140px); }
-body.ff-page #project-types .pt-header .ff-robot {
-  position: absolute;
-  right: clamp(8px, 1.6vw, 16px);
-  top: clamp(8px, 1.4vw, 16px);
-  width: clamp(56px, 10vw, 110px);
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25));
+/* Reserve a right-hand art area and center the art inside it */
+body.ff-page #project-types .pt-header {
+  --ff-artw: clamp(220px, 27vw, 330px);
+  --ff-imgw: clamp(180px, 24vw, 320px);
+}
+/* Desktop: reserve a right column and center the image within it */
+@media (min-width: 900px) {
+  body.ff-page #project-types .pt-header {
+    grid-template-columns: 1fr var(--ff-artw);
+    grid-template-areas:
+      "title art"
+      "subtitle art";
+    padding-right: 0; /* no extra padding; art lives in its own column */
+  }
+  body.ff-page #project-types .pt-header .ff-robot {
+    grid-area: art;
+    position: static;
+    justify-self: center;
+    align-self: center;
+    width: var(--ff-imgw);
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25));
+    transform: translateX(-6%);
+  }
 }
 
 /* Prominent callout to emphasize flexibility of the framework */
