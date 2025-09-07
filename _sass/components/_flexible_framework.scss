@@ -256,3 +256,8 @@ body.ff-page #project-types {
   padding-inline: var(--rail-gutter);
   padding-bottom: clamp(1rem, 3vw, 1.5rem);
 }
+
+/* De-emphasize non-applicable stages when a project type is selected */
+#project-types .ff-accordion details.is-off { opacity: 0.45; }
+#project-types .ff-accordion details.is-off summary { filter: saturate(0.7); }
+

@@ -2,6 +2,7 @@
 types:
   - id: cad
     label: General CAD
+    stage_ids: [S1, S5, S6, S7, S8]
     briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
       - We need a 3D scan and a parametric rebuild.
@@ -38,6 +39,7 @@ types:
 
   - id: concept
     label: Concept Development
+    stage_ids: [S1, S2, S3, S4]
     briefs:
       - I need to turn my idea into a prototype to show an investor.
       - Can we create some concepts to explore the feasibility of my idea?
@@ -76,6 +78,7 @@ types:
 
   - id: research
     label: Research & Equipment Development
+    stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need a custom machine to automate this experiment.
       - We need a test-rig to de-risk this aspect of a larger project and our main design team doesn't have the bandwidth.
@@ -112,6 +115,7 @@ types:
 
   - id: product-simple
     label: Simple Product Development
+    stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to develop this concept into a manufacturable product.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
@@ -150,6 +154,7 @@ types:
 
   - id: product-complex
     label: Complex Product Development
+    stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to turn my idea into a beta prototype, suitable for volume production, to show an investor.
       - I need to progress this concept to a beta prototype, ready for handover to our contract manufacturer.
