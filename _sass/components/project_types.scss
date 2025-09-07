@@ -67,7 +67,8 @@
 
   .pt-scale {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    /* Allow the middle column to shrink so contents can wrap on small screens */
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.6rem;
     padding: 0.5rem 0.6rem;
@@ -93,7 +94,12 @@
   }
 
   /* Toggle chips for phases/stages */
-  .pt-scale-toggle { display: inline-flex; gap: 0.25rem; }
+  .pt-scale-toggle {
+    display: inline-flex;
+    flex-wrap: wrap; /* wrap chips onto multiple lines on narrow screens */
+    gap: 0.25rem;
+    max-width: 100%;
+  }
   .pt-scale .opt {
     padding: 0.15rem 0.45rem;
     border-radius: 999px;
