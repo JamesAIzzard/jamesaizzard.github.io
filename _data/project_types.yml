@@ -3,8 +3,8 @@ types:
   - id: cad
     label: General CAD
     framework_intro:
-      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+      - Focused, well-bounded work that moves quickly from a clarified brief to build‑ready CAD. Typical flow is S1 → S5, with S6/S7 used where supplier checks or a quick fit test adds confidence.
+      - I rebuild or adapt geometry cleanly (parametric where useful), produce manufacturing drawings, and hand over a tidy package for quoting and production (S8). Where risk is minimal, we keep process overhead low and momentum high.
     stage_ids: [S1, S5, S6, S7, S8]
     briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
@@ -43,8 +43,8 @@ types:
   - id: concept
     label: Concept Development
     framework_intro:
-      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+      - Breadth‑first exploration to define the right approach. We clarify aims and constraints in S1, generate options in S2, then select a direction in S3 based on evidence, constraints and acceptance tests.
+      - Light S4 de‑risking focuses on the cheapest decisive tests and simple models to answer the big unknowns before committing to detailed design or spend.
     stage_ids: [S1, S2, S3, S4]
     briefs:
       - I need to turn my idea into a prototype to show an investor.
@@ -85,8 +85,8 @@ types:
   - id: research
     label: Research & Equipment Development
     framework_intro:
-      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+      - Goal‑driven, empirical work to create rigs, fixtures or lab equipment. We define the measurable outcome in S1, explore and select viable architectures (S2/S3), then aggressively de‑risk hotspots in S4.
+      - Expect practical S5–S7 loops: quick CAD, fast builds, test‑measure‑iterate. Once converged, we hand over clean data and support first‑use in the lab or on the line (S8).
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need a custom machine to automate this experiment.
@@ -125,8 +125,8 @@ types:
   - id: product-simple
     label: Simple Product Development
     framework_intro:
-      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+      - End‑to‑end development for a focused mechanical product. We shape the brief (S1), explore and select options (S2/S3), and de‑risk early with targeted tests (S4) so detailed design proceeds with confidence (S5).
+      - Supplier sync (S6) and one or two prototype passes (S7) are typical. I package data for production and support a smooth handover (S8).
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to develop this concept into a manufacturable product.
@@ -167,8 +167,8 @@ types:
   - id: product-complex
     label: Complex Product Development
     framework_intro:
-      - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
-      - Larger organisations often run a paperwork-dense process. I adapt the stage set to the problem, and build as early as it is rational to do so. Changes usually get more expensive the later they occur, so we aim to de-risk early.
+      - System‑level development with multiple subsystems and stakeholders. We invest in clear acceptance tests (S1) and evidence‑based selection (S2/S3), then retire key risks early through S4.
+      - Expect structured S5–S7 build/test cycles with supplier engagement in S6. Handover includes robust manufacturing data, change control and first‑build support (S8).
     stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to turn my idea into a beta prototype, suitable for volume production, to show an investor.

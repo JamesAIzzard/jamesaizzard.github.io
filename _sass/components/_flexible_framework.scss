@@ -180,6 +180,8 @@
   border-radius: 0.6rem;
   background: color-mix(in oklab, var(--panel) 92%, black);
   overflow: hidden;
+  position: relative;
+  transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease, filter 140ms ease;
 }
 
 #project-types .ff-accordion summary {
@@ -258,8 +260,35 @@ body.ff-page #project-types {
 }
 
 /* De-emphasize non-applicable stages when a project type is selected */
-#project-types .ff-accordion details.is-off { opacity: 0.45; }
+#project-types .ff-accordion details.is-off { opacity: 0.5; }
+#project-types .ff-accordion details.is-off:hover { opacity: 0.65; }
 #project-types .ff-accordion details.is-off summary { filter: saturate(0.7); }
+#project-types .ff-accordion details.is-off .ff-step {
+  /* Neutralize the step badge when a stage is not typically used */
+  color: #e6e6e6;
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--muted) 90%, white),
+    color-mix(in oklab, var(--muted) 86%, black));
+  border-color: color-mix(in oklab, var(--muted) 50%, var(--panel-edge));
+}
+
+/* Emphasize applicable stages with a subtle left accent and crisper border */
+#project-types .ff-accordion details:not(.is-off) {
+  background: color-mix(in oklab, var(--panel) 88%, black);
+  border-color: color-mix(in oklab, var(--accent-2) 35%, var(--panel-edge));
+}
+#project-types .ff-accordion details:not(.is-off)::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent-2);
+  opacity: 0.9;
+}
+#project-types .ff-accordion details:not(.is-off):hover {
+  background: color-mix(in oklab, var(--panel) 84%, black);
+  border-color: color-mix(in oklab, var(--accent-2) 50%, var(--panel-edge));
+}
 
 /* Framework page: remove dashed borders above/below the widget bar */
 body.ff-page #project-types .pt-scales {
