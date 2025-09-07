@@ -1,0 +1,186 @@
+---
+layout: default
+title: Flexible Project Framework
+permalink: /flexible-project-framework/
+description: A flexible, staged framework for product development with expandable details for each phase.
+body_class: ff-page
+---
+
+<section id="project-types" class="panel-surface">
+  <div class="container">
+    <div class="ff-box border-panel">
+      <header class="pt-header panel-surface--lit">
+        <h2>Flexible Project Framework</h2>
+        <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
+        <img class="ff-robot" src="/assets/images/graph.png" alt="" aria-hidden="true">
+      </header>
+
+      <div class="ff-body">
+          <div class="pt-tablist" data-ff-pt-tabs>
+            {% assign pt = site.data.flexible_framework.project_types %}
+            {% for t in pt.types %}
+            <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
+            {% endfor %}
+          </div>
+
+          <!-- Scales row for the selected project type -->
+          <div data-ff-pt-scales>
+            {% for t in pt.types %}
+            <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+              <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
+                <span class="pt-scale-label">Project duration</span>
+                <div class="pt-scale-dots" aria-hidden="true">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <span class="pt-scale-text">
+                  {% case t.scales.time %}
+                  {% when 1 %}Shorter (days–weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
+                </span>
+              </div>
+              <div class="pt-scale stages">
+                <span class="pt-scale-label">Typical stages</span>
+                <div class="pt-scale-toggle" aria-hidden="true">
+                  {% assign all_stages = site.data.flexible_framework.project_stages.stages %}
+                  {% for s in all_stages %}
+                  <span class="opt{% if t.stage_ids contains s.id %} is-on{% endif %}">{{ s.id }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              
+            </div>
+            {% endfor %}
+          </div>
+        <div data-ff-pt-intro>
+          {% for t in pt.types %}
+          <div class="ff-intro" data-pt-intro-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+            {% if t.framework_intro %}
+              {% for p in t.framework_intro %}
+              <p class="muted">{{ p }}</p>
+              {% endfor %}
+            {% else %}
+              {% for p in site.data.flexible_framework.project_stages.intro %}
+              <p class="muted">{{ p }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="ff-callout">
+          <p><strong>Flexible by design:</strong> we pick the stages that add value to your project and skip those that don't. These outlines are guidelines, not rules.</p>
+        </div>
+
+        <div class="ff-accordion" data-ff-accordion>
+          {% for s in site.data.flexible_framework.project_stages.stages %}
+          <details data-stage="{{ s.id }}">
+            <summary><span class="ff-step">{{ s.id }}</span> {{ s.title }}</summary>
+            <div class="ff-panel">
+              <p><strong>Goal:</strong> {{ s.goal }}</p>
+              <p><strong>Inputs:</strong> {{ s.inputs }}</p>
+              <p><strong>Activities:</strong> {{ s.activities }}</p>
+              <p><strong>Outputs:</strong> {{ s.outputs }}</p>
+              <p><strong>Exit:</strong> {{ s.exit }}</p>
+            </div>
+          </details>
+          {% endfor %}
+        
+        <!-- Project type details (same content as the homepage project types), shown below the stages -->
+        <div class="pt-panels" data-ff-pt-panels>
+          {% for t in pt.types %}
+          <section class="pt-panel" data-pt-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+            <div class="pt-grid">
+              <div class="pt-col">
+                <h3>Typical briefs</h3>
+                <ul class="pt-list">
+                  {% for item in t.briefs %}
+                  <li class="mini-quote">{{ item }}</li>
+                  {% endfor %}
+                </ul>
+                <h3>Typical deliverables</h3>
+                <ul class="pt-list">
+                  {% for item in t.deliverables %}
+                  <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="pt-col">
+                <h3>Typical characteristics</h3>
+                <ul class="pt-list pt-chars">
+                  {% for item in t.characteristics %}
+                    {% if item.head %}
+                      <li><span class="pt-char-head">{{ item.head }}:</span> <span class="pt-char-desc">{{ item.desc }}</span></li>
+                    {% elsif item contains ':' %}
+                      {% assign head = item | split: ':' | first | strip %}
+                      {% assign desc = item | remove_first: head | remove_first: ':' | strip %}
+                      <li><span class="pt-char-head">{{ head }}:</span> <span class="pt-char-desc">{{ desc }}</span></li>
+                    {% else %}
+                      <li>{{ item }}</li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </section>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const tabsRoot = document.querySelector('[data-ff-pt-tabs]');
+    const acc = document.querySelector('[data-ff-accordion]');
+    const panelsRoot = document.querySelector('[data-ff-pt-panels]');
+    const scalesRoot = document.querySelector('[data-ff-pt-scales]');
+    const introsRoot = document.querySelector('[data-ff-pt-intro]');
+    if(!tabsRoot) return;
+    const tabs = Array.from(tabsRoot.querySelectorAll('.pt-tab'));
+    const stages = acc ? Array.from(acc.querySelectorAll('details[data-stage]')) : [];
+    const panels = panelsRoot ? Array.from(panelsRoot.querySelectorAll('[data-pt-panel]')) : [];
+    const scalePanels = scalesRoot ? Array.from(scalesRoot.querySelectorAll('[data-pt-scales-panel]')) : [];
+    const introPanels = introsRoot ? Array.from(introsRoot.querySelectorAll('[data-pt-intro-panel]')) : [];
+
+    // Map project type -> applicable stages (from site data)
+    const ptMap = {
+      {% for t in site.data.flexible_framework.project_types.types %}
+      {{ t.id | jsonify }}: {{ t.stage_ids | jsonify }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+
+    function applySelection(ptId){
+      const on = new Set((ptMap[ptId]||[]).map(String));
+      if (stages.length) {
+        stages.forEach(d => {
+          const id = d.getAttribute('data-stage');
+          const active = on.has(id);
+          d.classList.toggle('is-off', !active);
+        });
+      }
+    }
+
+    function activateTab(btn){
+      tabs.forEach(b => b.classList.toggle('is-active', b===btn));
+      const id = btn.getAttribute('data-pt-id');
+      applySelection(id);
+      if (panels.length) {
+        panels.forEach(p => p.hidden = (p.getAttribute('data-pt-panel') !== id));
+      }
+      if (scalePanels.length) {
+        scalePanels.forEach(p => p.hidden = (p.getAttribute('data-pt-scales-panel') !== id));
+      }
+      if (introPanels.length) {
+        introPanels.forEach(p => p.hidden = (p.getAttribute('data-pt-intro-panel') !== id));
+      }
+    }
+
+    tabs.forEach(btn => btn.addEventListener('click', () => activateTab(btn)));
+    // initial
+    const first = tabs[0];
+    if(first) activateTab(first);
+  })();
+  </script>

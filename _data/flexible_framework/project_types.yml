@@ -2,6 +2,9 @@
 types:
   - id: cad
     label: General CAD
+    framework_intro:
+      - Focused, well-bounded work that can move quickly from a clarified brief to build-ready CAD. Typical examples are creating single parts, reparing legacy CAD, modifying existing parts, or rebuilding from 3D scans. For this work, I can usually quote fixed price, and turnaround is often a matter of days.
+    stage_ids: [S1, S5, S6, S7, S8]
     briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
       - We need a 3D scan and a parametric rebuild.
@@ -13,8 +16,6 @@ types:
         desc: Well-defined; creation, updates or modifications to geometry.
       - head: Uncertainty & risk
         desc: Low; constraints are clear and solution is straightforward.
-      - head: Phasing
-        desc: Single pass with a clear hand-off.
       - head: Pricing
         desc: A fixed-price quote is often possible.
       - head: Turnaround
@@ -34,10 +35,12 @@ types:
     scales:
       time: 1
       phases: single
-      pricing: fixed
 
   - id: concept
     label: Concept Development
+    framework_intro:
+      - Breadth-first exploration to define the right approach. We typically clarify aims and constraints in, generate a wide range of concepts, then select a direction in based on evidence, constraints and acceptance tests. Sometimes, initial de-risking is conducted to increase confidence in the selected design direction.
+    stage_ids: [S1, S2, S3, S4]
     briefs:
       - I need to turn my idea into a prototype to show an investor.
       - Can we create some concepts to explore the feasibility of my idea?
@@ -49,8 +52,6 @@ types:
         desc: Emerging; intent is clear but details are open.
       - head: Uncertainty & risk
         desc: Low to moderate; exploration within a defined envelope.
-      - head: Phasing
-        desc: Single phase with iterative reviews; can extend if needed.
       - head: Pricing
         desc: Fixed-price concept package may be possible when the brief is clear.
       - head: Turnaround
@@ -72,10 +73,12 @@ types:
     scales:
       time: 2
       phases: single
-      pricing: fixed
 
   - id: research
     label: Research & Equipment Development
+    framework_intro:
+      - Goal-driven, empirical work to create rigs, fixtures or lab or industrial equipment. Often, these can involve concept generation through to detailed design, but with less emphasis on supplier engagement, since the device is often not intended for volume manufacture, and therefore may not require detailed handover to production.
+    stage_ids: [S1, S2, S3, S4, S5, S7]
     briefs:
       - I need a custom machine to automate this experiment.
       - We need a test-rig to de-risk this aspect of a larger project and our main design team doesn't have the bandwidth.
@@ -85,8 +88,6 @@ types:
         desc: Technical goal clearly defined; solution space open.
       - head: Uncertainty & risk
         desc: Moderate; empirical learning expected.
-      - head: Phasing
-        desc: Phase-gated typically (explore → prototype → refine).
       - head: Pricing
         desc: Typically hourly; fixed-price blocks for well-bounded tasks.
       - head: Turnaround
@@ -108,10 +109,12 @@ types:
     scales:
       time: 2
       phases: multi
-      pricing: hourly
 
   - id: product-simple
     label: Simple Product Development
+    framework_intro:
+      - End-to-end development for a small, relatively simple product. We shape the brief, explore and select options, and de-risk early with targeted tests so detailed design proceeds with confidence. Manufacturing volumes is a key consideration throughout, and often requires detailed reviews with suppliers and manufacturers. A few prototype passes are typical, and detailed documentation supports a handover to production.
+    stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to develop this concept into a manufacturable product.
       - Our design team is fully occupied with other projects and we need to progress this concept to beta prototype.
@@ -121,8 +124,6 @@ types:
         desc: Focused scope; single part or small assembly, often purely mechanical.
       - head: Uncertainty & risk
         desc: Moderate; depending on complexity and novelty.
-      - head: Phasing
-        desc: Phase-gated typically (refine brief → concepts → de-risk → detail → alpha → beta → handover).
       - head: Pricing
         desc: Typically hourly with milestone reviews; fixed-price for discrete, well-defined packages.
       - head: Turnaround
@@ -146,10 +147,12 @@ types:
     scales:
       time: 2
       phases: multi
-      pricing: hourly
 
   - id: product-complex
     label: Complex Product Development
+    framework_intro:
+      - System-level development with multiple subsystems and stakeholders. We invest in clear acceptance tests and evidence-based selection, and de-risk before detailed design. Often, specialists from multiple disciplines are involved. Supplier engagement is critical to confirm manufacturability, cost and lead time. Several prototype passes are typical, with testing and iteration to refine performance and reliability. Handover typically requires detailed documentation to support complex assembly and commisioning.
+    stage_ids: [S1, S2, S3, S4, S5, S6, S7, S8]
     briefs:
       - I need to turn my idea into a beta prototype, suitable for volume production, to show an investor.
       - I need to progress this concept to a beta prototype, ready for handover to our contract manufacturer.
@@ -158,8 +161,6 @@ types:
         desc: System-level product with multiple subsystems.
       - head: Uncertainty & risk
         desc: Higher; often higher complexity.
-      - head: Phasing
-        desc: Phase-gated typically (refine brief → concepts → de-risk → detail → alpha → beta → handover).
       - head: Pricing
         desc: Typically hourly with milestone reviews; fixed-price for discrete, well-defined packages.
       - head: Turnaround
@@ -183,4 +184,3 @@ types:
     scales:
       time: 3
       phases: multi
-      pricing: hourly
