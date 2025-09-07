@@ -4,7 +4,7 @@ types:
     label: General CAD
     framework_intro:
       - Focused, well-bounded work that can move quickly from a clarified brief to build-ready CAD. Typical examples are creating single parts, reparing legacy CAD, modifying existing parts, or rebuilding from 3D scans. For this work, I can usually quote fixed price, and turnaround is often a matter of days.
-    stage_ids: [S1, S5, S6, S7, S8]
+    stage_ids: [S1, S5]
     briefs:
       - We inherited non-parametric legacy CAD/drawings and need clean updates.
       - We need a 3D scan and a parametric rebuild.
@@ -71,7 +71,7 @@ types:
       - Illustrations
       - Concept selection documentation
     scales:
-      time: 2
+      time: 1
       phases: single
 
   - id: research
