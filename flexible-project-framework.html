@@ -40,14 +40,13 @@ body_class: ff-page
                 </span>
               </div>
               <div class="pt-scale stages">
-                <span class="pt-scale-label">Stages</span>
+                <span class="pt-scale-label">Typical stages</span>
                 <div class="pt-scale-toggle" aria-hidden="true">
                   {% assign all_stages = site.data.flexible_framework.project_stages.stages %}
                   {% for s in all_stages %}
                   <span class="opt{% if t.stage_ids contains s.id %} is-on{% endif %}">{{ s.id }}</span>
                   {% endfor %}
                 </div>
-                <span class="pt-scale-text">Typical stages</span>
               </div>
               
             </div>
@@ -185,4 +184,3 @@ body_class: ff-page
     if(first) activateTab(first);
   })();
   </script>
-
