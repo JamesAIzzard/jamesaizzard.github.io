@@ -18,6 +18,10 @@
     gap: 0.35rem;
 }
 
+/* Tighten space under the section title without affecting other headings */
+#modern-cad .onshape-headings > h2 { margin: 0 0 0.25rem; }
+#modern-cad .onshape-headings > p { margin: 0; }
+
 #onshape-logo {
     width: 56px;
     height: 56px;

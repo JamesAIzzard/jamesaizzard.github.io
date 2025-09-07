@@ -42,7 +42,7 @@
     z-index: 0; /* allow children to sit above ::after */
   }
 
-  .pt-header > h2 { grid-area: title; }
+  .pt-header > h2 { grid-area: title; margin: 0; }
   .pt-header > .pt-subtitle { grid-area: subtitle; }
   .pt-header > .fp-cta { grid-area: cta; justify-self: stretch; align-self: stretch; }
 

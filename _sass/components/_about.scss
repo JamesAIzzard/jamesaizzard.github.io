@@ -4,6 +4,9 @@
 
 .about-header { margin-bottom: 1.25rem; }
 
+/* Slightly increase space under the About heading */
+.about-header > h2 { margin: 0 0 0.75rem; }
+
 .about-tldr {
   line-height: 1.45;
   max-width: 60ch;
