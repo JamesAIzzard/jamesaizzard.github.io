@@ -64,13 +64,14 @@
 
 /* Layout: simple flex, mobile first */
 #onshape-stage {
-    margin-top: clamp(0.5rem, 1.8vw, 1rem);
-    padding-top: clamp(0.5rem, 1.8vw, 1rem);
+    /* Reduce gap beneath header title/button */
+    margin-top: clamp(0.2rem, 0.8vw, 0.6rem);
+    padding-top: clamp(0.2rem, 0.8vw, 0.5rem);
     padding-bottom: clamp(1rem, 3vw, 2rem);
     padding-inline: 0; /* inline gutters come from the section container */
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 0.9rem;
 }
 
 @media (min-width: 900px) {
@@ -194,8 +195,10 @@
 
 /* Rail-aligned padding for content inside the container */
 #modern-cad .mc-box > #onshape-header {
-  padding: clamp(1.1rem, 3vw, 1.6rem);
+  /* Tighten vertical padding around the header content */
   padding-inline: var(--rail-gutter);
+  padding-top: clamp(0.9rem, 2.4vw, 1.4rem);
+  padding-bottom: clamp(0.35rem, 1.2vw, 0.7rem);
 }
 #modern-cad .mc-box > #onshape-stage {
   padding-bottom: clamp(1.2rem, 3vw, 2rem);

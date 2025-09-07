@@ -152,6 +152,10 @@
 }
 
 #project-types .fp-cta { display: flex; margin: 0; justify-content: flex-start; align-items: center; }
+@media (max-width: 899px) {
+  /* Add a little extra space above the CTA on mobile */
+  #project-types .pt-header > .fp-cta { margin-top: 0.6rem; }
+}
 @media (min-width: 900px) {
   /* Center the button within the RHS area, while the container stays stretched for the background */
   #project-types .fp-cta { justify-content: center; }
