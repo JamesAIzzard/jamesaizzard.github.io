@@ -45,7 +45,8 @@
                                 {% if t.scales.phases == 'multi' %}Multi‑phase{% else %}Single phase{% endif %}
                             </span>
                         </div>
-                        <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
+                        {% if t.scales.pricing %}
+                        <div class="pt-scale pricing" data-mode="{{ t.scales.pricing }}">
                             <span class="pt-scale-label">Pricing</span>
                             <div class="pt-scale-toggle" aria-hidden="true">
                                 <span class="opt" data-opt="fixed">Fixed</span>
@@ -55,6 +56,7 @@
                                 {% if t.scales.pricing == 'hourly' %}Typically hourly{% else %}Typically fixed{% endif %}
                             </span>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="pt-grid">
                         <div class="pt-col">

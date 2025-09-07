@@ -12,6 +12,7 @@ body_class: ff-page
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Project Framework</h2>
         <p class="pt-subtitle">{{ site.data.flexible_framework.subheading }}</p>
+        <img class="ff-robot" src="/assets/images/robot.png" alt="" aria-hidden="true">
       </header>
 
       <div class="ff-body">
@@ -47,16 +48,7 @@ body_class: ff-page
                 </div>
                 <span class="pt-scale-text">Typical stages</span>
               </div>
-              <div class="pt-scale pricing" data-mode="{{ t.scales.pricing | default: 'fixed' }}">
-                <span class="pt-scale-label">Pricing</span>
-                <div class="pt-scale-toggle" aria-hidden="true">
-                  <span class="opt" data-opt="fixed">Fixed</span>
-                  <span class="opt" data-opt="hourly">Hourly</span>
-                </div>
-                <span class="pt-scale-text">
-                  {% if t.scales.pricing == 'hourly' %}Typically hourly{% else %}Typically fixed{% endif %}
-                </span>
-              </div>
+              
             </div>
             {% endfor %}
           </div>
@@ -74,6 +66,10 @@ body_class: ff-page
             {% endif %}
           </div>
           {% endfor %}
+        </div>
+
+        <div class="ff-callout">
+          <p><strong>Flexible by design:</strong> we pick the stages that add value to your project and skip those that don't. These outlines are guidelines, not rules.</p>
         </div>
 
         <div class="ff-accordion" data-ff-accordion>

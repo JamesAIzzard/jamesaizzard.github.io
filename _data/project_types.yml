@@ -38,7 +38,6 @@ types:
     scales:
       time: 1
       phases: single
-      pricing: fixed
 
   - id: concept
     label: Concept Development
@@ -80,7 +79,6 @@ types:
     scales:
       time: 2
       phases: single
-      pricing: fixed
 
   - id: research
     label: Research & Equipment Development
@@ -120,7 +118,6 @@ types:
     scales:
       time: 2
       phases: multi
-      pricing: hourly
 
   - id: product-simple
     label: Simple Product Development
@@ -162,7 +159,6 @@ types:
     scales:
       time: 2
       phases: multi
-      pricing: hourly
 
   - id: product-complex
     label: Complex Product Development
@@ -203,4 +199,3 @@ types:
     scales:
       time: 3
       phases: multi
-      pricing: hourly

@@ -259,6 +259,41 @@ body.ff-page #project-types {
   padding-bottom: clamp(1rem, 3vw, 1.5rem);
 }
 
+/* Page-specific robot image: float to the right of title + subtitle */
+body.ff-page #project-types .pt-header { padding-right: clamp(72px, 12vw, 140px); }
+body.ff-page #project-types .pt-header .ff-robot {
+  position: absolute;
+  right: clamp(8px, 1.6vw, 16px);
+  top: clamp(8px, 1.4vw, 16px);
+  width: clamp(56px, 10vw, 110px);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25));
+}
+
+/* Prominent callout to emphasize flexibility of the framework */
+body.ff-page #project-types .ff-callout {
+  margin: clamp(0.5rem, 1.5vw, 0.9rem) 0 clamp(0.6rem, 1.8vw, 1rem);
+  padding: clamp(0.6rem, 1.8vw, 0.9rem) clamp(0.8rem, 2vw, 1rem);
+  /* Add a little extra left padding so the accent sits inside */
+  padding-left: clamp(1.1rem, 3vw, 1.4rem);
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.6rem;
+  background: rgba(255,255,255,0.035);
+  position: relative;
+  overflow: hidden; /* ensure inner accent respects rounded corners */
+}
+body.ff-page #project-types .ff-callout::before {
+  content: "";
+  position: absolute;
+  /* Match stage boxes: flush accent at the left edge */
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent-1);
+}
+body.ff-page #project-types .ff-callout p { margin: 0; }
+
 /* De-emphasize non-applicable stages when a project type is selected */
 #project-types .ff-accordion details.is-off { opacity: 0.5; }
 #project-types .ff-accordion details.is-off:hover { opacity: 0.65; }
