@@ -14,26 +14,23 @@
   font-weight: 700;
 }
 
-/* Felt-tip style underline for the first word */
-#hero-title .marker-underline {
-  position: relative;
-  display: inline-block;
-  padding: 0 1px; /* slight breathing room */
-}
-
 #hero-title .marker-underline::after {
   content: "";
   position: absolute;
   left: -2px;
   right: -2px;
-  bottom: -0.02em; /* tuck closer to the baseline */
-  height: 0.20em; /* slightly slimmer to avoid overlap */
+  bottom: -0.02em;
+  /* tuck closer to the baseline */
+  height: 0.20em;
+  /* slightly slimmer to avoid overlap */
   background-color: var(--accent-1);
-  transform: none; /* rely on path for the swoosh */
+  transform: none;
+  /* rely on path for the swoosh */
   box-shadow:
-    0 1px 1px rgba(0,0,0,0.14);
+    0 1px 1px rgba(0, 0, 0, 0.14);
   opacity: .96;
-  z-index: -1; /* keep behind the text */
+  z-index: -1;
+  /* keep behind the text */
 
   /* Wavy top edge via SVG mask; keeps color from CSS var */
   /* Upward swoosh, thicker on the left tapering to the right */
@@ -68,7 +65,9 @@
 }
 
 /* Remove the image's own border so the figure's border sets the visual width */
-#hero-figure > img.border-panel { border: 0; }
+#hero-figure>img.border-panel {
+  border: 0;
+}
 
 @media (max-width: 700px) {
   #hero-subtitle {
