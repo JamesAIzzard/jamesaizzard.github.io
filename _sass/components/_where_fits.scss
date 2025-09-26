@@ -104,14 +104,16 @@
   content: "✅";
   display: inline-block;
   width: 1.4em;
-  line-height: 1.1;
+  line-height: 1;
+  transform: translateY(0.25em);
 }
 
 #wherefits-tiles-nofit li::before {
   content: "❌";
   display: inline-block;
   width: 1.4em;
-  line-height: 1.1;
+  line-height: 1;
+  transform: translateY(0.25em);
 }
 
 @media (min-width: 900px) {
