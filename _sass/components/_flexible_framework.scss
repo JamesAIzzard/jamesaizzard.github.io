@@ -162,6 +162,8 @@
 }
 
 #project-types .fp-arrow-link { @extend .btn-pill; }
+/* Darken the accent slightly on this specific CTA for better white text contrast */
+#project-types .fp-arrow-link.btn--accent-2 { --btn-accent: color-mix(in oklab, var(--accent-2) 74%, black); }
 
 #project-types .fp-arrow { display: block; transition: transform 120ms ease; }
 #project-types .fp-arrow-link:hover .fp-arrow { transform: translateX(3px); }
