@@ -53,24 +53,85 @@
   width: 100%;
   margin: 0 auto;
   border: 1px solid var(--panel-edge);
-  border-radius: 12px;
-}
-
-#hero-figure>img {
+  /* Square bottom corners, rounded top corners */
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  overflow: hidden;
   aspect-ratio: 16/9;
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
 }
 
-/* Remove the image's own border so the figure's border sets the visual width */
-#hero-figure>img.border-panel {
-  border: 0;
+/* Crossfade slideshow images */
+#hero-figure > img,
+#hero-figure > .hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Match the figure: square bottom corners */
+  border-radius: 12px 12px 0 0;
+}
+
+
+/* Base state and three-way crossfade */
+.hero-slide { opacity: 0; will-change: opacity, transform; }
+/* Apply subtle pan/zoom to slides (not the figure) so borders stay aligned */
+.hero-slide-1 { animation: heroPan 18s ease-in-out infinite, heroFade1 18s ease-in-out infinite both; }
+.hero-slide-2 { animation: heroPan 18s ease-in-out infinite, heroFade2 18s ease-in-out infinite both; }
+.hero-slide-3 { animation: heroPan 18s ease-in-out infinite, heroFade3 18s ease-in-out infinite both; }
+
+/* Slide 1: visible at start, crossfade to 2, then fades in before loop end to cross back from 3 */
+@keyframes heroFade1 {
+  0%   { opacity: 1; }
+  30%  { opacity: 1; }
+  36%  { opacity: 0; }
+  94%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Slide 2: fades in as 1 fades out, fades out as 3 fades in */
+@keyframes heroFade2 {
+  0%   { opacity: 0; }
+  30%  { opacity: 0; }
+  36%  { opacity: 1; }
+  63%  { opacity: 1; }
+  69%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Slide 3: fades in as 2 fades out, then fades out to hand back to 1 */
+@keyframes heroFade3 {
+  0%   { opacity: 0; }
+  63%  { opacity: 0; }
+  69%  { opacity: 1; }
+  94%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Subtle overall pan/zoom for the slides to add motion without changing layout */
+@keyframes heroPan {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+/* Respect reduced motion: keep crossfade, remove zoom and slow it slightly */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-1 { animation: heroFade1 24s ease-in-out infinite both !important; }
+  .hero-slide-2 { animation: heroFade2 24s ease-in-out infinite both !important; }
+  .hero-slide-3 { animation: heroFade3 24s ease-in-out infinite both !important; }
 }
 
 @media (max-width: 700px) {
   #hero-subtitle {
     margin-bottom: 0.8rem;
+  }
+}
+
+/* Ensure the hero figure's visual width aligns with bordered panels on mobile */
+@media (max-width: 899px) {
+  #hero-figure {
+    /* Subtract 1px per side so the outer border matches the where-fits border width */
+    width: calc(100% - 2 * var(--edge-border));
   }
 }
