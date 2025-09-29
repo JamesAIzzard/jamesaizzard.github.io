@@ -3,7 +3,9 @@
   position: relative;
   z-index: 1;
   scroll-margin-top: 80px;
-  margin-top: 0;
+  /* Maintain the desktop hero+where-fits capsule effect on mobile too */
+  /* Pull the section up to meet the hero figure below it */
+  margin-top: clamp(-36px, -8vw, -56px);
   /* Blend the table's top edge with the section's top border */
   padding: 0 0 clamp(0.5rem, 2.5vw, 1rem);
 }

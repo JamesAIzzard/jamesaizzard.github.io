@@ -53,7 +53,8 @@
   width: 100%;
   margin: 0 auto;
   border: 1px solid var(--panel-edge);
-  border-radius: 12px;
+  /* Square bottom corners, rounded top corners */
+  border-radius: 12px 12px 0 0;
   position: relative;
   overflow: hidden;
   aspect-ratio: 16/9;
@@ -67,15 +68,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  /* Match the figure: square bottom corners */
+  border-radius: 12px 12px 0 0;
 }
 
 
 /* Base state and three-way crossfade */
-.hero-slide { opacity: 0; will-change: opacity; }
-.hero-slide-1 { animation: heroFade1 18s ease-in-out infinite both; }
-.hero-slide-2 { animation: heroFade2 18s ease-in-out infinite both; }
-.hero-slide-3 { animation: heroFade3 18s ease-in-out infinite both; }
+.hero-slide { opacity: 0; will-change: opacity, transform; }
+/* Apply subtle pan/zoom to slides (not the figure) so borders stay aligned */
+.hero-slide-1 { animation: heroPan 18s ease-in-out infinite, heroFade1 18s ease-in-out infinite both; }
+.hero-slide-2 { animation: heroPan 18s ease-in-out infinite, heroFade2 18s ease-in-out infinite both; }
+.hero-slide-3 { animation: heroPan 18s ease-in-out infinite, heroFade3 18s ease-in-out infinite both; }
 
 /* Slide 1: visible at start, crossfade to 2, then fades in before loop end to cross back from 3 */
 @keyframes heroFade1 {
@@ -105,8 +108,7 @@
   100% { opacity: 0; }
 }
 
-/* Subtle overall pan/zoom for the figure to add motion without flicker */
-#hero-figure { animation: heroPan 18s ease-in-out infinite; will-change: transform; }
+/* Subtle overall pan/zoom for the slides to add motion without changing layout */
 @keyframes heroPan {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.015); }
@@ -115,7 +117,6 @@
 
 /* Respect reduced motion: keep crossfade, remove zoom and slow it slightly */
 @media (prefers-reduced-motion: reduce) {
-  #hero-figure { animation: none !important; transform: none !important; }
   .hero-slide-1 { animation: heroFade1 24s ease-in-out infinite both !important; }
   .hero-slide-2 { animation: heroFade2 24s ease-in-out infinite both !important; }
   .hero-slide-3 { animation: heroFade3 24s ease-in-out infinite both !important; }
@@ -124,5 +125,13 @@
 @media (max-width: 700px) {
   #hero-subtitle {
     margin-bottom: 0.8rem;
+  }
+}
+
+/* Ensure the hero figure's visual width aligns with bordered panels on mobile */
+@media (max-width: 899px) {
+  #hero-figure {
+    /* Subtract 1px per side so the outer border matches the where-fits border width */
+    width: calc(100% - 2 * var(--edge-border));
   }
 }
