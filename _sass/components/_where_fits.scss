@@ -88,6 +88,11 @@
   font-size: 1.1rem;
 }
 
+/* Add a little extra space between tile heading and the table */
+#wherefits-tiles-good h2 {
+  margin-bottom: 0.6rem;
+}
+
 .wf-cell ul {
   list-style: none;
   padding: 0;
