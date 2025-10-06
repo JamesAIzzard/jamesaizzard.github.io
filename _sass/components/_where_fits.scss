@@ -156,6 +156,16 @@
   padding-right: 0.4rem;
 }
 
+/* Ensure consistent green tick on all platforms (incl. iOS) */
+#wherefits-tiles-good .wf-list-table .tick-col::before {
+  content: "\2713"; /* plain check mark glyph (text, not emoji) */
+  color: var(--accent-1);
+  font-weight: 800;
+  display: inline-block;
+  line-height: 1;
+  transform: translateY(0.15em);
+}
+
 @media (min-width: 900px) {
 
   #where-fits {
