@@ -114,6 +114,40 @@
   transform: translateY(0.15em);
 }
 
+/* Table-based list styling (internal separators only; no outer border) */
+#wherefits-tiles-good .wf-list-table {
+  width: 100%;
+  border-collapse: separate; /* keep inner borders separate to avoid outer frame */
+  border-spacing: 0;
+}
+
+#wherefits-tiles-good .wf-list-table td {
+  border: 0; /* no external frame */
+  padding: 0.1rem 0; /* compact default */
+  vertical-align: top;
+}
+
+/* Row separators: apply to all cells on subsequent rows */
+#wherefits-tiles-good .wf-list-table tr + tr td {
+  border-top: 1px solid var(--panel-edge);
+  padding-top: 0.5rem; /* preserve rhythm above row content */
+}
+
+/* Column separator: only between tick and text columns */
+#wherefits-tiles-good .wf-list-table .text-col {
+  border-left: 1px solid var(--panel-edge);
+  padding-left: 0.6rem;
+}
+
+#wherefits-tiles-good .wf-list-table .tick-col {
+  width: 1.4em;
+  text-align: center;
+  color: var(--accent-1);
+  font-weight: 800;
+  line-height: 1;
+  padding-right: 0.4rem;
+}
+
 @media (min-width: 900px) {
 
   #where-fits {
