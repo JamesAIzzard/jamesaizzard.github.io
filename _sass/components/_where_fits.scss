@@ -156,6 +156,17 @@
   padding-right: 0.4rem;
 }
 
+/* Use real glyph inside cell to avoid Safari/iOS table pseudo-element issues */
+#wherefits-tiles-good .wf-list-table .tick-col > .tick {
+  display: inline-block;
+  color: inherit;
+  /* Prefer system font for reliable glyph coverage on iOS */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-weight: 700; /* loaded weight */
+  line-height: 1;
+  transform: translateY(0.15em);
+}
+
 @media (min-width: 900px) {
 
   #where-fits {
