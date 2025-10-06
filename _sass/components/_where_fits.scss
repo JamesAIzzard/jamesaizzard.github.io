@@ -156,12 +156,13 @@
   padding-right: 0.4rem;
 }
 
-/* Ensure consistent green tick on all platforms (incl. iOS) */
-#wherefits-tiles-good .wf-list-table .tick-col::before {
-  content: "\2713"; /* plain check mark glyph (text, not emoji) */
-  color: var(--accent-1);
-  font-weight: 800;
+/* Use real glyph inside cell to avoid Safari/iOS table pseudo-element issues */
+#wherefits-tiles-good .wf-list-table .tick-col > .tick {
   display: inline-block;
+  color: inherit;
+  /* Prefer system font for reliable glyph coverage on iOS */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-weight: 700; /* loaded weight */
   line-height: 1;
   transform: translateY(0.15em);
 }
