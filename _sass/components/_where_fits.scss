@@ -54,19 +54,19 @@
 }
 
 /* Bottom corner radii to match Typical Projects' top corners */
-/* Mobile (stacked): round both bottom corners of the final cell */
-#wf-lhs .wf-lhs-bottom {
+/* Mobile (stacked): with only one LHS tile, round both bottom corners on that tile */
+#wf-lhs .wf-lhs-top {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
 
 @media (min-width: 900px) {
-  /* Desktop: main text (left) gets bottom-left only; not-a-fit (right, bottom) gets bottom-right only */
+  /* Desktop: main text (left) gets bottom-left only; LHS tile (right) gets bottom-right only */
   #wf-rhs {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 0;
   }
-  #wf-lhs .wf-lhs-bottom {
+  #wf-lhs .wf-lhs-top {
     border-bottom-right-radius: 1rem;
     border-bottom-left-radius: 0;
   }
@@ -135,7 +135,7 @@
     grid-column: 2;
     grid-row: 1;
     display: grid;
-    grid-template-rows: 1fr 1fr; /* equal halves */
+    grid-template-rows: auto;
     height: 100%;
   }
 
@@ -150,11 +150,35 @@
     border-left: 0; /* center divider supplied by RHS's right border */
   }
 
-  /* Single internal divider between the two LHS cells */
-  #wf-lhs .wf-lhs-top {
-    border-bottom: 0;
-  }
-  #wf-lhs .wf-lhs-bottom {
-    border-top: 1px solid var(--panel-edge);
-  }
+  /* Only one LHS tile now; no internal divider needed */
+}
+
+/* --- Where-Fits: Icon updates (override previous tick/cross styles) --- */
+/* Use inline images for best-fit items and remove pseudo-element icons */
+.wf-cell li {
+  display: block;
+}
+
+#wherefits-tiles-good li::before,
+#wherefits-tiles-nofit li::before {
+  content: none;
+}
+
+#wherefits-tiles-good li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+#wherefits-tiles-good .wf-icon {
+  width: clamp(28px, 3.5vw, 40px);
+  height: auto;
+  display: block;
+}
+
+/* Make the Best-Fit heading use the standard section heading scale */
+#wherefits-tiles-good h3 {
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
 }
