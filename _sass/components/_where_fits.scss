@@ -72,10 +72,10 @@
   }
 }
 
-/* Maintain the previous visual spacing without pushing borders down */
+/* Reduce excess space above headings across all viewports */
 #wf-rhs,
 #wf-lhs .wf-lhs-top {
-  padding-top: calc(1rem + clamp(1.25rem, 4vw, 2rem));
+  padding-top: clamp(0.5rem, 3vw, 1rem);
 }
 
 /* Remove the top border on the first row so it doesn't double with the section border */
@@ -167,12 +167,12 @@
 #wherefits-tiles-good li {
   display: grid;
   grid-template-columns: auto 1fr;
-  align-items: start;
+  align-items: center; /* vertically center text with icon */
   gap: 0.5rem;
 }
 
 #wherefits-tiles-good .wf-icon {
-  width: clamp(28px, 3.5vw, 40px);
+  width: 78%; /* ~20% larger than previous 65% */
   height: auto;
   display: block;
 }
@@ -181,4 +181,24 @@
 #wherefits-tiles-good h3 {
   font-size: clamp(1.25rem, 2.2vw, 1.75rem);
   line-height: 1.2;
+}
+
+/* Icon circle badges */
+.wf-icon-wrap {
+  --wf-icon-size: clamp(36px, 4.5vw, 48px);
+  width: var(--wf-icon-size);
+  height: var(--wf-icon-size);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  /* Neutral panel-tinted badge for higher icon contrast */
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid color-mix(in oklab, var(--accent-1) 36%, transparent); /* slight green border */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.wf-icon-wrap:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
 }
