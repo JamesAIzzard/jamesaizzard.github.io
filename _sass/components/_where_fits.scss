@@ -1,4 +1,4 @@
-
+/* Where-Fits */
 #where-fits {
   position: relative;
   z-index: 1;
@@ -9,6 +9,7 @@
   /* Blend the table's top edge with the section's top border */
   padding: 0 0 clamp(0.5rem, 2.5vw, 1rem);
 }
+
 
 /* Blend with following panel: remove bottom edge border/radius/shadow */
 #where-fits.panel-surface {
@@ -33,6 +34,9 @@
   grid-template-columns: 1fr;
   grid-auto-rows: auto;
   gap: 0; /* no gaps so borders meet */
+  /* Ensure lighting overlay clips to the same rounded bottom corners as content */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .wf-lhs {
@@ -54,28 +58,28 @@
 }
 
 /* Bottom corner radii to match Typical Projects' top corners */
-/* Mobile (stacked): round both bottom corners of the final cell */
-#wf-lhs .wf-lhs-bottom {
+/* Mobile (stacked): with only one LHS tile, round both bottom corners on that tile */
+#wf-lhs .wf-lhs-top {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
 
 @media (min-width: 900px) {
-  /* Desktop: main text (left) gets bottom-left only; not-a-fit (right, bottom) gets bottom-right only */
+  /* Desktop: main text (left) gets bottom-left only; LHS tile (right) gets bottom-right only */
   #wf-rhs {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 0;
   }
-  #wf-lhs .wf-lhs-bottom {
+  #wf-lhs .wf-lhs-top {
     border-bottom-right-radius: 1rem;
     border-bottom-left-radius: 0;
   }
 }
 
-/* Maintain the previous visual spacing without pushing borders down */
+/* Reduce excess space above headings across all viewports */
 #wf-rhs,
 #wf-lhs .wf-lhs-top {
-  padding-top: calc(1rem + clamp(1.25rem, 4vw, 2rem));
+  padding-top: clamp(0.5rem, 3vw, 1rem);
 }
 
 /* Remove the top border on the first row so it doesn't double with the section border */
@@ -85,6 +89,11 @@
 .wf-cell h3 {
   margin: 0.25rem 0 0.5rem;
   font-size: 1.1rem;
+}
+
+/* Add a little extra space between tile heading and the table */
+#wherefits-tiles-good h2 {
+  margin-bottom: 0.6rem;
 }
 
 .wf-cell ul {
@@ -102,20 +111,49 @@
   gap: 0.4rem;
 }
 
+/* Green tick bullets for Best-Fit list */
 #wherefits-tiles-good li::before {
-  content: "✅";
+  content: "\2713";
+  color: var(--accent-1);
+  font-weight: 800;
   display: inline-block;
   width: 1.4em;
   line-height: 1;
-  transform: translateY(0.25em);
+  transform: translateY(0.15em);
 }
 
-#wherefits-tiles-nofit li::before {
-  content: "❌";
-  display: inline-block;
+/* Table-based list styling (internal separators only; no outer border) */
+#wherefits-tiles-good .wf-list-table {
+  width: 100%;
+  border-collapse: separate; /* keep inner borders separate to avoid outer frame */
+  border-spacing: 0;
+}
+
+#wherefits-tiles-good .wf-list-table td {
+  border: 0; /* no external frame */
+  padding: 0.1rem 0; /* compact default */
+  vertical-align: top;
+}
+
+/* Row separators: apply to all cells on subsequent rows */
+#wherefits-tiles-good .wf-list-table tr + tr td {
+  border-top: 1px solid var(--panel-edge);
+  padding-top: 0.5rem; /* preserve rhythm above row content */
+}
+
+/* Column separator: only between tick and text columns */
+#wherefits-tiles-good .wf-list-table .text-col {
+  border-left: 1px solid var(--panel-edge);
+  padding-left: 0.6rem;
+}
+
+#wherefits-tiles-good .wf-list-table .tick-col {
   width: 1.4em;
+  text-align: center;
+  color: var(--accent-1);
+  font-weight: 800;
   line-height: 1;
-  transform: translateY(0.25em);
+  padding-right: 0.4rem;
 }
 
 @media (min-width: 900px) {
@@ -135,7 +173,7 @@
     grid-column: 2;
     grid-row: 1;
     display: grid;
-    grid-template-rows: 1fr 1fr; /* equal halves */
+    grid-template-rows: auto;
     height: 100%;
   }
 
@@ -150,11 +188,7 @@
     border-left: 0; /* center divider supplied by RHS's right border */
   }
 
-  /* Single internal divider between the two LHS cells */
-  #wf-lhs .wf-lhs-top {
-    border-bottom: 0;
-  }
-  #wf-lhs .wf-lhs-bottom {
-    border-top: 1px solid var(--panel-edge);
-  }
+  /* Only one LHS tile now; no internal divider needed */
 }
+
+/* (icons removed by request; no background art overlay) */
