@@ -196,6 +196,12 @@
   border-bottom-right-radius: 1rem;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--panel);
 }
+@media (max-width: 899px) {
+  #modern-cad .mc-box {
+    width: calc(100% - 2 * var(--edge-border));
+    margin-inline: auto;
+  }
+}
 
 /* Rail-aligned padding for content inside the container */
 #modern-cad .mc-box > #onshape-header {

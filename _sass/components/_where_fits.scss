@@ -34,6 +34,9 @@
   grid-template-columns: 1fr;
   grid-auto-rows: auto;
   gap: 0; /* no gaps so borders meet */
+  /* Ensure lighting overlay clips to the same rounded bottom corners as content */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .wf-lhs {
