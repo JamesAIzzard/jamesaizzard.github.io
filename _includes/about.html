@@ -81,10 +81,13 @@
 
                 <h3 class="about-h">Qualifications and Training</h3>
                 <ul class="about-list" role="list">
-                    <li>PhD, Computer Science (in progress)</li>
-                    <li>MSc, Intelligent Systems & Robotics (1st)</li>
+                    <li>15+ Years in Technical Product Development and Consulting</li>
+                    <li>Chartered Mechanical Engineer (CEng, MIMechE)</li>
                     <li>MEng, Mechanical Engineering (1st)</li>
+                    <li>MSc, Intelligent Systems & Robotics (1st)</li>
+                    <li>PhD, Computer Science (in progress)</li>
                     <li>GD&T Training</li>
+                    <li>Onshape, Solidworks and Creo Training</li>
                 </ul>
 
             </section>
@@ -113,5 +116,17 @@
                 </ul>
             </div>
         </div>
+
+        <!-- CTA under the projects marquee -->
+        {% if page.url != '/about-experience/' %}
+        <div class="about-cta-bar border-panel">
+            <a class="about-cta-link" href="{{ '/about-experience/' | relative_url }}">
+                <span>See my full background</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <path d="M5 12h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+        {% endif %}
     </div>
 </section>

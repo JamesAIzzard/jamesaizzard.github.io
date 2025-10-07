@@ -19,11 +19,7 @@
   box-shadow: none;
 }
 
-#where-fits h2 {
-  margin-top: 0.25em;
-  /* Add a touch more space below the main heading in addition to the grid gap */
-  margin-bottom: 0.25rem;
-}
+ 
 
 #where-fits p {
   color: inherit; /* use default text color */
@@ -47,11 +43,7 @@
   display: none;
 }
 
-.wf-lhs {
-  display: grid;
-  grid-auto-rows: auto;
-  gap: 0;
-}
+ 
 
 #wherefits-text {
   display: grid;
@@ -60,6 +52,8 @@
 
 /* Avoid additive margins inside the text grid; rely on gap */
 #wherefits-text p { margin: 0; }
+
+/* (removed .wf-actions; CTA now full-width bar) */
 
 /* Subtle emphasis for the first sentence */
 #wherefits-text .lead-in {
@@ -81,23 +75,13 @@
   padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
 }
 
-/* Bottom corner radii to match Typical Projects' top corners */
-/* Mobile (stacked): with only one LHS tile, round both bottom corners on that tile */
-#wf-lhs .wf-lhs-top {
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
+/* Bottom corners now provided by the CTA bar */
+#wf-lhs .wf-lhs-top { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
 @media (min-width: 900px) {
-  /* Desktop: main text (left) gets bottom-left only; LHS tile (right) gets bottom-right only */
-  #wf-rhs {
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 0;
-  }
-  #wf-lhs .wf-lhs-top {
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 0;
-  }
+  /* Desktop: bottom corners handled by CTA bar spanning both columns */
+  #wf-rhs { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  #wf-lhs .wf-lhs-top { border-bottom-right-radius: 0; border-bottom-left-radius: 0; }
 }
 
 /* Reduce excess space above headings across all viewports */
@@ -110,41 +94,42 @@
 #wf-rhs.border-panel { border-top: 0; }
 #wf-lhs .wf-lhs-top.border-panel { border-top: 0; }
 
-.wf-cell h3 {
-  margin: 0.25rem 0 0.5rem;
-  font-size: 1.1rem;
-}
-
-/* Add a little extra space between tile heading and the table */
-#wherefits-tiles-good h2 {
-  margin-bottom: 0.6rem;
-}
-
-.wf-cell ul {
-  list-style: none;
+/* Full-width CTA bar at bottom of section */
+.wf-cta-bar {
+  grid-column: 1 / -1;
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--accent-2) 94%, white),
+    color-mix(in oklab, var(--accent-2) 88%, black));
+  border-top: 0; /* merge with cells above */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.5rem;
 }
+.wf-cta-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.55),
+    0 0 2px rgba(0,0,0,0.35);
+}
+.wf-cta-link svg {
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.wf-cta-link:hover svg { transform: translateX(3px); }
 
-.wf-cell li {
-  display: grid;
-  grid-template-columns: 1.4em 1fr;
-  align-items: start;
-  gap: 0.4rem;
-}
+ 
 
-/* Green tick bullets for Best-Fit list */
-#wherefits-tiles-good li::before {
-  content: "\2713";
-  color: var(--accent-1);
-  font-weight: 800;
-  display: inline-block;
-  width: 1.4em;
-  line-height: 1;
-  transform: translateY(0.15em);
-}
+ 
+
+ 
 
 /* Table-based list styling (internal separators only; no outer border) */
 #wherefits-tiles-good .wf-list-table {
@@ -156,7 +141,7 @@
 #wherefits-tiles-good .wf-list-table td {
   border: 0; /* no external frame */
   padding: 0.1rem 0; /* compact default */
-  vertical-align: top;
+  vertical-align: middle; /* align text with icons */
 }
 
 /* Row separators: apply to all cells on subsequent rows */
@@ -180,16 +165,7 @@
   padding-right: 0.4rem;
 }
 
-/* Use real glyph inside cell to avoid Safari/iOS table pseudo-element issues */
-#wherefits-tiles-good .wf-list-table .tick-col > .tick {
-  display: inline-block;
-  color: inherit;
-  /* Prefer system font for reliable glyph coverage on iOS */
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  font-weight: 700; /* loaded weight */
-  line-height: 1;
-  transform: translateY(0.15em);
-}
+ 
 
 /* Lucide icon styling for tick column (keeps green via currentColor) */
 #wherefits-tiles-good .wf-list-table .tick-col > .tick-icon,
@@ -197,7 +173,8 @@
   display: inline-block;
   width: 1.05em;
   height: 1.05em;
-  transform: translateY(0.12em);
+  vertical-align: middle; /* baseline-align with text */
+  transform: translateY(0); /* remove manual nudge */
 }
 #wherefits-tiles-good .wf-list-table .tick-col > .lucide { stroke-width: 2.25; }
 

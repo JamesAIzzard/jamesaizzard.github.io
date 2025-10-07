@@ -10,15 +10,6 @@
     margin-top: 0; /* clean join with previous section */
   }
 
-  .pt-box {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: 0; /* let section's bottom border act as the table's bottom edge */
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  }
 
   .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
   .pt-header { padding-inline: var(--rail-gutter); }
@@ -50,6 +41,36 @@
     padding-inline: var(--rail-gutter);
   }
 
+  /* Top CTA bar: full-width, sits above the box */
+  .pt-cta-bar {
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--accent-1) 94%, white),
+      color-mix(in oklab, var(--accent-1) 88%, black));
+    border-bottom: 0; /* merge with ff-box below */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 0;
+  }
+  .pt-cta-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.55),
+      0 0 2px rgba(0,0,0,0.35);
+  }
+  .pt-cta-link svg {
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+    transition: transform 120ms ease, filter 120ms ease;
+  }
+  .pt-cta-link:hover svg { transform: translateX(3px); }
+
   /* Scales strip between tabs and content */
   .pt-scales {
     display: grid;
@@ -61,7 +82,7 @@
     margin-bottom: clamp(0.4rem, 1.6vw, 0.8rem);
   }
   @media (min-width: 760px) {
-    /* With two widgets (time + phases/stages), fill the width evenly */
+    /* With two widgets (time + stages), fill the width evenly */
     .pt-scales { grid-template-columns: repeat(2, 1fr); }
   }
 
@@ -104,7 +125,7 @@
     box-shadow: none;
   }
 
-  /* Toggle chips for phases/stages */
+  /* Toggle chips for stages */
   .pt-scale-toggle {
     display: inline-flex;
     flex-wrap: wrap; /* wrap chips onto multiple lines on narrow screens */
@@ -160,13 +181,7 @@
     border: 1px solid var(--panel-edge);
     opacity: 1;
   }
-  .pt-scale.phases[data-mode="single"] .opt[data-opt="single"],
-  .pt-scale.phases[data-mode="multi"] .opt[data-opt="multi"] {
-    background: var(--accent-2);
-    border-color: transparent;
-    color: #001018;
-    opacity: 1;
-  }
+  /* Removed legacy phases toggle styles */
 
   .pt-panel { outline: none; }
 
@@ -213,35 +228,206 @@
   /* Characteristics: ensure standard bullets */
   .pt-chars { list-style: disc; }
 
-  .pt-steps {
-    counter-reset: step;
-    list-style: none;
-    margin: 0.25rem 0 1rem;
-    padding: 0;
-  }
-  .pt-steps li {
+  /* Removed unused pt-steps list styles */
+
+  /* Removed unused pt-note style */
+}
+
+/* Merge-in: Flexible Project Framework styles previously in _flexible_framework.scss */
+#project-types {
+  /* Radiused background container for standalone page and homepage CTA section */
+  .ff-box {
     position: relative;
-    padding-left: 2rem;
-    margin: 0.4rem 0;
+    overflow: hidden;
+    border-radius: 1rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0; /* section border provides bottom edge */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   }
-  .pt-steps li::before {
-    counter-increment: step;
-    content: counter(step);
-    position: absolute;
-    left: 0;
-    top: 0.05rem;
-    width: 1.35rem; height: 1.35rem;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.06);
-    font-size: 0.8rem;
-    line-height: 1;
+  /* When following the top CTA bar, remove the top edge to merge cleanly */
+  .ff-box.ff-after-top-cta {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 
-  .pt-note {
-    opacity: 0.85;
-    font-size: 0.95em;
-    margin: 0.5rem 0 0;
+  /* Header grid and CTA area (used by homepage CTA include) */
+  .pt-header {
+    display: grid;
+    grid-template-columns: 1fr; /* stack by default (mobile) */
+    grid-template-areas:
+      "title"
+      "subtitle"
+      "scales"
+      "cta";
+    gap: 0.6rem;
+    align-items: start;
+    position: relative;
+    z-index: 0;
+  }
+  .pt-header > h2 { grid-area: title; margin: 0; }
+  /* On the Flexible Projects page we wrap subtitle + scales in .pt-left */
+  .pt-header > .pt-left { grid-area: left; }
+  .pt-header > .pt-subtitle { grid-area: subtitle; }
+  .pt-header > .fp-cta { grid-area: cta; justify-self: stretch; align-self: stretch; }
+  /* Default header placement for pills (homepage CTA uses cta area); override on Flexible Projects */
+  #project-types .pt-header > .pt-tablist {
+    grid-area: cta;
+    padding: 0;
+    border: 0;
+    background: none;
+    justify-content: flex-start;
+    align-self: start; /* ensure pills touch the top row with the title */
+  }
+  /* Flexible Projects: place pills in their own grid area */
+  body.ff-page #project-types .pt-header > .pt-tablist { grid-area: pills; }
+  /* Scales normally live in body; for Flexible Projects they are inside .pt-left */
+  /* (no direct grid-area assignment here) */
+
+  @media (min-width: 900px) {
+    .pt-header {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "title cta"
+        "subtitle cta";
+    }
+    .pt-header > .fp-cta { justify-self: stretch; align-self: stretch; }
+    /* On the full Flexible Projects page, the pills sit beside the subtitle to reduce header height */
+    body.ff-page #project-types .pt-header {
+      grid-template-columns: 3fr 2fr;
+      grid-template-areas:
+        "title title"
+        "left  pills";
+      column-gap: clamp(12px, 2vw, 24px);
+      padding-right: 0;
+    }
+    body.ff-page #project-types .pt-header > .pt-tablist {
+      grid-area: pills;
+      justify-self: stretch;
+      align-self: start;
+    }
+    /* Ensure pills occupy the right column; the left column stacks subtitle + scales */
+    body.ff-page #project-types .pt-header > .pt-left { grid-area: left; align-self: stretch; }
+  }
+
+  /* CTA background pattern + edge fading */
+  .fp-cta { position: relative; z-index: 0; }
+  .fp-cta::before {
+    content: "";
+    position: absolute;
+    top: -16px; right: -16px; bottom: -16px; left: 0;
+    background-image: url('/assets/images/node_loop_background.png');
+    background-repeat: repeat;
+    background-position: right 0 top -128px;
+    background-size: 512px 512px;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: -1;
+    -webkit-mask-image:
+      linear-gradient(to right, rgba(0,0,0,0) 0, rgba(0,0,0,1) 36px, rgba(0,0,0,1) calc(100% - 8px), rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,1) 8px, rgba(0,0,0,1) calc(100% - 8px), rgba(0,0,0,0) 100%);
+            mask-image:
+      linear-gradient(to right, rgba(0,0,0,0) 0, rgba(0,0,0,1) 36px, rgba(0,0,0,1) calc(100% - 8px), rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,1) 8px, rgba(0,0,0,1) calc(100% - 8px), rgba(0,0,0,0) 100%);
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+  }
+  .fp-cta { display: flex; margin: 0; justify-content: flex-start; align-items: center; }
+  @media (max-width: 899px) { .pt-header > .fp-cta { margin-top: 0.6rem; } }
+  @media (min-width: 900px) { .fp-cta { justify-content: center; } }
+  .fp-arrow-link { @extend .btn-pill; }
+  .fp-arrow { display: block; transition: transform 120ms ease; }
+  .fp-arrow-link:hover .fp-arrow { transform: translateX(3px); }
+
+  /* Accordion styling */
+  .ff-accordion { margin-top: 1rem; display: grid; gap: 0.6rem; }
+  .ff-accordion details { border: 1px solid var(--panel-edge); border-radius: 0.6rem; background: color-mix(in oklab, var(--panel) 92%, black); overflow: hidden; position: relative; transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease, filter 140ms ease; }
+  .ff-accordion summary { cursor: pointer; list-style: none; padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.6rem; user-select: none; }
+  .ff-accordion summary::-webkit-details-marker { display: none; }
+  .ff-accordion summary::after { content: '\25BC'; margin-left: auto; font-size: 0.9em; transform: rotate(0deg); transition: transform 120ms ease; }
+  .ff-accordion details[open] summary::after { transform: rotate(-180deg); }
+  .ff-step { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85em; color: #fff; background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2) 94%, white), color-mix(in oklab, var(--accent-2) 88%, black)); border: 1px solid var(--panel-edge); width: 2.1rem; height: 1.6rem; border-radius: 999px; text-shadow: 0 1px 2px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.25); }
+  .ff-accordion .ff-panel { padding: 0 1rem 0.9rem; }
+}
+
+/* Full-page framework: stretch inner frame and show robot image */
+body.ff-page #project-types .ff-box { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 100%; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; border-bottom: 1px solid var(--panel-edge); }
+body.ff-page #project-types .ff-body { flex: 1 1 auto; }
+body.ff-page #project-types { padding: var(--section-pad-y) 0; }
+#project-types .ff-body { padding-inline: var(--rail-gutter); padding-bottom: clamp(1rem, 3vw, 1.5rem); }
+body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); --ff-imgw: clamp(180px, 24vw, 320px); }
+@media (min-width: 900px) {
+  body.ff-page #project-types .pt-header { grid-template-columns: 3fr 2fr; grid-template-areas: "title title" "left pills"; column-gap: clamp(12px, 2vw, 24px); padding-right: 0; }
+  body.ff-page #project-types .pt-header .ff-robot { grid-area: art; position: static; justify-self: center; align-self: center; width: var(--ff-imgw); height: auto; object-fit: contain; pointer-events: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25)); transform: translateX(-12%); }
+  /* Narrow the subtitle on the framework page so it wraps to more lines (reduces dead space) */
+  body.ff-page #project-types .pt-header .pt-left .pt-subtitle { max-width: 42ch; }
+  /* Style pills container as its own capsule that fills the right column */
+  body.ff-page #project-types .pt-header > .pt-tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 0.6rem 0 0 0.6rem; /* round TL and BL only */
+    background: rgba(255,255,255,0.02);
+  }
+  /* Header-embedded scales: push to bottom of left column for bottom-edge alignment */
+  body.ff-page #project-types .pt-header .pt-left { display: flex; flex-direction: column; align-self: stretch; }
+  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] { margin-top: auto; }
+  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] .pt-scales {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    grid-template-columns: 1fr; /* keep stacked on desktop too */
+    background: none;
+  }
+  /* Stretch the pills container to full column height and align with section border */
+  body.ff-page #project-types .pt-header > .pt-tablist {
+    align-self: stretch;
+    margin-right: calc(-1 * var(--edge-border)); /* overlap the main content border exactly */
   }
 }
+
+/* Homepage Flexible Framework header: force two-column layout (title+subtitle left, pills right) */
+@media (min-width: 900px) {
+  body:not(.ff-page) #project-types .pt-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(12px, 2vw, 24px);
+  }
+  body:not(.ff-page) #project-types .pt-header > h2 { grid-column: 1; grid-row: 1; }
+  body:not(.ff-page) #project-types .pt-header > .pt-subtitle { grid-column: 1; grid-row: 2; }
+  body:not(.ff-page) #project-types .pt-header > .pt-tablist {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start; /* top align */
+    justify-self: stretch;
+  }
+}
+@media (min-width: 900px) and (max-width: 1200px) {
+  body.ff-page #project-types .pt-header { column-gap: clamp(16px, 3vw, 28px); }
+  body.ff-page #project-types .pt-header .pt-subtitle { max-width: 42ch; }
+}
+@media (max-width: 899px) {
+  body.ff-page #project-types .pt-header .ff-robot { position: absolute; left: 50%; top: 0.2rem; transform: translateX(-50%); width: clamp(220px, 78vw, 420px); height: auto; opacity: 0.08; filter: none; pointer-events: none; }
+  body.ff-page #project-types .pt-header > h2,
+  body.ff-page #project-types .pt-header > .pt-subtitle { position: relative; z-index: 1; }
+  /* Flexible Projects: define mobile stacking order title → left → pills */
+  body.ff-page #project-types .pt-header { grid-template-columns: 1fr; grid-template-areas: "title" "left" "pills"; }
+}
+
+/* Stage applicability emphasis */
+#project-types .ff-accordion details.is-off { opacity: 0.5; }
+#project-types .ff-accordion details.is-off:hover { opacity: 0.65; }
+#project-types .ff-accordion details.is-off summary { filter: saturate(0.7); }
+#project-types .ff-accordion details.is-off .ff-step { color: #e6e6e6; background: linear-gradient(180deg, color-mix(in oklab, var(--muted) 90%, white), color-mix(in oklab, var(--muted) 86%, black)); border-color: color-mix(in oklab, var(--muted) 50%, var(--panel-edge)); }
+#project-types .ff-accordion details:not(.is-off) { background: color-mix(in oklab, var(--panel) 88%, black); border-color: color-mix(in oklab, var(--accent-2) 35%, var(--panel-edge)); }
+#project-types .ff-accordion details:not(.is-off)::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent-2); opacity: 0.9; }
+#project-types .ff-accordion details:not(.is-off):hover { background: color-mix(in oklab, var(--panel) 84%, black); border-color: color-mix(in oklab, var(--accent-2) 50%, var(--panel-edge)); }
+
+/* Framework page tweaks */
+body.ff-page #project-types .pt-scales { border-top: 0; border-bottom: 0; }
+body.ff-page #project-types .ff-accordion { margin-bottom: clamp(0.2rem, 0.8vw, 0.6rem); }
+body.ff-page #project-types .pt-panels { padding-top: 0; }
+

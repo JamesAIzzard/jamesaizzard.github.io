@@ -1,18 +1,28 @@
 <section id="project-types" class="panel-surface">
   <div class="container">
-    <div class="ff-box border-panel">
+
+    <!-- Full-width top CTA bar -->
+    <div class="pt-cta-bar border-panel">
+      <a class="pt-cta-link" href="/flexible-projects/" aria-label="Explore the Flexible Projects">
+        <span>Explore project types</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M5 12h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="ff-box border-panel ff-after-top-cta">
       <header class="pt-header panel-surface--lit">
-        <h2>Flexiblity</h2>
+        <h2>Flexibility</h2>
         <p class="pt-subtitle">
           {{ site.data.flexible_framework.project_stages.subheading }}
         </p>
-        <div class="fp-cta">
-          <a class="fp-arrow-link btn--accent-2" href="/flexible-project-framework/" aria-label="Explore the Flexible Project Framework">
-            <span>Explore project types</span>
-            <svg class="fp-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <path d="M5 12h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
+
+        <div class="pt-tablist">
+          {% assign pt = site.data.flexible_framework.project_types %}
+          {% for t in pt.types %}
+          <a class="pt-tab" href="/flexible-projects/?pt={{ t.id }}#project-types" aria-label="View {{ t.label }} on Flexible Projects">{{ t.label }}</a>
+          {% endfor %}
         </div>
       </header>
     </div>

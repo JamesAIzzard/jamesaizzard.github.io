@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Flexible Project Framework
-permalink: /flexible-project-framework/
+title: Flexible Projects
+permalink: /flexible-projects/
 description: A flexible, staged framework for product development with expandable details for each phase.
 body_class: ff-page
 ---
@@ -11,20 +11,12 @@ body_class: ff-page
     <div class="ff-box border-panel">
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Projects</h2>
-        <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
-        <img class="ff-robot" src="/assets/images/graph.png" alt="" aria-hidden="true">
-      </header>
 
-      <div class="ff-body">
-          <div class="pt-tablist" data-ff-pt-tabs>
-            {% assign pt = site.data.flexible_framework.project_types %}
-            {% for t in pt.types %}
-            <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
-            {% endfor %}
-          </div>
+        <div class="pt-left">
+          <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
 
-          <!-- Scales row for the selected project type -->
           <div data-ff-pt-scales>
+            {% assign pt = site.data.flexible_framework.project_types %}
             {% for t in pt.types %}
             <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
               <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
@@ -36,7 +28,7 @@ body_class: ff-page
                 </div>
                 <span class="pt-scale-text">
                   {% case t.scales.time %}
-                  {% when 1 %}Shorter (days–weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
+                  {% when 1 %}Shorter (days-weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
                 </span>
               </div>
               <div class="pt-scale stages">
@@ -48,10 +40,22 @@ body_class: ff-page
                   {% endfor %}
                 </div>
               </div>
-              
             </div>
             {% endfor %}
           </div>
+        </div>
+
+        <div class="pt-tablist" data-ff-pt-tabs>
+          {% assign pt = site.data.flexible_framework.project_types %}
+          {% for t in pt.types %}
+          <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
+          {% endfor %}
+        </div>
+      </header>
+
+      <div class="ff-body">
+        {% assign pt = site.data.flexible_framework.project_types %}
+
         <div data-ff-pt-intro>
           {% for t in pt.types %}
           <div class="ff-intro" data-pt-intro-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
@@ -85,8 +89,8 @@ body_class: ff-page
             </div>
           </details>
           {% endfor %}
-        
-        <!-- Project type details (same content as the homepage project types), shown below the stages -->
+        </div>
+
         <div class="pt-panels" data-ff-pt-panels>
           {% for t in pt.types %}
           <section class="pt-panel" data-pt-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
@@ -125,62 +129,84 @@ body_class: ff-page
           </section>
           {% endfor %}
         </div>
-        </div>
       </div>
     </div>
   </div>
-</section>
 
-<script>
-  (function(){
-    const tabsRoot = document.querySelector('[data-ff-pt-tabs]');
-    const acc = document.querySelector('[data-ff-accordion]');
-    const panelsRoot = document.querySelector('[data-ff-pt-panels]');
-    const scalesRoot = document.querySelector('[data-ff-pt-scales]');
-    const introsRoot = document.querySelector('[data-ff-pt-intro]');
-    if(!tabsRoot) return;
-    const tabs = Array.from(tabsRoot.querySelectorAll('.pt-tab'));
-    const stages = acc ? Array.from(acc.querySelectorAll('details[data-stage]')) : [];
-    const panels = panelsRoot ? Array.from(panelsRoot.querySelectorAll('[data-pt-panel]')) : [];
-    const scalePanels = scalesRoot ? Array.from(scalesRoot.querySelectorAll('[data-pt-scales-panel]')) : [];
-    const introPanels = introsRoot ? Array.from(introsRoot.querySelectorAll('[data-pt-intro-panel]')) : [];
-
-    // Map project type -> applicable stages (from site data)
-    const ptMap = {
-      {% for t in site.data.flexible_framework.project_types.types %}
-      {{ t.id | jsonify }}: {{ t.stage_ids | jsonify }}{% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    };
-
-    function applySelection(ptId){
-      const on = new Set((ptMap[ptId]||[]).map(String));
-      if (stages.length) {
-        stages.forEach(d => {
-          const id = d.getAttribute('data-stage');
-          const active = on.has(id);
-          d.classList.toggle('is-off', !active);
-        });
-      }
-    }
-
-    function activateTab(btn){
-      tabs.forEach(b => b.classList.toggle('is-active', b===btn));
-      const id = btn.getAttribute('data-pt-id');
-      applySelection(id);
-      if (panels.length) {
-        panels.forEach(p => p.hidden = (p.getAttribute('data-pt-panel') !== id));
-      }
-      if (scalePanels.length) {
-        scalePanels.forEach(p => p.hidden = (p.getAttribute('data-pt-scales-panel') !== id));
-      }
-      if (introPanels.length) {
-        introPanels.forEach(p => p.hidden = (p.getAttribute('data-pt-intro-panel') !== id));
-      }
-    }
-
-    tabs.forEach(btn => btn.addEventListener('click', () => activateTab(btn)));
-    // initial
-    const first = tabs[0];
-    if(first) activateTab(first);
-  })();
+  <script type="application/json" id="ff-pt-map">
+  {
+    {% for t in site.data.flexible_framework.project_types.types %}
+    {{ t.id | jsonify }}: {{ t.stage_ids | jsonify }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  }
   </script>
+
+  <script>
+    (function(){
+      const tabsRoot = document.querySelector('[data-ff-pt-tabs]');
+      const acc = document.querySelector('[data-ff-accordion]');
+      const panelsRoot = document.querySelector('[data-ff-pt-panels]');
+      const scalesRoot = document.querySelector('[data-ff-pt-scales]');
+      const introsRoot = document.querySelector('[data-ff-pt-intro]');
+      if(!tabsRoot) return;
+      const tabs = Array.from(tabsRoot.querySelectorAll('.pt-tab'));
+      const stages = acc ? Array.from(acc.querySelectorAll('details[data-stage]')) : [];
+      const panels = panelsRoot ? Array.from(panelsRoot.querySelectorAll('[data-pt-panel]')) : [];
+      const scalePanels = scalesRoot ? Array.from(scalesRoot.querySelectorAll('[data-pt-scales-panel]')) : [];
+      const introPanels = introsRoot ? Array.from(introsRoot.querySelectorAll('[data-pt-intro-panel]')) : [];
+
+      let ptMap = {};
+      const mapEl = document.getElementById('ff-pt-map');
+      if (mapEl) {
+        try { ptMap = JSON.parse(mapEl.textContent); } catch (e) { ptMap = {}; }
+      }
+
+      function applySelection(ptId){
+        const on = new Set((ptMap[ptId]||[]).map(String));
+        if (stages.length) {
+          stages.forEach(d => {
+            const id = d.getAttribute('data-stage');
+            const active = on.has(id);
+            d.classList.toggle('is-off', !active);
+          });
+        }
+      }
+
+      function activateTab(btn){
+        tabs.forEach(b => b.classList.toggle('is-active', b===btn));
+        const id = btn.getAttribute('data-pt-id');
+        applySelection(id);
+        if (panels.length) {
+          panels.forEach(p => p.hidden = (p.getAttribute('data-pt-panel') !== id));
+        }
+        if (scalePanels.length) {
+          scalePanels.forEach(p => p.hidden = (p.getAttribute('data-pt-scales-panel') !== id));
+        }
+        if (introPanels.length) {
+          introPanels.forEach(p => p.hidden = (p.getAttribute('data-pt-intro-panel') !== id));
+        }
+      }
+
+      tabs.forEach(btn => btn.addEventListener('click', () => activateTab(btn)));
+
+      // Support deep-linking via ?pt=<id> or #pt=<id>
+      let targetId = null;
+      try {
+        const url = new URL(window.location.href);
+        targetId = url.searchParams.get('pt');
+      } catch(e) { /* ignore */ }
+      if (!targetId && window.location.hash) {
+        const m = window.location.hash.match(/pt[:=]([A-Za-z0-9_-]+)/);
+        if (m) targetId = m[1];
+      }
+
+      const targetBtn = targetId ? tabs.find(b => b.getAttribute('data-pt-id') === targetId) : null;
+      const first = tabs[0];
+      if (targetBtn) {
+        activateTab(targetBtn);
+      } else if (first) {
+        activateTab(first);
+      }
+    })();
+  </script>
+</section>
