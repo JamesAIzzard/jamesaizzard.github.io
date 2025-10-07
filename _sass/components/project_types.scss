@@ -10,15 +10,6 @@
     margin-top: 0; /* clean join with previous section */
   }
 
-  .pt-box {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: 0; /* let section's bottom border act as the table's bottom edge */
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  }
 
   .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
   .pt-header { padding-inline: var(--rail-gutter); }
@@ -61,7 +52,7 @@
     margin-bottom: clamp(0.4rem, 1.6vw, 0.8rem);
   }
   @media (min-width: 760px) {
-    /* With two widgets (time + phases/stages), fill the width evenly */
+    /* With two widgets (time + stages), fill the width evenly */
     .pt-scales { grid-template-columns: repeat(2, 1fr); }
   }
 
@@ -104,7 +95,7 @@
     box-shadow: none;
   }
 
-  /* Toggle chips for phases/stages */
+  /* Toggle chips for stages */
   .pt-scale-toggle {
     display: inline-flex;
     flex-wrap: wrap; /* wrap chips onto multiple lines on narrow screens */
@@ -160,13 +151,7 @@
     border: 1px solid var(--panel-edge);
     opacity: 1;
   }
-  .pt-scale.phases[data-mode="single"] .opt[data-opt="single"],
-  .pt-scale.phases[data-mode="multi"] .opt[data-opt="multi"] {
-    background: var(--accent-2);
-    border-color: transparent;
-    color: #001018;
-    opacity: 1;
-  }
+  /* Removed legacy phases toggle styles */
 
   .pt-panel { outline: none; }
 
@@ -213,37 +198,9 @@
   /* Characteristics: ensure standard bullets */
   .pt-chars { list-style: disc; }
 
-  .pt-steps {
-    counter-reset: step;
-    list-style: none;
-    margin: 0.25rem 0 1rem;
-    padding: 0;
-  }
-  .pt-steps li {
-    position: relative;
-    padding-left: 2rem;
-    margin: 0.4rem 0;
-  }
-  .pt-steps li::before {
-    counter-increment: step;
-    content: counter(step);
-    position: absolute;
-    left: 0;
-    top: 0.05rem;
-    width: 1.35rem; height: 1.35rem;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.06);
-    font-size: 0.8rem;
-    line-height: 1;
-  }
+  /* Removed unused pt-steps list styles */
 
-  .pt-note {
-    opacity: 0.85;
-    font-size: 0.95em;
-    margin: 0.5rem 0 0;
-  }
+  /* Removed unused pt-note style */
 }
 
 /* Merge-in: Flexible Project Framework styles previously in _flexible_framework.scss */
@@ -360,3 +317,4 @@ body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); -
 body.ff-page #project-types .pt-scales { border-top: 0; border-bottom: 0; }
 body.ff-page #project-types .ff-accordion { margin-bottom: clamp(0.2rem, 0.8vw, 0.6rem); }
 body.ff-page #project-types .pt-panels { padding-top: 0; }
+
