@@ -1,5 +1,5 @@
 subheading: >-
-  Every project follows its own path. Instead of a rigid, one-size-fits-all process, I use a flexible framework of stages that can be added, removed, or reordered to fit the job. Small projects may only need one or two steps; larger ones may use the full set. By building and testing early, we address risk early, making it easier to adapt while changes are still simple and low-cost.
+  Every project follows its own path. Instead of a rigid, one-size-fits-all process, I use a flexible framework of stages that can be added, removed, or reordered to fit the job.
 
 intro:
   - The following stages form a flexible map of typical work. Small projects may omit steps. Progress is not always linear.
@@ -20,7 +20,7 @@ stages:
     inputs: S1 outputs.
     activities: Concept exploration, morphological analysis, first-order calculations, simple models or sketches.
     outputs: Short concept document with pros, cons, and key uncertainties.
-    exit: Multiple viable options worth review.
+    exit: Multiple viable, reviewable concepts.
 
   - id: S3
     title: Select Concepts
@@ -63,7 +63,7 @@ stages:
     exit: Performance meets acceptance tests.
 
   - id: S8
-    title: Production Handover and Support
+    title: Early Production Handover and Support
     goal: Enable reliable production.
     inputs: Converged design and test evidence.
     activities: Release manufacturing data, support supplier onboarding, oversee first builds as needed.
