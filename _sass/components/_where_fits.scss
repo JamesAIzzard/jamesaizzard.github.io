@@ -39,6 +39,14 @@
   border-bottom-right-radius: 1rem;
 }
 
+/* Improve legibility: disable lighting overlay in this section */
+#wherefits-grid.panel-surface--lit {
+  background: var(--panel);
+}
+#wherefits-grid.panel-surface--lit::before {
+  display: none;
+}
+
 .wf-lhs {
   display: grid;
   grid-auto-rows: auto;
@@ -52,6 +60,22 @@
 
 /* Avoid additive margins inside the text grid; rely on gap */
 #wherefits-text p { margin: 0; }
+
+/* Subtle emphasis for the first sentence */
+#wherefits-text .lead-in {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--accent-2);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Contrasting emphasis for the second sentence (no underline) */
+#wherefits-text .lead-cta {
+  font-weight: 700;
+  color: inherit; /* white body text */
+}
 
 .wf-cell {
   padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
