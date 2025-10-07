@@ -4,14 +4,11 @@
 #onshape-header {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas:
-        'headings'
-        'actions';
+    grid-template-areas: 'headings';
     align-items: center;
     gap: clamp(0.6rem, 1.6vw, 1rem);
 }
 .onshape-headings { grid-area: headings; }
-#onshape-header .onshape-actions { grid-area: actions; display: inline-flex; justify-self: start; }
 
 .onshape-headings {
     display: grid;
@@ -91,10 +88,9 @@
     }
 
     #onshape-header {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'headings actions';
+        grid-template-columns: 1fr;
+        grid-template-areas: 'headings';
     }
-    #onshape-header .onshape-actions { justify-self: center; align-self: center; }
 }
 
 #onshape-copy {
@@ -102,11 +98,14 @@
 }
 
 #onshape-copy .onshape-intro {
-    margin: 0 0 0.8rem;
+    margin: clamp(1.2rem, 3.2vw, 1.8rem) 0 0; /* clear gap above the note */
     padding-left: 0.6rem;
     border-left: 3px solid var(--accent-2);
-    font-weight: 600;
+    font-weight: 400; /* remove bold */
 }
+
+/* Highlight CAD tool names (bold only) */
+#onshape-copy .onshape-intro .cad-tool { color: inherit; font-weight: 600; }
 
 #onshape-copy>ul {
     margin: 0;
@@ -114,6 +113,49 @@
     list-style: none;
     display: grid;
     gap: 0.65rem;
+}
+
+/* Table-based list styling to match where-fits visuals */
+#onshape-copy .mc-list-table {
+  width: 100%;
+  border-collapse: separate; /* avoid outer frame, keep internal separators */
+  border-spacing: 0;
+}
+
+#onshape-copy .mc-list-table td {
+  border: 0;
+  padding: 0.1rem 0;
+  vertical-align: middle; /* center contents vertically */
+}
+
+/* Row separators: apply to all cells on subsequent rows */
+#onshape-copy .mc-list-table tr + tr td {
+  border-top: 1px solid var(--panel-edge);
+  padding-top: 0.5rem;
+}
+
+/* Column separator: only between tick and text columns */
+#onshape-copy .mc-list-table .text-col {
+  border-left: 1px solid var(--panel-edge);
+  padding-left: 0.6rem;
+}
+
+#onshape-copy .mc-list-table .tick-col {
+  width: 1.4em;
+  text-align: center;
+  color: var(--accent-1);
+  font-weight: 800;
+  line-height: 1;
+  padding-right: 0.4rem;
+}
+
+/* Lucide icon sizing/placement (keeps color via currentColor) */
+#onshape-copy .mc-list-table .tick-col > .tick-icon,
+#onshape-copy .mc-list-table .tick-col > .lucide {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  transform: none; /* keep truly centered within cell */
 }
 
 #onshape-visual {
@@ -190,12 +232,14 @@
 /* Inner rounded container that continues from previous section */
 #modern-cad .mc-box {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* allow CTA bar corners to render */
   border-top: 1px solid var(--panel-edge); /* single dividing line to split the joined pill */
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 0; /* bottom corners provided by CTA bar */
+  border-bottom-right-radius: 0; /* bottom corners provided by CTA bar */
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--panel);
 }
+/* Remove mc-box bottom edge; CTA bar supplies it */
+#modern-cad .mc-box.border-panel { border-bottom: 0; }
 @media (max-width: 899px) {
   #modern-cad .mc-box {
     width: calc(100% - 2 * var(--edge-border));
@@ -217,8 +261,7 @@
 
 /* Overrides: ensure header shows actions; keep actions in header, not under image */
 @media (max-width: 899px) {
-  #onshape-header { grid-template-areas: 'headings' 'actions'; grid-template-columns: 1fr; }
-  #onshape-header .onshape-actions { display: inline-flex; justify-self: start; }
+  #onshape-header { grid-template-areas: 'headings'; grid-template-columns: 1fr; }
 }
 
 @media (min-width: 900px) {
@@ -246,3 +289,33 @@
 }
 
 /* (Rails removed) Keep uniform side gutters only */
+
+/* Full-width CTA bar pinned to the bottom; supplies rounded corners */
+.mc-cta-bar {
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--accent-1) 94%, white),
+    color-mix(in oklab, var(--accent-1) 88%, black));
+  border-top: 0; /* merge with mc-box above */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 0;
+}
+.mc-cta-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.55),
+    0 0 2px rgba(0,0,0,0.35);
+}
+.mc-cta-link svg {
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.mc-cta-link:hover svg { transform: translateX(3px); }
