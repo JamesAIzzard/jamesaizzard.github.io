@@ -188,8 +188,25 @@ body_class: ff-page
       }
 
       tabs.forEach(btn => btn.addEventListener('click', () => activateTab(btn)));
+
+      // Support deep-linking via ?pt=<id> or #pt=<id>
+      let targetId = null;
+      try {
+        const url = new URL(window.location.href);
+        targetId = url.searchParams.get('pt');
+      } catch(e) { /* ignore */ }
+      if (!targetId && window.location.hash) {
+        const m = window.location.hash.match(/pt[:=]([A-Za-z0-9_-]+)/);
+        if (m) targetId = m[1];
+      }
+
+      const targetBtn = targetId ? tabs.find(b => b.getAttribute('data-pt-id') === targetId) : null;
       const first = tabs[0];
-      if(first) activateTab(first);
+      if (targetBtn) {
+        activateTab(targetBtn);
+      } else if (first) {
+        activateTab(first);
+      }
     })();
   </script>
 </section>

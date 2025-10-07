@@ -13,10 +13,17 @@
 
     <div class="ff-box border-panel ff-after-top-cta">
       <header class="pt-header panel-surface--lit">
-        <h2>Flexiblity</h2>
+        <h2>Flexibility</h2>
         <p class="pt-subtitle">
           {{ site.data.flexible_framework.project_stages.subheading }}
         </p>
+
+        <div class="pt-tablist">
+          {% assign pt = site.data.flexible_framework.project_types %}
+          {% for t in pt.types %}
+          <a class="pt-tab" href="/flexible-projects/?pt={{ t.id }}#project-types" aria-label="View {{ t.label }} on Flexible Projects">{{ t.label }}</a>
+          {% endfor %}
+        </div>
       </header>
     </div>
   </div>
