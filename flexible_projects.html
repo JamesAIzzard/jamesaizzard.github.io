@@ -11,39 +11,44 @@ body_class: ff-page
     <div class="ff-box border-panel">
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Projects</h2>
-        <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
+
+        <div class="pt-left">
+          <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
+
+          <div data-ff-pt-scales>
+            {% assign pt = site.data.flexible_framework.project_types %}
+            {% for t in pt.types %}
+            <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
+              <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
+                <span class="pt-scale-label">Project duration</span>
+                <div class="pt-scale-dots" aria-hidden="true">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <span class="pt-scale-text">
+                  {% case t.scales.time %}
+                  {% when 1 %}Shorter (days-weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
+                </span>
+              </div>
+              <div class="pt-scale stages">
+                <span class="pt-scale-label">Typical stages</span>
+                <div class="pt-scale-toggle" aria-hidden="true">
+                  {% assign all_stages = site.data.flexible_framework.project_stages.stages %}
+                  {% for s in all_stages %}
+                  <span class="opt{% if t.stage_ids contains s.id %} is-on{% endif %}">{{ s.id }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
         <div class="pt-tablist" data-ff-pt-tabs>
           {% assign pt = site.data.flexible_framework.project_types %}
           {% for t in pt.types %}
           <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
-          {% endfor %}
-        </div>
-
-        <div data-ff-pt-scales>
-          {% for t in pt.types %}
-          <div class="pt-scales" data-pt-scales-panel="{{ t.id }}"{% unless forloop.first %} hidden{% endunless %}>
-            <div class="pt-scale time" data-level="{{ t.scales.time | default: 2 }}">
-              <span class="pt-scale-label">Project duration</span>
-              <div class="pt-scale-dots" aria-hidden="true">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-              </div>
-              <span class="pt-scale-text">
-                {% case t.scales.time %}
-                {% when 1 %}Shorter (days-weeks){% when 3 %}Longer (weeks to months){% else %}Medium (weeks){% endcase %}
-              </span>
-            </div>
-            <div class="pt-scale stages">
-              <span class="pt-scale-label">Typical stages</span>
-              <div class="pt-scale-toggle" aria-hidden="true">
-                {% assign all_stages = site.data.flexible_framework.project_stages.stages %}
-                {% for s in all_stages %}
-                <span class="opt{% if t.stage_ids contains s.id %} is-on{% endif %}">{{ s.id }}</span>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
           {% endfor %}
         </div>
       </header>

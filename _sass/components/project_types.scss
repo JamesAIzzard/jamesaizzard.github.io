@@ -231,9 +231,11 @@
     z-index: 0;
   }
   .pt-header > h2 { grid-area: title; margin: 0; }
+  /* On the Flexible Projects page we wrap subtitle + scales in .pt-left */
+  .pt-header > .pt-left { grid-area: left; }
   .pt-header > .pt-subtitle { grid-area: subtitle; }
   .pt-header > .fp-cta { grid-area: cta; justify-self: stretch; align-self: stretch; }
-  /* When pills are moved into the header, let them occupy the CTA row on mobile */
+  /* Default header placement for pills (homepage CTA uses cta area); override on Flexible Projects */
   #project-types .pt-header > .pt-tablist {
     grid-area: cta;
     padding: 0;
@@ -241,8 +243,10 @@
     background: none;
     justify-content: flex-start;
   }
-  /* Place the scales block within the header under the subtitle */
-  #project-types .pt-header > [data-ff-pt-scales] { grid-area: scales; }
+  /* Flexible Projects: place pills in their own grid area */
+  body.ff-page #project-types .pt-header > .pt-tablist { grid-area: pills; }
+  /* Scales normally live in body; for Flexible Projects they are inside .pt-left */
+  /* (no direct grid-area assignment here) */
 
   @media (min-width: 900px) {
     .pt-header {
@@ -257,8 +261,7 @@
       grid-template-columns: 3fr 2fr;
       grid-template-areas:
         "title title"
-        "subtitle pills"
-        "scales  pills";
+        "left  pills";
       column-gap: clamp(12px, 2vw, 24px);
       padding-right: 0;
     }
@@ -267,7 +270,8 @@
       justify-self: stretch;
       align-self: start;
     }
-    body.ff-page #project-types .pt-header > [data-ff-pt-scales] { grid-area: scales; }
+    /* Ensure pills occupy the right column; the left column stacks subtitle + scales */
+    body.ff-page #project-types .pt-header > .pt-left { grid-area: left; }
   }
 
   /* CTA background pattern + edge fading */
@@ -317,10 +321,10 @@ body.ff-page #project-types { padding: var(--section-pad-y) 0; }
 #project-types .ff-body { padding-inline: var(--rail-gutter); padding-bottom: clamp(1rem, 3vw, 1.5rem); }
 body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); --ff-imgw: clamp(180px, 24vw, 320px); }
 @media (min-width: 900px) {
-  body.ff-page #project-types .pt-header { grid-template-columns: 3fr 2fr; grid-template-areas: "title title" "subtitle pills" "scales  pills"; column-gap: clamp(12px, 2vw, 24px); padding-right: 0; }
+  body.ff-page #project-types .pt-header { grid-template-columns: 3fr 2fr; grid-template-areas: "title title" "left pills"; column-gap: clamp(12px, 2vw, 24px); padding-right: 0; }
   body.ff-page #project-types .pt-header .ff-robot { grid-area: art; position: static; justify-self: center; align-self: center; width: var(--ff-imgw); height: auto; object-fit: contain; pointer-events: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25)); transform: translateX(-12%); }
   /* Narrow the subtitle on the framework page so it wraps to more lines (reduces dead space) */
-  body.ff-page #project-types .pt-header > .pt-subtitle { max-width: 42ch; }
+  body.ff-page #project-types .pt-header .pt-left .pt-subtitle { max-width: 42ch; }
   /* Style pills container as its own capsule that fills the right column */
   body.ff-page #project-types .pt-header > .pt-tablist {
     display: flex;
@@ -332,8 +336,8 @@ body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); -
     background: rgba(255,255,255,0.02);
   }
   /* Header-embedded scales: stack vertically and remove strip borders/padding */
-  body.ff-page #project-types .pt-header [data-ff-pt-scales] { margin-top: 0.2rem; }
-  body.ff-page #project-types .pt-header [data-ff-pt-scales] .pt-scales {
+  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] { margin-top: 0.2rem; }
+  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] .pt-scales {
     border: 0;
     padding: 0;
     margin: 0;
@@ -349,6 +353,8 @@ body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); -
   body.ff-page #project-types .pt-header .ff-robot { position: absolute; left: 50%; top: 0.2rem; transform: translateX(-50%); width: clamp(220px, 78vw, 420px); height: auto; opacity: 0.08; filter: none; pointer-events: none; }
   body.ff-page #project-types .pt-header > h2,
   body.ff-page #project-types .pt-header > .pt-subtitle { position: relative; z-index: 1; }
+  /* Flexible Projects: define mobile stacking order title → left → pills */
+  body.ff-page #project-types .pt-header { grid-template-columns: 1fr; grid-template-areas: "title" "left" "pills"; }
 }
 
 /* Stage applicability emphasis */
