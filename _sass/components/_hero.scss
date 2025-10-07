@@ -19,34 +19,6 @@
   color: var(--accent-1);
 }
 
-#hero-title .marker-underline::after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: -0.02em;
-  /* tuck closer to the baseline */
-  height: 0.20em;
-  /* slightly slimmer to avoid overlap */
-  background-color: var(--accent-1);
-  transform: none;
-  /* rely on path for the swoosh */
-  box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.14);
-  opacity: .96;
-  z-index: -1;
-  /* keep behind the text */
-
-  /* Wavy top edge via SVG mask; keeps color from CSS var */
-  /* Upward swoosh, thicker on the left tapering to the right */
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 32' preserveAspectRatio='none'><path d='M0 16 C 28 18 72 26 100 24 L 100 32 L 0 32 Z' fill='%23000'/></svg>");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 32' preserveAspectRatio='none'><path d='M0 16 C 28 18 72 26 100 24 L 100 32 L 0 32 Z' fill='%23000'/></svg>");
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-}
-
 #hero-subtitle {
   max-width: 60ch;
   margin: 0 auto 1.4rem;
@@ -65,9 +37,8 @@
   aspect-ratio: 16/9;
 }
 
-/* Crossfade slideshow images */
-#hero-figure > img,
-#hero-figure > .hero-slide {
+#hero-figure>img,
+#hero-figure>.hero-slide {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -78,53 +49,29 @@
 }
 
 
-/* Base state and three-way crossfade */
-.hero-slide { opacity: 0; will-change: opacity, transform; }
-/* Apply subtle pan/zoom to slides (not the figure) so borders stay aligned */
-.hero-slide-1 { animation: heroPan 18s ease-in-out infinite, heroFade1 18s ease-in-out infinite both; }
-.hero-slide-2 { animation: heroPan 18s ease-in-out infinite, heroFade2 18s ease-in-out infinite both; }
-.hero-slide-3 { animation: heroPan 18s ease-in-out infinite, heroFade3 18s ease-in-out infinite both; }
-
-/* Slide 1: visible at start, crossfade to 2, then fades in before loop end to cross back from 3 */
-@keyframes heroFade1 {
-  0%   { opacity: 1; }
-  30%  { opacity: 1; }
-  36%  { opacity: 0; }
-  94%  { opacity: 0; }
-  100% { opacity: 1; }
+.hero-slide {
+  opacity: 0;
+  transition: opacity var(--fade, 900ms) ease-in-out;
+  will-change: opacity;
+  z-index: 0;
 }
 
-/* Slide 2: fades in as 1 fades out, fades out as 3 fades in */
-@keyframes heroFade2 {
-  0%   { opacity: 0; }
-  30%  { opacity: 0; }
-  36%  { opacity: 1; }
-  63%  { opacity: 1; }
-  69%  { opacity: 0; }
-  100% { opacity: 0; }
+#hero-figure:not(.js-ready)>.hero-slide:first-child {
+  opacity: 1;
 }
 
-/* Slide 3: fades in as 2 fades out, then fades out to hand back to 1 */
-@keyframes heroFade3 {
-  0%   { opacity: 0; }
-  63%  { opacity: 0; }
-  69%  { opacity: 1; }
-  94%  { opacity: 1; }
-  100% { opacity: 0; }
+.hero-slide.active {
+  opacity: 1;
 }
 
-/* Subtle overall pan/zoom for the slides to add motion without changing layout */
-@keyframes heroPan {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.015); }
-  100% { transform: scale(1); }
+.hero-slide.active {
+  z-index: 1;
 }
 
-/* Respect reduced motion: keep crossfade, remove zoom and slow it slightly */
 @media (prefers-reduced-motion: reduce) {
-  .hero-slide-1 { animation: heroFade1 24s ease-in-out infinite both !important; }
-  .hero-slide-2 { animation: heroFade2 24s ease-in-out infinite both !important; }
-  .hero-slide-3 { animation: heroFade3 24s ease-in-out infinite both !important; }
+  .hero-slide {
+    transition: none;
+  }
 }
 
 @media (max-width: 700px) {

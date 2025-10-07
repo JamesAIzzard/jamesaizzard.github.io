@@ -12,11 +12,57 @@
     {% include cta-form.html %}
 
     <figure id="hero-figure" class="drop-shadow edge-width">
-      <img class="hero-slide hero-slide-1" src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
-      <img class="hero-slide hero-slide-2" src="assets/images/hero_screenshot_2.png" alt="" aria-hidden="true">
-      <img class="hero-slide hero-slide-3" src="assets/images/hero_screenshot_3.png" alt="" aria-hidden="true">
+      <img class="hero-slide" src="assets/images/hero_screenshot.png" alt="" aria-hidden="true">
+      <img class="hero-slide" src="assets/images/hero_screenshot_2.png" alt="" aria-hidden="true">
+      <img class="hero-slide" src="assets/images/hero_screenshot_3.png" alt="" aria-hidden="true">
       <figcaption class="visually-hidden">Example CAD work</figcaption>
     </figure>
+
+    <script>
+      (function () {
+        function init() {
+          var fig = document.getElementById('hero-figure');
+          if (!fig) return;
+          var slides = fig.querySelectorAll('.hero-slide');
+          var count = slides.length;
+          if (count <= 1) return; // nothing to rotate
+
+          // Respect reduced motion: keep first image only
+          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reduce) return;
+
+          // Mark ready to disable no-JS fallback CSS
+          fig.classList.add('js-ready');
+
+          // Configurable durations (ms) via data attributes if desired
+          var SEGMENT = parseInt(fig.getAttribute('data-segment'), 10); // ms visible per image
+          var FADE_ATTR = parseInt(fig.getAttribute('data-fade'), 10); // ms for crossfade
+          var DURATION = isNaN(SEGMENT) ? 6000 : SEGMENT;
+          var FADE = isNaN(FADE_ATTR) ? 900 : FADE_ATTR;  // matches CSS --fade
+
+          // Ensure CSS transition is at least as fast as FADE
+          for (var i = 0; i < count; i++) {
+            slides[i].style.setProperty('--fade', FADE + 'ms');
+          }
+
+          var index = 0;
+          slides[index].classList.add('active');
+
+          setInterval(function () {
+            var prev = index;
+            index = (index + 1) % count;
+            slides[index].classList.add('active');
+            slides[prev].classList.remove('active');
+          }, DURATION);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
 
   </div>
 </section>
