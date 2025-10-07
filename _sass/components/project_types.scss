@@ -271,7 +271,7 @@
       align-self: start;
     }
     /* Ensure pills occupy the right column; the left column stacks subtitle + scales */
-    body.ff-page #project-types .pt-header > .pt-left { grid-area: left; }
+    body.ff-page #project-types .pt-header > .pt-left { grid-area: left; align-self: stretch; }
   }
 
   /* CTA background pattern + edge fading */
@@ -335,14 +335,20 @@ body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); -
     border-radius: 0.6rem 0 0 0.6rem; /* round TL and BL only */
     background: rgba(255,255,255,0.02);
   }
-  /* Header-embedded scales: stack vertically and remove strip borders/padding */
-  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] { margin-top: 0.2rem; }
+  /* Header-embedded scales: push to bottom of left column for bottom-edge alignment */
+  body.ff-page #project-types .pt-header .pt-left { display: flex; flex-direction: column; align-self: stretch; }
+  body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] { margin-top: auto; }
   body.ff-page #project-types .pt-header .pt-left [data-ff-pt-scales] .pt-scales {
     border: 0;
     padding: 0;
     margin: 0;
     grid-template-columns: 1fr; /* keep stacked on desktop too */
     background: none;
+  }
+  /* Stretch the pills container to full column height and align with section border */
+  body.ff-page #project-types .pt-header > .pt-tablist {
+    align-self: stretch;
+    margin-right: calc(-1 * var(--edge-border)); /* overlap the main content border exactly */
   }
 }
 @media (min-width: 900px) and (max-width: 1200px) {
