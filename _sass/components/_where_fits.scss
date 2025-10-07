@@ -218,6 +218,14 @@
     height: 100%;
   }
 
+  /* Center the Where I can help content vertically within its panel */
+  #wherefits-tiles-good {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
   /* Merge borders between LHS and RHS to avoid doubles */
   #wf-lhs .wf-cell {
     border-left: 0; /* center divider supplied by RHS's right border */
