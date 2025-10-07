@@ -53,10 +53,7 @@
 /* Avoid additive margins inside the text grid; rely on gap */
 #wherefits-text p { margin: 0; }
 
-/* Action area for CTA link */
-.wf-actions {
-  margin-top: 0.25rem;
-}
+/* (removed .wf-actions; CTA now full-width bar) */
 
 /* Subtle emphasis for the first sentence */
 #wherefits-text .lead-in {
@@ -78,23 +75,13 @@
   padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
 }
 
-/* Bottom corner radii to match Typical Projects' top corners */
-/* Mobile (stacked): with only one LHS tile, round both bottom corners on that tile */
-#wf-lhs .wf-lhs-top {
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
+/* Bottom corners now provided by the CTA bar */
+#wf-lhs .wf-lhs-top { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
 @media (min-width: 900px) {
-  /* Desktop: main text (left) gets bottom-left only; LHS tile (right) gets bottom-right only */
-  #wf-rhs {
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 0;
-  }
-  #wf-lhs .wf-lhs-top {
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 0;
-  }
+  /* Desktop: bottom corners handled by CTA bar spanning both columns */
+  #wf-rhs { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  #wf-lhs .wf-lhs-top { border-bottom-right-radius: 0; border-bottom-left-radius: 0; }
 }
 
 /* Reduce excess space above headings across all viewports */
@@ -107,7 +94,36 @@
 #wf-rhs.border-panel { border-top: 0; }
 #wf-lhs .wf-lhs-top.border-panel { border-top: 0; }
 
- 
+/* Full-width CTA bar at bottom of section */
+.wf-cta-bar {
+  grid-column: 1 / -1;
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--accent-2) 94%, white),
+    color-mix(in oklab, var(--accent-2) 88%, black));
+  border-top: 0; /* merge with cells above */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 0;
+}
+.wf-cta-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.55),
+    0 0 2px rgba(0,0,0,0.35);
+}
+.wf-cta-link svg {
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.wf-cta-link:hover svg { transform: translateX(3px); }
 
  
 

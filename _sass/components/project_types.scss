@@ -269,7 +269,6 @@
   @media (max-width: 899px) { .pt-header > .fp-cta { margin-top: 0.6rem; } }
   @media (min-width: 900px) { .fp-cta { justify-content: center; } }
   .fp-arrow-link { @extend .btn-pill; }
-  .fp-arrow-link.btn--accent-2 { --btn-accent: color-mix(in oklab, var(--accent-2) 74%, black); }
   .fp-arrow { display: block; transition: transform 120ms ease; }
   .fp-arrow-link:hover .fp-arrow { transform: translateX(3px); }
 

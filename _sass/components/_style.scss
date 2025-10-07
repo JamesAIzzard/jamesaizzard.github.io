@@ -385,6 +385,16 @@ a:hover {
   transition: transform 120ms ease, filter 120ms ease;
 }
 
+/* Increase contrast for blue buttons on lighter gradients */
+.btn--accent-2 {
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.55),
+    0 0 2px rgba(0,0,0,0.35);
+}
+.btn--accent-2 svg {
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+}
+
 /* Nudge arrow/icons on hover for both green and blue accent buttons */
 .btn--accent-1:hover svg,
 .btn--accent-2:hover svg {
