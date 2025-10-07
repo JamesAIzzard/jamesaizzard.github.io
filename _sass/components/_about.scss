@@ -275,13 +275,17 @@
   font-weight: 800;
 }
 
-/* Full-width CTA bar below the marquee */
+/* Full-width CTA bar that connects to the ribbon above and supplies the bottom corners */
 .about-cta-bar {
-  margin-top: clamp(0.5rem, 2vw, 0.9rem);
+  margin-top: 0; /* butt up against the scroller */
   background: linear-gradient(180deg,
     color-mix(in oklab, var(--accent-2) 94%, white),
     color-mix(in oklab, var(--accent-2) 88%, black));
-  border-radius: 1rem;
+  border-top: 0; /* merge with the ribbon's bottom border */
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   padding: 0;
 }
 .about-cta-link {
