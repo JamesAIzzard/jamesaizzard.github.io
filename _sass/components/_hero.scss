@@ -25,18 +25,18 @@
   position: relative;
   overflow: hidden;
   vertical-align: bottom;
-  height: 1.15em;
-  line-height: 1.15;
+  height: 1.10em; /* slightly shorter */
+  line-height: 1.10;
   width: max-content; /* size to longest word */
   min-width: max-content;
   margin: clamp(0.075em, 0.4vw, 0.175em) auto 0; /* half the previous spacing */
-  border-radius: 0.35em;
-  padding: 0 0.25ch;
+  border-radius: 0.175em; /* 50% of previous radius */
+  padding: 0 0.6ch; /* a little wider */
   background: var(--page-bg, transparent);
   /* Subtle 'hole in the page' effect */
   box-shadow:
-    inset 0 10px 16px rgba(0, 0, 0, 0.08),
-    inset 0 -10px 16px rgba(0, 0, 0, 0.08),
+    inset 0 12px 20px rgba(0, 0, 0, 0.14),
+    inset 0 -12px 20px rgba(0, 0, 0, 0.14),
     inset 0 0 0 1px var(--panel-edge);
 }
 
@@ -51,8 +51,8 @@
 
 #hero-title .slot-item {
   display: block;
-  height: 1.15em;
-  line-height: 1.15;
+  height: 1.10em; /* match viewport height */
+  line-height: 1.10;
   white-space: nowrap;
   width: max-content; /* intrinsic width per word */
   color: var(--accent-1);
