@@ -191,6 +191,16 @@
   transform: translateY(0.15em);
 }
 
+/* Lucide icon styling for tick column (keeps green via currentColor) */
+#wherefits-tiles-good .wf-list-table .tick-col > .tick-icon,
+#wherefits-tiles-good .wf-list-table .tick-col > .lucide {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  transform: translateY(0.12em);
+}
+#wherefits-tiles-good .wf-list-table .tick-col > .lucide { stroke-width: 2.25; }
+
 @media (min-width: 900px) {
 
   #where-fits {

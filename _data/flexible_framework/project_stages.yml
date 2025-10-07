@@ -20,7 +20,7 @@ stages:
     inputs: S1 outputs.
     activities: Concept exploration, morphological analysis, first-order calculations, simple models or sketches.
     outputs: Short concept document with pros, cons, and key uncertainties.
-    exit: Multiple viable options worth review.
+    exit: Multiple viable, reviewable concepts.
 
   - id: S3
     title: Select Concepts
@@ -63,7 +63,7 @@ stages:
     exit: Performance meets acceptance tests.
 
   - id: S8
-    title: Production Handover and Support
+    title: Early Production Handover and Support
     goal: Enable reliable production.
     inputs: Converged design and test evidence.
     activities: Release manufacturing data, support supplier onboarding, oversee first builds as needed.
