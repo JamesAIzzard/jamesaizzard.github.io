@@ -141,7 +141,7 @@
 #wherefits-tiles-good .wf-list-table td {
   border: 0; /* no external frame */
   padding: 0.1rem 0; /* compact default */
-  vertical-align: top;
+  vertical-align: middle; /* align text with icons */
 }
 
 /* Row separators: apply to all cells on subsequent rows */
@@ -173,7 +173,8 @@
   display: inline-block;
   width: 1.05em;
   height: 1.05em;
-  transform: translateY(0.12em);
+  vertical-align: middle; /* baseline-align with text */
+  transform: translateY(0); /* remove manual nudge */
 }
 #wherefits-tiles-good .wf-list-table .tick-col > .lucide { stroke-width: 2.25; }
 
