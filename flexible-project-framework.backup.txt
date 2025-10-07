@@ -1,0 +1,11 @@
+---
+layout: default
+title: Flexible Project Framework
+permalink: /flexible-project-framework/
+description: A flexible, staged framework for product development.
+body_class: ff-page
+---
+
+{% include project_types.html %}
+
+

@@ -1,0 +1,170 @@
+/* Flexible Project Framework section */
+#project-types {
+  /* Merge visually with the panel above; remove top edge and radii */
+  padding: clamp(0.4rem, 1.8vw, 0.8rem) 0 0;
+
+  &.panel-surface {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    /* Seamless join to following section */
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+    margin-top: 0;
+  }
+
+  /* Radiused background container matching rail width */
+  .ff-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0; /* section border provides bottom edge */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  }
+
+  /* Header spacing aligned with rails */
+  .pt-header {
+    padding: clamp(1.1rem, 3vw, 1.6rem);
+    padding-inline: var(--rail-gutter);
+    display: grid;
+    grid-template-columns: 1fr; /* stack by default (mobile) */
+    grid-template-areas:
+      "title"
+      "subtitle"
+      "cta";
+    gap: 0.6rem;
+    align-items: start;
+    position: relative; /* create containing block for background layer */
+    z-index: 0; /* allow children to sit above ::after */
+  }
+
+  .pt-header > h2 { grid-area: title; margin: 0; }
+  .pt-header > .pt-subtitle { grid-area: subtitle; }
+  .pt-header > .fp-cta { grid-area: cta; justify-self: stretch; align-self: stretch; }
+
+  @media (min-width: 900px) {
+    .pt-header {
+      grid-template-columns: 1fr 1fr; /* let RHS take full remaining width */
+      grid-template-areas:
+        "title cta"
+        "subtitle cta";
+    }
+    .pt-header > .fp-cta { justify-self: stretch; align-self: stretch; }
+  }
+
+  .pt-subtitle {
+    opacity: 0.9;
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* Increase left fade on narrower desktops to avoid text overlap */
+  @media (min-width: 900px) and (max-width: 1200px) {
+    .fp-cta::before {
+      -webkit-mask-image:
+        linear-gradient(
+          to right,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,1) 56px,
+          rgba(0,0,0,1) calc(100% - 8px),
+          rgba(0,0,0,0) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,1) 8px,
+          rgba(0,0,0,1) calc(100% - 8px),
+          rgba(0,0,0,0) 100%
+        );
+              mask-image:
+        linear-gradient(
+          to right,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,1) 56px,
+          rgba(0,0,0,1) calc(100% - 8px),
+          rgba(0,0,0,0) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,1) 8px,
+          rgba(0,0,0,1) calc(100% - 8px),
+          rgba(0,0,0,0) 100%
+        );
+    }
+  }
+
+  /* Subtle, tileable node-loop background scoped to CTA only */
+  .fp-cta { position: relative; z-index: 0; }
+  .fp-cta::before {
+    content: "";
+    position: absolute;
+    /* Slightly overflow (except left) so pattern reaches edges, then fade at edges */
+    top: -16px; right: -16px; bottom: -16px; left: 0;
+    background-image: url('/assets/images/node_loop_background.png');
+    background-repeat: repeat;
+    /* Align to the right, nudge up to reveal lower row of icons */
+    background-position: right 0 top -128px;
+    /* Scale tile to half the original (1024px -> 512px) so icons appear smaller */
+    background-size: 512px 512px;
+    opacity: 0.18; /* subtle */
+    pointer-events: none;
+    z-index: -1;
+    /* Fade near edges: stronger on left for text clearance, slight on right; also top/bottom fade */
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        rgba(0,0,0,0) 0,
+        rgba(0,0,0,1) 36px,
+        rgba(0,0,0,1) calc(100% - 8px),
+        rgba(0,0,0,0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0,
+        rgba(0,0,0,1) 8px,
+        rgba(0,0,0,1) calc(100% - 8px),
+        rgba(0,0,0,0) 100%
+      );
+            mask-image:
+      linear-gradient(
+        to right,
+        rgba(0,0,0,0) 0,
+        rgba(0,0,0,1) 36px,
+        rgba(0,0,0,1) calc(100% - 8px),
+        rgba(0,0,0,0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0,
+        rgba(0,0,0,1) 8px,
+        rgba(0,0,0,1) calc(100% - 8px),
+        rgba(0,0,0,0) 100%
+      );
+    /* Combine both masks by intersecting their alpha */
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+  }
+}
+
+#project-types .fp-cta { display: flex; margin: 0; justify-content: flex-start; align-items: center; }
+@media (max-width: 899px) {
+  /* Add a little extra space above the CTA on mobile */
+  #project-types .pt-header > .fp-cta { margin-top: 0.6rem; }
+}
+@media (min-width: 900px) {
+  /* Center the button within the RHS area, while the container stays stretched for the background */
+  #project-types .fp-cta { justify-content: center; }
+}
+
+#project-types .fp-arrow-link { @extend .btn-pill; }
+/* Darken the accent slightly on this specific CTA for better white text contrast */
+#project-types .fp-arrow-link.btn--accent-2 { --btn-accent: color-mix(in oklab, var(--accent-2) 74%, black); }
+
+#project-types .fp-arrow { display: block; transition: transform 120ms ease; }
+#project-types .fp-arrow-link:hover .fp-arrow { transform: translateX(3px); }
+
