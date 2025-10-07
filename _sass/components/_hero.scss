@@ -9,7 +9,8 @@
 #hero-title {
   font-size: clamp(2rem, calc(3.6vw + 1rem), 3.4rem);
   line-height: 1.15;
-  margin: 0.8rem 0 0.6rem;
+  /* Remove bottom margin so subtitle spacing can be symmetric */
+  margin: 0.8rem 0 0;
   letter-spacing: 0.2px;
   font-weight: 700;
 }
@@ -21,9 +22,15 @@
 
 #hero-subtitle {
   max-width: 60ch;
-  margin: 0 auto 1.4rem;
+  /* Even spacing above and below between title and CTA */
+  margin: 1.4rem auto 1.4rem;
   color: var(--muted);
   text-align: center;
+}
+
+/* Ensure CTA top margin doesn't outweigh subtitle spacing within hero */
+#hero .cta {
+  margin: 0 auto 3rem;
 }
 
 #hero-figure {
@@ -76,7 +83,10 @@
 
 @media (max-width: 700px) {
   #hero-subtitle {
-    margin-bottom: 0.8rem;
+    margin: 1rem auto 1rem;
+  }
+  #hero .cta {
+    margin: 0 auto 1.8rem;
   }
 }
 
