@@ -2,8 +2,21 @@
 
   <div id="hero-inner" class="container">
 
-    <h1 id="hero-title">Engineering Design for <br> <span class="hero-accent">Founders</span> & <span
-        class="hero-accent">Innovators</span></h1>
+    <h1 id="hero-title">
+      Engineering Design for <br>
+      <span class="slot-viewport" aria-live="polite" data-hold="3400" data-speed="600">
+        <span class="slot-reel">
+          <span class="slot-item">Founders</span>
+          <span class="slot-item">Innovators</span>
+          <span class="slot-item">Researchers</span>
+          <span class="slot-item">Inventors</span>
+          <span class="slot-item">Entrepreneurs</span>
+          <span class="slot-item">Startups</span>
+          <!-- clone of first for seamless loop -->
+          <span class="slot-item slot-clone">Founders</span>
+        </span>
+      </span>
+    </h1>
 
     <p id="hero-subtitle">
       <span class="hero-emph">Chartered Mechanical Engineer</span> specialising in efficient, agile prototype development under tight timelines & budgets.
@@ -20,7 +33,7 @@
 
     <script>
       (function () {
-        function init() {
+        function initFigure() {
           var fig = document.getElementById('hero-figure');
           if (!fig) return;
           var slides = fig.querySelectorAll('.hero-slide');
@@ -54,6 +67,76 @@
             slides[index].classList.add('active');
             slides[prev].classList.remove('active');
           }, DURATION);
+        }
+
+        function initSlot() {
+          var viewport = document.querySelector('#hero-title .slot-viewport');
+          if (!viewport) return;
+
+          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reduce) return; // respect reduced motion
+
+          var reel = viewport.querySelector('.slot-reel');
+          var items = reel ? reel.querySelectorAll('.slot-item') : null;
+          if (!reel || !items || items.length <= 2) return; // requires items + clone
+
+          var hold = parseInt(viewport.getAttribute('data-hold'), 10);
+          var speed = parseInt(viewport.getAttribute('data-speed'), 10);
+          if (isNaN(hold)) hold = 3400;
+          if (isNaN(speed)) speed = 600;
+
+          function measure() {
+            // Height: single item height from viewport line box
+            slotH = Math.round(viewport.getBoundingClientRect().height);
+            // Update current transform to align to current index without jump
+            reel.style.transform = 'translateY(' + (-index * slotH) + 'px)';
+          }
+
+          var index = 0;
+          var count = items.length - 1; // last is clone of first
+          var slotH = 0;
+
+          reel.style.setProperty('--slot-speed', speed + 'ms');
+
+          // initial measure after fonts load/layout
+          measure();
+
+          // re-measure on resize
+          var ro;
+          if ('ResizeObserver' in window) {
+            ro = new ResizeObserver(measure);
+            ro.observe(viewport);
+          } else {
+            window.addEventListener('resize', measure);
+          }
+
+          function step() {
+            index++;
+            reel.style.transition = 'transform var(--slot-speed) cubic-bezier(.22,.8,.18,1)';
+            reel.style.transform = 'translateY(' + (-index * slotH) + 'px)';
+
+            if (index === count) {
+              // when animation finishes to clone, snap back to 0 without visual change
+              var onEnd = function () {
+                reel.removeEventListener('transitionend', onEnd);
+                reel.style.transition = 'none';
+                index = 0;
+                reel.style.transform = 'translateY(0)';
+                // force reflow to apply transition none before restoring
+                void reel.offsetHeight;
+                reel.style.transition = 'transform var(--slot-speed) cubic-bezier(.22,.8,.18,1)';
+              };
+              reel.addEventListener('transitionend', onEnd);
+            }
+          }
+
+          // start stepping
+          setInterval(step, hold + speed);
+        }
+
+        function init() {
+          initFigure();
+          initSlot();
         }
 
         if (document.readyState === 'loading') {
