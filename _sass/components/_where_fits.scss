@@ -53,6 +53,11 @@
 /* Avoid additive margins inside the text grid; rely on gap */
 #wherefits-text p { margin: 0; }
 
+/* Action area for CTA link */
+.wf-actions {
+  margin-top: 0.25rem;
+}
+
 /* Subtle emphasis for the first sentence */
 #wherefits-text .lead-in {
   font-weight: 700;
