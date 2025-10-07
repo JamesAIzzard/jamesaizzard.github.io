@@ -44,8 +44,8 @@
   /* Top CTA bar: full-width, sits above the box */
   .pt-cta-bar {
     background: linear-gradient(180deg,
-      color-mix(in oklab, var(--accent-2) 94%, white),
-      color-mix(in oklab, var(--accent-2) 88%, black));
+      color-mix(in oklab, var(--accent-1) 94%, white),
+      color-mix(in oklab, var(--accent-1) 88%, black));
     border-bottom: 0; /* merge with ff-box below */
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
