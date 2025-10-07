@@ -41,6 +41,36 @@
     padding-inline: var(--rail-gutter);
   }
 
+  /* Top CTA bar: full-width, sits above the box */
+  .pt-cta-bar {
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--accent-2) 94%, white),
+      color-mix(in oklab, var(--accent-2) 88%, black));
+    border-bottom: 0; /* merge with ff-box below */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 0;
+  }
+  .pt-cta-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.55),
+      0 0 2px rgba(0,0,0,0.35);
+  }
+  .pt-cta-link svg {
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
+    transition: transform 120ms ease, filter 120ms ease;
+  }
+  .pt-cta-link:hover svg { transform: translateX(3px); }
+
   /* Scales strip between tabs and content */
   .pt-scales {
     display: grid;
@@ -214,6 +244,12 @@
     border-bottom-right-radius: 0;
     border-bottom: 0; /* section border provides bottom edge */
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  }
+  /* When following the top CTA bar, remove the top edge to merge cleanly */
+  .ff-box.ff-after-top-cta {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 
   /* Header grid and CTA area (used by homepage CTA include) */
