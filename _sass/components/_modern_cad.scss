@@ -233,13 +233,13 @@
 #modern-cad .mc-box {
   position: relative;
   overflow: visible; /* allow CTA bar corners to render */
-  border-top: 1px solid var(--panel-edge); /* single dividing line to split the joined pill */
-  border-bottom-left-radius: 0; /* bottom corners provided by CTA bar */
-  border-bottom-right-radius: 0; /* bottom corners provided by CTA bar */
+  border-top: 0; /* avoid double border with Flexibility section above */
+  border-bottom-left-radius: 1rem; /* round to align with CTA corners */
+  border-bottom-right-radius: 1rem; /* round to align with CTA corners */
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--panel);
 }
-/* Remove mc-box bottom edge; CTA bar supplies it */
-#modern-cad .mc-box.border-panel { border-bottom: 0; }
+/* Remove mc-box top/bottom edges; CTA bar supplies bottom edge */
+#modern-cad .mc-box.border-panel { border-bottom: 0; border-top: 0; }
 @media (max-width: 899px) {
   #modern-cad .mc-box {
     width: calc(100% - 2 * var(--edge-border));
