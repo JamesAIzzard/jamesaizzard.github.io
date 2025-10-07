@@ -12,13 +12,8 @@ body_class: ff-page
       <header class="pt-header panel-surface--lit">
         <h2>Flexible Projects</h2>
         <p class="pt-subtitle">{{ site.data.flexible_framework.project_stages.subheading }}</p>
-        <img class="ff-robot" src="/assets/images/graph.png" alt="" aria-hidden="true">
-      </header>
-
-      <div class="ff-body">
-        {% assign pt = site.data.flexible_framework.project_types %}
-
         <div class="pt-tablist" data-ff-pt-tabs>
+          {% assign pt = site.data.flexible_framework.project_types %}
           {% for t in pt.types %}
           <button class="pt-tab{% if forloop.first %} is-active{% endif %}" data-pt-id="{{ t.id }}">{{ t.label }}</button>
           {% endfor %}
@@ -51,6 +46,10 @@ body_class: ff-page
           </div>
           {% endfor %}
         </div>
+      </header>
+
+      <div class="ff-body">
+        {% assign pt = site.data.flexible_framework.project_types %}
 
         <div data-ff-pt-intro>
           {% for t in pt.types %}

@@ -223,6 +223,7 @@
     grid-template-areas:
       "title"
       "subtitle"
+      "scales"
       "cta";
     gap: 0.6rem;
     align-items: start;
@@ -232,6 +233,16 @@
   .pt-header > h2 { grid-area: title; margin: 0; }
   .pt-header > .pt-subtitle { grid-area: subtitle; }
   .pt-header > .fp-cta { grid-area: cta; justify-self: stretch; align-self: stretch; }
+  /* When pills are moved into the header, let them occupy the CTA row on mobile */
+  #project-types .pt-header > .pt-tablist {
+    grid-area: cta;
+    padding: 0;
+    border: 0;
+    background: none;
+    justify-content: flex-start;
+  }
+  /* Place the scales block within the header under the subtitle */
+  #project-types .pt-header > [data-ff-pt-scales] { grid-area: scales; }
 
   @media (min-width: 900px) {
     .pt-header {
@@ -241,6 +252,22 @@
         "subtitle cta";
     }
     .pt-header > .fp-cta { justify-self: stretch; align-self: stretch; }
+    /* On the full Flexible Projects page, the pills sit beside the subtitle to reduce header height */
+    body.ff-page #project-types .pt-header {
+      grid-template-columns: 3fr 2fr;
+      grid-template-areas:
+        "title title"
+        "subtitle pills"
+        "scales  pills";
+      column-gap: clamp(12px, 2vw, 24px);
+      padding-right: 0;
+    }
+    body.ff-page #project-types .pt-header > .pt-tablist {
+      grid-area: pills;
+      justify-self: stretch;
+      align-self: start;
+    }
+    body.ff-page #project-types .pt-header > [data-ff-pt-scales] { grid-area: scales; }
   }
 
   /* CTA background pattern + edge fading */
@@ -290,12 +317,33 @@ body.ff-page #project-types { padding: var(--section-pad-y) 0; }
 #project-types .ff-body { padding-inline: var(--rail-gutter); padding-bottom: clamp(1rem, 3vw, 1.5rem); }
 body.ff-page #project-types .pt-header { --ff-artw: clamp(220px, 27vw, 330px); --ff-imgw: clamp(180px, 24vw, 320px); }
 @media (min-width: 900px) {
-  body.ff-page #project-types .pt-header { grid-template-columns: 1fr var(--ff-artw); grid-template-areas: "title art" "subtitle art"; column-gap: clamp(12px, 2vw, 24px); padding-right: 0; }
+  body.ff-page #project-types .pt-header { grid-template-columns: 3fr 2fr; grid-template-areas: "title title" "subtitle pills" "scales  pills"; column-gap: clamp(12px, 2vw, 24px); padding-right: 0; }
   body.ff-page #project-types .pt-header .ff-robot { grid-area: art; position: static; justify-self: center; align-self: center; width: var(--ff-imgw); height: auto; object-fit: contain; pointer-events: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(0,0,0,0.25)); transform: translateX(-12%); }
+  /* Narrow the subtitle on the framework page so it wraps to more lines (reduces dead space) */
+  body.ff-page #project-types .pt-header > .pt-subtitle { max-width: 42ch; }
+  /* Style pills container as its own capsule that fills the right column */
+  body.ff-page #project-types .pt-header > .pt-tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 0.6rem 0 0 0.6rem; /* round TL and BL only */
+    background: rgba(255,255,255,0.02);
+  }
+  /* Header-embedded scales: stack vertically and remove strip borders/padding */
+  body.ff-page #project-types .pt-header [data-ff-pt-scales] { margin-top: 0.2rem; }
+  body.ff-page #project-types .pt-header [data-ff-pt-scales] .pt-scales {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    grid-template-columns: 1fr; /* keep stacked on desktop too */
+    background: none;
+  }
 }
 @media (min-width: 900px) and (max-width: 1200px) {
   body.ff-page #project-types .pt-header { column-gap: clamp(16px, 3vw, 28px); }
-  body.ff-page #project-types .pt-header .pt-subtitle { max-width: 52ch; }
+  body.ff-page #project-types .pt-header .pt-subtitle { max-width: 42ch; }
 }
 @media (max-width: 899px) {
   body.ff-page #project-types .pt-header .ff-robot { position: absolute; left: 50%; top: 0.2rem; transform: translateX(-50%); width: clamp(220px, 78vw, 420px); height: auto; opacity: 0.08; filter: none; pointer-events: none; }
