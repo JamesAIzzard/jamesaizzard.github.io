@@ -1,7 +1,7 @@
 /* Project Types section — unified box with header, tabs row, and two-column content */
 #project-types {
-  /* Independent pill with symmetric spacing; CTA supplies bottom edge visually */
-  padding: var(--section-pad-y) 0 var(--section-pad-y);
+  /* Tighten gap to Where Fits above; keep comfortable bottom spacing */
+  padding: clamp(0.35rem, 1.2vw, 0.75rem) 0 var(--section-pad-y);
 
   &.panel-surface {
     /* Blend top edge into Where Fits above (no visible join) */
