@@ -43,6 +43,6 @@
 /* Tone down heavy shadows for cleaner print */
 .print-layout .drop-shadow { box-shadow: none !important; }
 
-/* Large gradient CTA bars aren’t necessary in print */
+/* Keep CTA bars visible in print */
 .print-layout .mc-cta-bar,
-.print-layout .pt-cta-bar { display: none !important; }
+.print-layout .pt-cta-bar { display: block !important; }
