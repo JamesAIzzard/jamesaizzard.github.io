@@ -1,17 +1,19 @@
 /* Project Types section — unified box with header, tabs row, and two-column content */
 #project-types {
-  /* Merge visually with the panel above; even tighter top gap, no bottom padding */
-  padding: clamp(0.4rem, 1.8vw, 0.8rem) 0 0;
+  /* Tighten gap to Where Fits above; keep comfortable bottom spacing */
+  padding: clamp(0.35rem, 1.2vw, 0.75rem) 0 var(--section-pad-y);
 
   &.panel-surface {
-    border-top: 0; /* continue colour unbroken from previous panel */
+    /* Blend top edge into Where Fits above (no visible join) */
+    border-top: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    margin-top: 0; /* clean join with previous section */
+    margin-top: 0;
   }
 
 
-  .pt-header { padding: clamp(1.1rem, 3vw, 1.6rem); }
+  /* Align top heading padding with Modern Tools */
+  .pt-header { padding-top: clamp(1rem, 2.6vw, 1.4rem); padding-bottom: clamp(0.35rem, 1.2vw, 0.7rem); }
   .pt-header { padding-inline: var(--rail-gutter); }
 
 
@@ -41,14 +43,14 @@
     padding-inline: var(--rail-gutter);
   }
 
-  /* Top CTA bar: full-width, sits above the box */
+  /* Bottom CTA bar: full-width, sits below the box */
   .pt-cta-bar {
     background: linear-gradient(180deg,
       color-mix(in oklab, var(--accent-1) 94%, white),
       color-mix(in oklab, var(--accent-1) 88%, black));
-    border-bottom: 0; /* merge with ff-box below */
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    border-top: 0; /* merge with ff-box above */
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
     padding: 0;
   }
   .pt-cta-link {
@@ -245,6 +247,7 @@
     border-bottom: 0; /* section border provides bottom edge */
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   }
+  /* Top highlight removed per feedback */
   /* When following the top CTA bar, remove the top edge to merge cleanly */
   .ff-box.ff-after-top-cta {
     border-top: 0;

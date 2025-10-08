@@ -223,7 +223,7 @@
     text-align: center;
 }
 
-#modern-cad { padding-top: 0; }
+#modern-cad { padding-top: var(--section-pad-y); }
 #modern-cad #onshape-header { margin-bottom: clamp(0.4rem, 1.4vw, 0.8rem); }
 
 /* Uniform side gutters from the vertical rails for all content in this section */
@@ -233,13 +233,16 @@
 #modern-cad .mc-box {
   position: relative;
   overflow: visible; /* allow CTA bar corners to render */
-  border-top: 0; /* avoid double border with Flexibility section above */
   border-bottom-left-radius: 1rem; /* round to align with CTA corners */
   border-bottom-right-radius: 1rem; /* round to align with CTA corners */
+  border-top-left-radius: 1rem;  /* independent pill: round top corners */
+  border-top-right-radius: 1rem; /* independent pill: round top corners */
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--panel);
 }
 /* Remove mc-box top/bottom edges; CTA bar supplies bottom edge */
-#modern-cad .mc-box.border-panel { border-bottom: 0; border-top: 0; }
+#modern-cad .mc-box.border-panel { border-bottom: 0; /* bottom supplied by CTA bar */ }
+
+/* Top highlight removed per feedback */
 @media (max-width: 899px) {
   #modern-cad .mc-box {
     width: calc(100% - 2 * var(--edge-border));
@@ -249,9 +252,9 @@
 
 /* Rail-aligned padding for content inside the container */
 #modern-cad .mc-box > #onshape-header {
-  /* Tighten vertical padding around the header content */
+  /* Align top heading padding with Flexibility */
   padding-inline: var(--rail-gutter);
-  padding-top: clamp(0.9rem, 2.4vw, 1.4rem);
+  padding-top: clamp(1rem, 2.6vw, 1.4rem);
   padding-bottom: clamp(0.35rem, 1.2vw, 0.7rem);
 }
 #modern-cad .mc-box > #onshape-stage {

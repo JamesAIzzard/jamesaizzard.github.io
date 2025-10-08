@@ -4,14 +4,15 @@
 
     <h1 id="hero-title">
       Engineering Design for <br>
-      <span class="slot-viewport" aria-live="polite" data-hold="3400" data-speed="600">
+      <span class="slot-viewport" aria-live="polite" data-hold="1700" data-speed="600">
         <span class="slot-reel">
+          <span class="slot-item">Startups</span>
           <span class="slot-item">Founders</span>
           <span class="slot-item">Researchers</span>
           <span class="slot-item">Scientists</span>
-          <span class="slot-item">Startups</span>
           <span class="slot-item">Labs</span>
-          <span class="slot-item slot-clone">Founders</span>
+          <span class="slot-item">Inventors</span>
+          <span class="slot-item slot-clone">Startups</span>
         </span>
       </span>
     </h1>
@@ -80,7 +81,7 @@
 
           var hold = parseInt(viewport.getAttribute('data-hold'), 10);
           var speed = parseInt(viewport.getAttribute('data-speed'), 10);
-          if (isNaN(hold)) hold = 3400;
+          if (isNaN(hold)) hold = 2000;
           if (isNaN(speed)) speed = 600;
 
           function measure() {

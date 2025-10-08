@@ -1,37 +1,9 @@
 
 /* About section */
-.about { padding: clamp(2rem, 5vw, 4rem) 0; }
-
-.about-header { margin-bottom: 1.25rem; }
-
-/* Slightly increase space under the About heading */
-.about-header > h2 { margin: 0 0 0.75rem; }
-
-.about-tldr {
-  line-height: 1.45;
-  max-width: 60ch;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-}
-
-/* Comfortable spacing between short TL;DR paragraphs */
-.about-tldr p { margin: 0; }
-.about-tldr p + p { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--panel-edge); }
-
-/* Three-column layout with subtle vertical dividers on wide screens */
-@media (min-width: 900px) {
-  .about-tldr {
-    max-width: none;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: start; /* align columns to top */
-  }
-  .about-tldr > * { padding-inline: clamp(0.6rem, 1.6vw, 0.9rem); }
-  .about-tldr > * + * { border-left: 1px solid var(--panel-edge); }
-  /* Remove stacked spacing and mobile dividers when in columns */
-  .about-tldr p + p { margin-top: 0; padding-top: 0; border-top: 0; }
-  /* Justify text in desktop columns for clean edges */
-  .about-tldr p { text-align: justify; hyphens: auto; }
+.about {
+  /* Reduce top padding now header is removed */
+  padding-top: clamp(0.5rem, 2vw, 1rem);
+  padding-bottom: clamp(2rem, 5vw, 4rem);
 }
 
 
@@ -179,9 +151,10 @@
 .about-table {
   display: grid;
   grid-template-columns: 1fr;
-  border-top: 1px solid var(--panel-edge); /* horizontal top divider */
   padding-inline: var(--rail-gutter);
-  margin-top: 1rem;
+  /* Pull table to top, add light breathing room */
+  margin-top: 0;
+  padding-top: clamp(0.25rem, 1.5vw, 0.75rem);
 }
 
 .about-cell { padding: clamp(0.9rem, 2vw, 1.1rem) 0; }
