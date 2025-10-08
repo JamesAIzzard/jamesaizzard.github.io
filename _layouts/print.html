@@ -69,6 +69,19 @@
         a.setAttribute('target', '_blank');
         a.setAttribute('rel', 'noopener');
       });
+
+      // Replace the contact form submit button with a link to the homepage
+      document.querySelectorAll('form.cta').forEach(function(form){
+        var btn = form.querySelector('button[type="submit"]');
+        if (!btn) return;
+        var link = document.createElement('a');
+        link.className = 'button';
+        link.textContent = btn.textContent || 'Start the conversation';
+        link.href = LIVE + '/';
+        link.target = '_blank';
+        link.rel = 'noopener';
+        btn.replaceWith(link);
+      });
     });
   </script>
 
