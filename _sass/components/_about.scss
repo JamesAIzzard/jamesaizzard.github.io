@@ -46,7 +46,7 @@
 }
 
 .about-ribbon-label::after {
-  content: "\2192"; /* → */
+  content: "\2192"; /* â†’ */
   display: inline-block;
   margin-left: 0.45rem;
   color: var(--accent-2);
@@ -70,7 +70,7 @@
     /* give a little more breathing room top/bottom when stacked */
     padding-top: 10px;
     padding-bottom: 5px;
-    /* reduce large left inset so label isn’t overly indented */
+    /* reduce large left inset so label isnâ€™t overly indented */
     padding-left: 0.6rem;
   }
   .about-ribbon-label {
@@ -82,7 +82,7 @@
   }
   /* Arrow points down when label sits above the scroller */
   .about-ribbon-label::after {
-    content: "\2193"; /* ↓ */
+    content: "\2193"; /* â†“ */
     transform: translateY(0);
   }
   /* Keep chip baseline natural in stacked layout */
@@ -180,10 +180,7 @@
     }
   }
 
-.about-card {
-  border-radius: 8px;
-  padding: 1rem clamp(1rem, 2vw, 1.25rem);
-}
+/* Removed unused .about-card wrapper */
 
 .about-h { margin: 0 0 .5rem; }
 
@@ -217,7 +214,7 @@
   line-height: 1;
   font-style: normal; /* keep marker upright */
 }
-.about-item[open] > summary::before { content: "–"; }
+.about-item[open] > summary::before { content: "\2013"; }
 
 /* Keep labels emphasized and in main colour */
 .about-item summary strong { font-style: normal; color: var(--text); }
@@ -239,7 +236,7 @@
 .about-list li { margin: .25rem 0; position: relative; }
 .about-list li { padding-left: .6rem; }
 .about-list li::before {
-  content: "•";
+  content: "\2022"; /* bullet dot */
   position: absolute;
   left: 0;
   top: 0.1em;
@@ -280,3 +277,8 @@
   transition: transform 120ms ease, filter 120ms ease;
 }
 .about-cta-link:hover svg { transform: translateX(3px); }
+
+
+
+
+
