@@ -12,3 +12,5 @@
   margin: 1rem auto 1.6rem;
 }
 
+/* Remove the scrolling ribbon on printable page */
+.print-layout .about-ribbon { display: none !important; }
