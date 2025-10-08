@@ -14,3 +14,35 @@
 
 /* Remove the scrolling ribbon on printable page */
 .print-layout .about-ribbon { display: none !important; }
+
+/*
+  Print-specific hardening
+  - Make header/nav static to avoid mid-page positioning in tall PDFs
+  - Remove decorative lighting/glow layers and heavy drop shadows
+  - Hide CTA bars that carry large gradients not needed in print
+*/
+.print-layout #site-header {
+  position: static !important;
+  top: auto !important;
+  background: var(--panel) !important;
+  box-shadow: none !important;
+}
+.print-layout .nav-toggle { display: none !important; }
+.print-layout #main-nav {
+  position: static !important;
+  max-height: none !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Remove engineering grid/light glows and lit surface bloom */
+.print-layout .bg-engineering::before { opacity: 0 !important; }
+.print-layout .panel-surface--lit::before { opacity: 0 !important; }
+
+/* Tone down heavy shadows for cleaner print */
+.print-layout .drop-shadow { box-shadow: none !important; }
+
+/* Large gradient CTA bars aren’t necessary in print */
+.print-layout .mc-cta-bar,
+.print-layout .pt-cta-bar { display: none !important; }
