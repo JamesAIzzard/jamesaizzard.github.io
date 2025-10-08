@@ -1,31 +1,23 @@
-/* Where-Fits */
-#where-fits {
+/* Intro (formerly where-fits) */
+#intro {
   position: relative;
   z-index: 1;
   scroll-margin-top: 80px;
-  /* Maintain the desktop hero+where-fits capsule effect on mobile too */
   /* Pull the section up to meet the hero figure below it */
   margin-top: clamp(-36px, -8vw, -56px);
   /* Blend the table's top edge with the section's top border */
   padding: 0 0 clamp(0.5rem, 2.5vw, 1rem);
 }
 
-
 /* Blend with following panel: remove bottom edge border/radius/shadow */
-#where-fits.panel-surface {
+#intro.panel-surface {
   border-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: none;
 }
 
- 
-
-#where-fits p {
-  color: inherit; /* use default text color */
-}
-
-#wherefits-grid {
+#intro-grid {
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: auto;
@@ -36,66 +28,33 @@
 }
 
 /* Improve legibility: disable lighting overlay in this section */
-#wherefits-grid.panel-surface--lit {
-  background: var(--panel);
-}
-#wherefits-grid.panel-surface--lit::before {
-  display: none;
-}
+#intro-grid.panel-surface--lit { background: var(--panel); }
+#intro-grid.panel-surface--lit::before { display: none; }
 
- 
+#intro-text { display: grid; gap: 0.5rem; }
+#intro-text p { margin: 0; }
 
-#wherefits-text {
-  display: grid;
-  gap: 0.5rem; /* unify spacing between heading and text */
-}
-
-/* Avoid additive margins inside the text grid; rely on gap */
-#wherefits-text p { margin: 0; }
-
-/* (removed .wf-actions; CTA now full-width bar) */
-
-/* Subtle emphasis for the first sentence */
-#wherefits-text .lead-in {
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--accent-2);
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.45),
-    0 0 1px rgba(0, 0, 0, 0.25);
-}
-
-/* Contrasting emphasis for the second sentence (no underline) */
-#wherefits-text .lead-cta {
-  font-weight: 700;
-  color: inherit; /* white body text */
-}
-
-.wf-cell {
-  padding: 1rem var(--rail-gutter) 0.9rem; /* uniform rail gutter at sides */
-}
+.intro-cell { padding: 1rem var(--rail-gutter) 0.9rem; }
 
 /* Bottom corners now provided by the CTA bar */
-#wf-lhs .wf-lhs-top { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+#intro-lhs .intro-lhs-top { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
 @media (min-width: 900px) {
   /* Desktop: bottom corners handled by CTA bar spanning both columns */
-  #wf-rhs { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  #wf-lhs .wf-lhs-top { border-bottom-right-radius: 0; border-bottom-left-radius: 0; }
+  #intro-rhs { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  #intro-lhs .intro-lhs-top { border-bottom-right-radius: 0; border-bottom-left-radius: 0; }
 }
 
 /* Reduce excess space above headings across all viewports */
-#wf-rhs,
-#wf-lhs .wf-lhs-top {
-  padding-top: clamp(0.5rem, 3vw, 1rem);
-}
+#intro-rhs,
+#intro-lhs .intro-lhs-top { padding-top: clamp(0.5rem, 3vw, 1rem); }
 
 /* Remove the top border on the first row so it doesn't double with the section border */
-#wf-rhs.border-panel { border-top: 0; }
-#wf-lhs .wf-lhs-top.border-panel { border-top: 0; }
+#intro-rhs.border-panel { border-top: 0; }
+#intro-lhs .intro-lhs-top.border-panel { border-top: 0; }
 
 /* Full-width CTA bar at bottom of section */
-.wf-cta-bar {
+.intro-cta-bar {
   grid-column: 1 / -1;
   background: linear-gradient(180deg,
     color-mix(in oklab, var(--accent-2) 94%, white),
@@ -105,7 +64,7 @@
   border-bottom-right-radius: 1rem;
   padding: 0;
 }
-.wf-cta-link {
+.intro-cta-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,44 +78,32 @@
     0 1px 3px rgba(0,0,0,0.55),
     0 0 2px rgba(0,0,0,0.35);
 }
-.wf-cta-link svg {
-  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
-  transition: transform 120ms ease, filter 120ms ease;
-}
-.wf-cta-link:hover svg { transform: translateX(3px); }
-
- 
-
- 
-
- 
+.intro-cta-link svg { filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35)); transition: transform 120ms ease, filter 120ms ease; }
+.intro-cta-link:hover svg { transform: translateX(3px); }
 
 /* Table-based list styling (internal separators only; no outer border) */
-#wherefits-tiles-good .wf-list-table {
+#intro-tiles .intro-list {
   width: 100%;
   border-collapse: separate; /* keep inner borders separate to avoid outer frame */
   border-spacing: 0;
 }
 
-#wherefits-tiles-good .wf-list-table td {
+#intro-tiles .intro-list td {
   border: 0; /* no external frame */
   padding: 0.1rem 0; /* compact default */
   vertical-align: middle; /* align text with icons */
 }
 
 /* Row separators: apply to all cells on subsequent rows */
-#wherefits-tiles-good .wf-list-table tr + tr td {
+#intro-tiles .intro-list tr + tr td {
   border-top: 1px solid var(--panel-edge);
   padding-top: 0.5rem; /* preserve rhythm above row content */
 }
 
 /* Column separator: only between tick and text columns */
-#wherefits-tiles-good .wf-list-table .text-col {
-  border-left: 1px solid var(--panel-edge);
-  padding-left: 0.6rem;
-}
+#intro-tiles .intro-list .text-col { border-left: 1px solid var(--panel-edge); padding-left: 0.6rem; }
 
-#wherefits-tiles-good .wf-list-table .tick-col {
+#intro-tiles .intro-list .tick-col {
   width: 1.4em;
   text-align: center;
   color: var(--accent-1);
@@ -165,33 +112,28 @@
   padding-right: 0.4rem;
 }
 
- 
-
 /* Lucide icon styling for tick column (keeps green via currentColor) */
-#wherefits-tiles-good .wf-list-table .tick-col > .tick-icon,
-#wherefits-tiles-good .wf-list-table .tick-col > .lucide {
+#intro-tiles .intro-list .tick-col > .tick-icon,
+#intro-tiles .intro-list .tick-col > .lucide {
   display: inline-block;
   width: 1.05em;
   height: 1.05em;
   vertical-align: middle; /* baseline-align with text */
-  transform: translateY(0); /* remove manual nudge */
+  transform: translateY(0);
 }
-#wherefits-tiles-good .wf-list-table .tick-col > .lucide { stroke-width: 2.25; }
+#intro-tiles .intro-list .tick-col > .lucide { stroke-width: 2.25; }
 
 @media (min-width: 900px) {
-
-  #where-fits {
-    margin-top: -56px;
-  }
+  #intro { margin-top: -56px; }
 
   /* Two columns, one row so heights match */
-  #wherefits-grid {
+  #intro-grid {
     grid-template-columns: 1fr minmax(300px, 420px);
     grid-template-rows: auto;
     align-items: stretch;
   }
 
-  #wf-lhs {
+  #intro-lhs {
     grid-column: 2;
     grid-row: 1;
     display: grid;
@@ -199,26 +141,16 @@
     height: 100%;
   }
 
-  #wf-rhs {
+  #intro-rhs {
     grid-column: 1;
     grid-row: 1;
     height: 100%;
   }
 
-  /* Center the Where I can help content vertically within its panel */
-  #wherefits-tiles-good {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
+  /* Center the list content vertically within its panel */
+  #intro-tiles { display: flex; flex-direction: column; justify-content: center; height: 100%; }
 
   /* Merge borders between LHS and RHS to avoid doubles */
-  #wf-lhs .wf-cell {
-    border-left: 0; /* center divider supplied by RHS's right border */
-  }
-
-  /* Only one LHS tile now; no internal divider needed */
+  #intro-lhs .intro-cell { border-left: 0; /* center divider supplied by RHS's right border */ }
 }
 
-/* (icons removed by request; no background art overlay) */

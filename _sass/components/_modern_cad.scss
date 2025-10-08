@@ -19,49 +19,8 @@
 #modern-cad .onshape-headings > h2 { margin: 0 0 0.25rem; }
 #modern-cad .onshape-headings > p { margin: 0; }
 
-#onshape-logo {
-    width: 56px;
-    height: 56px;
-    margin: 0;
-    display: block;
-    max-width: 60px;
-    max-height: 60px;
-    justify-self: end;
-}
-
-#onshape-logo.drop-shadow {
-    box-shadow: none;
-    filter:
-        drop-shadow(0 12px 24px rgba(0, 0, 0, 0.28)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.20));
-}
-
-/* Unified CTA + logo group */
-.onshape-actions {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.35rem 0.45rem;
-    border: 1px solid var(--panel-edge);
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--panel);
-}
-.onshape-actions .onshape-cta { white-space: nowrap; }
-.onshape-actions #onshape-logo {
-    width: 44px;
-    height: 44px;
-    max-width: 44px;
-    max-height: 44px;
-    padding: 6px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid color-mix(in oklab, var(--panel-edge) 60%, transparent);
-    filter: none; /* override drop-shadow in grouped context */
-}
-
 /* Header text alignment: default inherits; right-align at desktop for visual contrast */
 #modern-cad h2 { text-align: inherit; }
-
-/* Subtitle uses a standard paragraph; no special styles needed */
 
 /* Layout: simple flex, mobile first */
 #onshape-stage {
@@ -76,12 +35,11 @@
 }
 
 @media (min-width: 900px) {
-    /* Desktop: figure left, copy right; actions live in header on the right */
+    /* Desktop: figure left, copy right */
     #onshape-stage {
         display: grid;
-        grid-template-columns: min(42%, 520px) 1fr;
-        grid-template-areas:
-            'figure copy';
+        grid-template-columns: minmax(460px, 48%) 1fr;
+        grid-template-areas: 'figure copy';
         align-items: start;
         column-gap: 2rem;
         row-gap: 1rem;
@@ -93,9 +51,7 @@
     }
 }
 
-#onshape-copy {
-    text-align: left;
-}
+#onshape-copy { text-align: left; }
 
 #onshape-copy .onshape-intro {
     margin: clamp(1.2rem, 3.2vw, 1.8rem) 0 0; /* clear gap above the note */
@@ -107,56 +63,14 @@
 /* Highlight CAD tool names (bold only) */
 #onshape-copy .onshape-intro .cad-tool { color: inherit; font-weight: 600; }
 
-#onshape-copy>ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 0.65rem;
-}
-
-/* Table-based list styling to match where-fits visuals */
-#onshape-copy .mc-list-table {
-  width: 100%;
-  border-collapse: separate; /* avoid outer frame, keep internal separators */
-  border-spacing: 0;
-}
-
-#onshape-copy .mc-list-table td {
-  border: 0;
-  padding: 0.1rem 0;
-  vertical-align: middle; /* center contents vertically */
-}
-
-/* Row separators: apply to all cells on subsequent rows */
-#onshape-copy .mc-list-table tr + tr td {
-  border-top: 1px solid var(--panel-edge);
-  padding-top: 0.5rem;
-}
-
-/* Column separator: only between tick and text columns */
-#onshape-copy .mc-list-table .text-col {
-  border-left: 1px solid var(--panel-edge);
-  padding-left: 0.6rem;
-}
-
-#onshape-copy .mc-list-table .tick-col {
-  width: 1.4em;
-  text-align: center;
-  color: var(--accent-1);
-  font-weight: 800;
-  line-height: 1;
-  padding-right: 0.4rem;
-}
-
-/* Lucide icon sizing/placement (keeps color via currentColor) */
+/* Table-based list styling to match intro visuals */
+#onshape-copy .mc-list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+#onshape-copy .mc-list-table td { border: 0; padding: 0.1rem 0; vertical-align: middle; }
+#onshape-copy .mc-list-table tr + tr td { border-top: 1px solid var(--panel-edge); padding-top: 0.5rem; }
+#onshape-copy .mc-list-table .text-col { border-left: 1px solid var(--panel-edge); padding-left: 0.6rem; }
+#onshape-copy .mc-list-table .tick-col { width: 1.4em; text-align: center; color: var(--accent-1); font-weight: 800; line-height: 1; padding-right: 0.4rem; }
 #onshape-copy .mc-list-table .tick-col > .tick-icon,
-#onshape-copy .mc-list-table .tick-col > .lucide {
-  display: inline-block;
-  width: 1.05em;
-  height: 1.05em;
-  transform: none; /* keep truly centered within cell */
-}
+#onshape-copy .mc-list-table .tick-col > .lucide { display: inline-block; width: 1.05em; height: 1.05em; transform: none; }
 
 #onshape-visual {
     position: relative;
@@ -169,12 +83,9 @@
 }
 
 @media (min-width: 900px) {
-    #onshape-visual { grid-area: figure; width: min(42%, 520px); max-width: 520px; }
+    #onshape-visual { grid-area: figure; width: 100%; max-width: 640px; }
     #onshape-copy { grid-area: copy; }
 }
-
-/* Actions are rendered in the header (hidden under the image on stage) */
-#onshape-stage .onshape-actions { display: none; }
 
 #onshape-visual img {
     display: block;
@@ -185,35 +96,6 @@
     background: transparent;
     position: relative;
     z-index: 0; /* keep below the sketch frame */
-}
-
-/* Small overlay link pinned to the image's top-left */
-.onshape-link {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: var(--text);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    z-index: 2; /* above the sketch frame */
-}
-
-.onshape-link::after {
-    content: '›';
-    display: inline-block;
-    margin-left: 0.3rem;
-    line-height: 1;
-    transform: translateX(0);
-    transition: transform 140ms ease;
-}
-
-.onshape-link:hover::after,
-.onshape-link:focus-visible::after {
-    transform: translateX(3px);
 }
 
 #onshape-copy a.button {
@@ -244,10 +126,7 @@
 
 /* Top highlight removed per feedback */
 @media (max-width: 899px) {
-  #modern-cad .mc-box {
-    width: calc(100% - 2 * var(--edge-border));
-    margin-inline: auto;
-  }
+  #modern-cad .mc-box { width: calc(100% - 2 * var(--edge-border)); margin-inline: auto; }
 }
 
 /* Rail-aligned padding for content inside the container */
@@ -257,41 +136,7 @@
   padding-top: clamp(1rem, 2.6vw, 1.4rem);
   padding-bottom: clamp(0.35rem, 1.2vw, 0.7rem);
 }
-#modern-cad .mc-box > #onshape-stage {
-  padding-bottom: clamp(1.2rem, 3vw, 2rem);
-  padding-inline: var(--rail-gutter);
-}
-
-/* Overrides: ensure header shows actions; keep actions in header, not under image */
-@media (max-width: 899px) {
-  #onshape-header { grid-template-areas: 'headings'; grid-template-columns: 1fr; }
-}
-
-@media (min-width: 900px) {
-  #onshape-stage {
-    display: grid;
-    grid-template-columns: minmax(460px, 48%) 1fr;
-    grid-template-areas:
-      'figure copy';
-    align-items: start;
-    column-gap: 2rem;
-    row-gap: 1rem;
-  }
-  #onshape-visual { grid-area: figure; width: 100%; max-width: 640px; }
-  #onshape-copy { grid-area: copy; }
-}
-
-#onshape-stage .onshape-actions { display: none; }
-.onshape-actions { gap: 0.5rem; padding: 0.35rem 0.45rem; margin-inline: 0; }
-.onshape-actions #onshape-logo { margin-right: 0; }
-
-@media (min-width: 900px) {
-    #onshape-copy a.button {
-        width: max-content;
-    }
-}
-
-/* (Rails removed) Keep uniform side gutters only */
+#modern-cad .mc-box > #onshape-stage { padding-bottom: clamp(1.2rem, 3vw, 2rem); padding-inline: var(--rail-gutter); }
 
 /* Full-width CTA bar pinned to the bottom; supplies rounded corners */
 .mc-cta-bar {
@@ -317,8 +162,5 @@
     0 1px 3px rgba(0,0,0,0.55),
     0 0 2px rgba(0,0,0,0.35);
 }
-.mc-cta-link svg {
-  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35));
-  transition: transform 120ms ease, filter 120ms ease;
-}
+.mc-cta-link svg { filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55)) drop-shadow(0 0 2px rgba(0,0,0,0.35)); transition: transform 120ms ease, filter 120ms ease; }
 .mc-cta-link:hover svg { transform: translateX(3px); }
