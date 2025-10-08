@@ -1,0 +1,3 @@
+To download pdf: python .\print.py localhost:4000/printable/ jai-print.pdf
+
+To optimise: qpdf jai-print.pdf --linearize jai-print-optimised.pdf

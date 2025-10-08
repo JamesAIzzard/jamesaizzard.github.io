@@ -18,7 +18,7 @@
     // Printable page behavior: make internal links open the live site
     // and normalize asset URLs so images resolve from the site root.
     document.addEventListener('DOMContentLoaded', function () {
-      var LIVE = 'https://www.jai.engineer';
+      var LIVE = 'https://jai.engineer';
 
       // Rewrite anchors to live origin
       document.querySelectorAll('a[href]').forEach(function (a) {
@@ -62,6 +62,26 @@
       };
       document.querySelectorAll('img[src], source[src], video[src], audio[src]').forEach(function (el) { fixSrc(el, 'src'); });
       document.querySelectorAll('img[srcset], source[srcset]').forEach(function (el) { fixSrc(el, 'srcset'); });
+
+      // Force CTA bars in printable to link to the live homepage
+      document.querySelectorAll('.mc-cta-link, .pt-cta-link').forEach(function(a){
+        a.setAttribute('href', LIVE + '/');
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      });
+
+      // Replace the contact form submit button with a link to the homepage
+      document.querySelectorAll('form.cta').forEach(function(form){
+        var btn = form.querySelector('button[type="submit"]');
+        if (!btn) return;
+        var link = document.createElement('a');
+        link.className = 'button';
+        link.textContent = btn.textContent || 'Start the conversation';
+        link.href = LIVE + '/';
+        link.target = '_blank';
+        link.rel = 'noopener';
+        btn.replaceWith(link);
+      });
     });
   </script>
 
