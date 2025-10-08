@@ -60,7 +60,8 @@
     }
     function onEsc() { /* disabled: do not close on Escape */ }
 
-    document.querySelectorAll('form.cta').forEach(function (form) {
+    var __forms = document.querySelectorAll('form.cta');
+    Array.prototype.forEach.call(__forms, function (form) {
       if (form.__ctaBound) return; form.__ctaBound = true;
       // Manage expanded state based on focus and whether user entered anything
       function isDirty() {
@@ -93,8 +94,8 @@
           const backdrop = modal.querySelector('.cta-modal-backdrop');
           const closeBtn = modal.querySelector('.cta-modal-close');
           // Keep modal open until user clicks OK
-          if (backdrop) backdrop.addEventListener('click', (ev) => { ev.preventDefault(); ev.stopPropagation(); });
-          if (closeBtn) closeBtn.addEventListener('click', () => {
+          if (backdrop) backdrop.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); });
+          if (closeBtn) closeBtn.addEventListener('click', function () {
             closeModal(modal);
             // Collapse only after a successful submit
             if (form.__submittedOk) {
@@ -132,8 +133,15 @@
 
         // Build AJAX endpoint (FormSubmit AJAX API)
         var action = form.getAttribute('action') || '';
-        var endpoint = action.includes('formsubmit.co') ? action.replace('formsubmit.co/', 'formsubmit.co/ajax/') : action;
+        var endpoint = action.indexOf('formsubmit.co') !== -1 ? action.replace('formsubmit.co/', 'formsubmit.co/ajax/') : action;
         var data = new FormData(form);
+
+        // Fallback for browsers without fetch: do a normal POST
+        if (typeof window.fetch !== 'function') {
+          try { form.setAttribute('action', action); } catch (_) {}
+          try { form.submit(); } catch (_) {}
+          return;
+        }
 
         // Show loading state while submitting
         openModal(modal, {
@@ -157,7 +165,8 @@
             if (document.activeElement && typeof document.activeElement.blur === 'function') {
               document.activeElement.blur();
             }
-            form.querySelectorAll('input, textarea, button, select').forEach(function (el) {
+            var __controls = form.querySelectorAll('input, textarea, button, select');
+            Array.prototype.forEach.call(__controls, function (el) {
               if (el === document.activeElement && typeof el.blur === 'function') el.blur();
             });
             // Mark success so we collapse on modal dismiss
