@@ -40,18 +40,16 @@
           var count = slides.length;
           if (count <= 1) return; // nothing to rotate
 
-          // Respect reduced motion: keep first image only
-          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduce) return;
-
           // Mark ready to disable no-JS fallback CSS
           fig.classList.add('js-ready');
 
           // Configurable durations (ms) via data attributes if desired
           var SEGMENT = parseInt(fig.getAttribute('data-segment'), 10); // ms visible per image
           var FADE_ATTR = parseInt(fig.getAttribute('data-fade'), 10); // ms for crossfade
-          var DURATION = isNaN(SEGMENT) ? 6000 : SEGMENT;
-          var FADE = isNaN(FADE_ATTR) ? 900 : FADE_ATTR;  // matches CSS --fade
+          var baseDuration = isNaN(SEGMENT) ? 6000 : SEGMENT;
+          var baseFade = isNaN(FADE_ATTR) ? 900 : FADE_ATTR;  // matches CSS --fade
+          var DURATION = baseDuration;
+          var FADE = baseFade;
 
           // Ensure CSS transition is at least as fast as FADE
           for (var i = 0; i < count; i++) {
@@ -73,9 +71,6 @@
           var viewport = document.querySelector('#hero-title .slot-viewport');
           if (!viewport) return;
 
-          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduce) return; // respect reduced motion
-
           var reel = viewport.querySelector('.slot-reel');
           var items = reel ? reel.querySelectorAll('.slot-item') : null;
           if (!reel || !items || items.length <= 2) return; // requires items + clone
@@ -88,6 +83,10 @@
           function measure() {
             // Height: single item height from viewport line box
             slotH = Math.round(viewport.getBoundingClientRect().height);
+            if (!slotH && items[0]) {
+              // fallback to item height if viewport height collapsed
+              slotH = Math.round(items[0].getBoundingClientRect().height || items[0].offsetHeight || 0);
+            }
             // Update current transform to align to current index without jump
             reel.style.transform = 'translateY(' + (-index * slotH) + 'px)';
           }
@@ -100,6 +99,9 @@
 
           // initial measure after fonts load/layout
           measure();
+          if (!slotH) {
+            window.addEventListener('load', measure, { once: true });
+          }
 
           // re-measure on resize
           var ro;
@@ -111,6 +113,10 @@
           }
 
           function step() {
+            if (!slotH) {
+              measure();
+              if (!slotH) return;
+            }
             index++;
             reel.style.transition = 'transform var(--slot-speed) cubic-bezier(.22,.8,.18,1)';
             reel.style.transform = 'translateY(' + (-index * slotH) + 'px)';

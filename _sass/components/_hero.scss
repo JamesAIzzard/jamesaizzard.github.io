@@ -97,15 +97,7 @@
 
 .hero-slide.active { opacity: 1; z-index: 1; }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-slide {
-    transition: none;
-  }
-  #hero-title .slot-reel {
-    transition: none;
-    transform: none;
-  }
-}
+/* Keep gentle hero/title animations regardless of reduced-motion settings */
 
 @media (max-width: 700px) {
   #hero-subtitle {
