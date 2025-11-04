@@ -12,6 +12,22 @@
   font-weight: 700;
 }
 
+/* Accent the first word in the new static title */
+.hero-accent {
+  color: var(--accent-1);
+}
+
+/* Responsive: stack title words on mobile for three-line layout */
+@media (max-width: 700px) {
+  /* Keep the title larger on small screens */
+  #hero-title {
+    font-size: clamp(2.6rem, calc(3.6vw + 1rem), 3.4rem);
+  }
+  #hero-title .title-part {
+    display: block;
+  }
+}
+
 
 #hero-title .slot-viewport {
   display: block; /* block so margin-top adds spacing */
@@ -58,6 +74,8 @@
   margin: 1.4rem auto 2rem;
   color: var(--muted);
   text-align: center;
+  /* Balance line lengths to avoid awkward widows like "& budgets" */
+  text-wrap: balance;
 }
 
 #hero .cta {
