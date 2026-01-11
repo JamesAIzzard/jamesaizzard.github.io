@@ -24,7 +24,7 @@ permalink: /scheduler
     <script type="module">
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Plus, Trash2, Calendar, Users, Grid3X3, Zap, Star, Clock } from 'lucide-react';
+import { Plus, Trash2, Calendar, Users, Grid3X3, Zap, Star, Clock, Pencil, Check, X, Save, Upload } from 'lucide-react';
 
 const { useState } = React;
 const h = React.createElement;
@@ -137,6 +137,8 @@ function ShiftOptimizer() {
   const [newShift, setNewShift] = useState({ name: '', date: '', time: '', pa: '' });
   const [newParticipant, setNewParticipant] = useState({ name: '', paQuota: '' });
   const [result, setResult] = useState(null);
+  const [editingShift, setEditingShift] = useState(null);
+  const [editingParticipant, setEditingParticipant] = useState(null);
 
   const addShift = () => {
     if (!newShift.name || !newShift.date) return;
@@ -150,6 +152,32 @@ function ShiftOptimizer() {
     setParticipants([...participants, { id, name: newParticipant.name.trim(), paQuota: parseFloat(newParticipant.paQuota) || 0 }]);
     setPreferences({ ...preferences, [id]: {} });
     setNewParticipant({ name: '', paQuota: '' });
+  };
+
+  const startEditShift = (shift) => {
+    setEditingShift({ ...shift, pa: shift.pa.toString() });
+  };
+
+  const saveEditShift = () => {
+    if (!editingShift.name || !editingShift.date) return;
+    setShifts(shifts.map(s => s.id === editingShift.id
+      ? { ...editingShift, pa: parseFloat(editingShift.pa) || 0 }
+      : s
+    ));
+    setEditingShift(null);
+  };
+
+  const startEditParticipant = (participant) => {
+    setEditingParticipant({ ...participant, paQuota: participant.paQuota.toString() });
+  };
+
+  const saveEditParticipant = () => {
+    if (!editingParticipant.name.trim()) return;
+    setParticipants(participants.map(p => p.id === editingParticipant.id
+      ? { ...editingParticipant, name: editingParticipant.name.trim(), paQuota: parseFloat(editingParticipant.paQuota) || 0 }
+      : p
+    ));
+    setEditingParticipant(null);
   };
 
   const updatePref = (pId, sId, value) => {
@@ -171,6 +199,51 @@ function ShiftOptimizer() {
     { id: 'preferences', label: 'Preferences', icon: Grid3X3 },
     { id: 'results', label: 'Results', icon: Zap },
   ];
+
+  const saveToFile = () => {
+    const filename = prompt('Enter filename:', 'schedule');
+    if (!filename) return;
+    const data = {
+      version: 1,
+      shifts,
+      participants,
+      preferences
+    };
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename.endsWith('.schdl') ? filename : `${filename}.schdl`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const loadFromFile = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.schdl';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const data = JSON.parse(event.target.result);
+          if (data.shifts) setShifts(data.shifts);
+          if (data.participants) setParticipants(data.participants);
+          if (data.preferences) setPreferences(data.preferences);
+          setResult(null);
+        } catch (err) {
+          alert('Failed to load schedule file. Please check the file format.');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  };
 
   const loadExample = () => {
     const exShifts = [
@@ -199,12 +272,22 @@ function ShiftOptimizer() {
   return h('div', { className: 'min-h-screen bg-slate-50 p-6' },
     h('div', { className: 'max-w-4xl mx-auto' },
       // Header
-      h('div', { className: 'flex items-center justify-between mb-6' },
+      h('div', { className: 'flex flex-wrap items-center justify-between gap-3 mb-6' },
         h('h1', { className: 'text-2xl font-bold text-slate-800' }, "Shift Optimiser (Prototype)"),
-        h('button', {
-          onClick: loadExample,
-          className: 'px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 text-sm font-medium'
-        }, 'Load Example')
+        h('div', { className: 'flex flex-wrap gap-2' },
+          h('button', {
+            onClick: saveToFile,
+            className: 'px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm font-medium flex items-center gap-2'
+          }, h(Save, { size: 16 }), 'Save'),
+          h('button', {
+            onClick: loadFromFile,
+            className: 'px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium flex items-center gap-2'
+          }, h(Upload, { size: 16 }), 'Load'),
+          h('button', {
+            onClick: loadExample,
+            className: 'px-3 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 text-sm font-medium'
+          }, 'Example')
+        )
       ),
 
       // Tabs
@@ -271,19 +354,61 @@ function ShiftOptimizer() {
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'No shifts added yet')
             : h('div', { className: 'space-y-2' },
                 shifts.map((s) =>
-                  h('div', { key: s.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
-                    h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
-                      h('div', { className: 'min-w-0' },
-                        h('span', { className: 'font-medium' }, s.name),
-                        h('span', { className: 'text-slate-500 ml-2 sm:ml-3 text-sm sm:text-base' }, s.date, s.time && ` at ${s.time}`)
-                      ),
-                      h('span', { className: 'px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-sm font-medium whitespace-nowrap' }, s.pa, ' PA')
-                    ),
-                    h('button', {
-                      onClick: () => setShifts(shifts.filter((x) => x.id !== s.id)),
-                      className: 'p-2 text-red-500 hover:bg-red-50 rounded flex-shrink-0'
-                    }, h(Trash2, { size: 18 }))
-                  )
+                  editingShift?.id === s.id
+                    ? h('div', { key: s.id, className: 'flex flex-wrap items-center gap-2 p-3 bg-indigo-50 rounded-lg' },
+                        h('input', {
+                          type: 'text',
+                          value: editingShift.name,
+                          onChange: (e) => setEditingShift({ ...editingShift, name: e.target.value }),
+                          className: 'flex-1 min-w-[100px] px-2 py-1 border rounded'
+                        }),
+                        h('input', {
+                          type: 'date',
+                          value: editingShift.date,
+                          onChange: (e) => setEditingShift({ ...editingShift, date: e.target.value }),
+                          className: 'px-2 py-1 border rounded'
+                        }),
+                        h('input', {
+                          type: 'time',
+                          value: editingShift.time || '',
+                          onChange: (e) => setEditingShift({ ...editingShift, time: e.target.value }),
+                          className: 'px-2 py-1 border rounded'
+                        }),
+                        h('input', {
+                          type: 'number',
+                          step: '0.5',
+                          value: editingShift.pa,
+                          onChange: (e) => setEditingShift({ ...editingShift, pa: e.target.value }),
+                          className: 'w-16 px-2 py-1 border rounded'
+                        }),
+                        h('button', {
+                          onClick: saveEditShift,
+                          className: 'p-2 text-emerald-600 hover:bg-emerald-50 rounded'
+                        }, h(Check, { size: 18 })),
+                        h('button', {
+                          onClick: () => setEditingShift(null),
+                          className: 'p-2 text-slate-500 hover:bg-slate-100 rounded'
+                        }, h(X, { size: 18 }))
+                      )
+                    : h('div', { key: s.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
+                        h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
+                          h('div', { className: 'min-w-0' },
+                            h('span', { className: 'font-medium' }, s.name),
+                            h('span', { className: 'text-slate-500 ml-2 sm:ml-3 text-sm sm:text-base' }, s.date, s.time && ` at ${s.time}`)
+                          ),
+                          h('span', { className: 'px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-sm font-medium whitespace-nowrap' }, s.pa, ' PA')
+                        ),
+                        h('div', { className: 'flex items-center gap-1 flex-shrink-0' },
+                          h('button', {
+                            onClick: () => startEditShift(s),
+                            className: 'p-2 text-indigo-500 hover:bg-indigo-50 rounded'
+                          }, h(Pencil, { size: 18 })),
+                          h('button', {
+                            onClick: () => setShifts(shifts.filter((x) => x.id !== s.id)),
+                            className: 'p-2 text-red-500 hover:bg-red-50 rounded'
+                          }, h(Trash2, { size: 18 }))
+                        )
+                      )
                 )
               )
         ),
@@ -318,21 +443,52 @@ function ShiftOptimizer() {
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'No participants added yet')
             : h('div', { className: 'space-y-2' },
                 participants.map((p) =>
-                  h('div', { key: p.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
-                    h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
-                      h('span', { className: 'font-medium' }, p.name),
-                      h('span', { className: 'px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-sm font-medium whitespace-nowrap' }, 'Quota: ', p.paQuota, ' PA')
-                    ),
-                    h('button', {
-                      onClick: () => {
-                        setParticipants(participants.filter((x) => x.id !== p.id));
-                        const newPrefs = { ...preferences };
-                        delete newPrefs[p.id];
-                        setPreferences(newPrefs);
-                      },
-                      className: 'p-2 text-red-500 hover:bg-red-50 rounded flex-shrink-0'
-                    }, h(Trash2, { size: 18 }))
-                  )
+                  editingParticipant?.id === p.id
+                    ? h('div', { key: p.id, className: 'flex flex-wrap items-center gap-2 p-3 bg-emerald-50 rounded-lg' },
+                        h('input', {
+                          type: 'text',
+                          value: editingParticipant.name,
+                          onChange: (e) => setEditingParticipant({ ...editingParticipant, name: e.target.value }),
+                          className: 'flex-1 min-w-[120px] px-2 py-1 border rounded'
+                        }),
+                        h('input', {
+                          type: 'number',
+                          step: '0.5',
+                          value: editingParticipant.paQuota,
+                          onChange: (e) => setEditingParticipant({ ...editingParticipant, paQuota: e.target.value }),
+                          placeholder: 'PA Quota',
+                          className: 'w-24 px-2 py-1 border rounded'
+                        }),
+                        h('button', {
+                          onClick: saveEditParticipant,
+                          className: 'p-2 text-emerald-600 hover:bg-emerald-100 rounded'
+                        }, h(Check, { size: 18 })),
+                        h('button', {
+                          onClick: () => setEditingParticipant(null),
+                          className: 'p-2 text-slate-500 hover:bg-slate-100 rounded'
+                        }, h(X, { size: 18 }))
+                      )
+                    : h('div', { key: p.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
+                        h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
+                          h('span', { className: 'font-medium' }, p.name),
+                          h('span', { className: 'px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-sm font-medium whitespace-nowrap' }, 'Quota: ', p.paQuota, ' PA')
+                        ),
+                        h('div', { className: 'flex items-center gap-1 flex-shrink-0' },
+                          h('button', {
+                            onClick: () => startEditParticipant(p),
+                            className: 'p-2 text-emerald-500 hover:bg-emerald-50 rounded'
+                          }, h(Pencil, { size: 18 })),
+                          h('button', {
+                            onClick: () => {
+                              setParticipants(participants.filter((x) => x.id !== p.id));
+                              const newPrefs = { ...preferences };
+                              delete newPrefs[p.id];
+                              setPreferences(newPrefs);
+                            },
+                            className: 'p-2 text-red-500 hover:bg-red-50 rounded'
+                          }, h(Trash2, { size: 18 }))
+                        )
+                      )
                 )
               )
         ),
