@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(powershell -Command \"[System.Text.Encoding]::UTF8.GetString\\([System.Convert]::FromBase64String\\(\\(Get-Content scheduler.html | Select-String ''encodedReactCode = '' | ForEach-Object { $_-replace ''.*encodedReactCode = \"\"\\([^\"\"]+\\)\"\".*'', ''$1'' }\\)\\)\\)\")"
     ]
   }
 }
