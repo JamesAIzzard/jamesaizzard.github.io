@@ -24,10 +24,83 @@ permalink: /scheduler
     <script type="module">
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Plus, Trash2, Calendar, Users, Grid3X3, Zap, Star, Clock, Pencil, Check, X, Save, Upload } from 'lucide-react';
+import { Plus, Trash2, Calendar, Users, Grid3X3, Zap, Star, Clock, Pencil, Check, X, Save, Upload, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 
-const { useState } = React;
+const { useState, useEffect, useRef } = React;
 const h = React.createElement;
+
+const PreferenceModal = ({ shift, participant, preference, onSave, onClose }) => {
+  const [value, setValue] = useState(preference);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
+
+  const handleSave = () => {
+    onSave(value);
+    onClose();
+  };
+
+  return h('div', { className: 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4' },
+    h('div', { ref: modalRef, className: 'bg-white rounded-xl shadow-xl max-w-sm w-full p-6' },
+      h('h3', { className: 'text-lg font-semibold text-slate-800 mb-1' }, shift.name),
+      h('div', { className: 'text-sm text-slate-500 mb-4' },
+        shift.date, shift.time && ` at ${shift.time}`, ` • ${shift.pa} PA`
+      ),
+      h('div', { className: 'mb-4' },
+        h('label', { className: 'block text-sm font-medium text-slate-700 mb-2' },
+          `${participant.name}'s preference:`
+        ),
+        h('div', { className: 'flex justify-center gap-2 py-3' },
+          [1, 2, 3, 4, 5].map((star) =>
+            h('button', {
+              key: star,
+              onClick: () => setValue(value === star ? 0 : star),
+              className: 'p-1 hover:scale-110 transition-transform'
+            },
+              h(Star, {
+                size: 32,
+                className: star <= value ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
+              })
+            )
+          )
+        ),
+        h('p', { className: 'text-center text-sm text-slate-500 mt-2' },
+          value === 0 ? 'Cannot do this shift' :
+          value === 1 ? 'Would rather not' :
+          value === 2 ? 'If needed' :
+          value === 3 ? 'Happy to do' :
+          value === 4 ? 'Prefer this shift' :
+          'Would love to do this!'
+        )
+      ),
+      h('div', { className: 'flex gap-3' },
+        h('button', {
+          onClick: onClose,
+          className: 'flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium'
+        }, 'Cancel'),
+        h('button', {
+          onClick: handleSave,
+          className: 'flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium'
+        }, 'Save')
+      )
+    )
+  );
+};
 
 const StarRating = ({ value, onChange }) => {
   return h('div', { className: 'flex gap-0.5' },
@@ -139,6 +212,129 @@ function ShiftOptimizer() {
   const [result, setResult] = useState(null);
   const [editingShift, setEditingShift] = useState(null);
   const [editingParticipant, setEditingParticipant] = useState(null);
+  const [calendarWeekStart, setCalendarWeekStart] = useState(() => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(today.setDate(diff));
+  });
+  const [doctorSearch, setDoctorSearch] = useState('');
+  const [resultsWeekStart, setResultsWeekStart] = useState(() => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(today.setDate(diff));
+  });
+  const [prefsWeekStart, setPrefsWeekStart] = useState(() => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(today.setDate(diff));
+  });
+  const [selectedParticipant, setSelectedParticipant] = useState(null);
+  const [prefModal, setPrefModal] = useState(null);
+
+  const getWeekDates = (weekStart) => {
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(weekStart);
+      d.setDate(weekStart.getDate() + i);
+      dates.push(d);
+    }
+    return dates;
+  };
+
+  const formatDateKey = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const groupShiftsByDate = (shifts) => {
+    const grouped = {};
+    shifts.forEach(s => {
+      if (!grouped[s.date]) grouped[s.date] = [];
+      grouped[s.date].push(s);
+    });
+    Object.keys(grouped).forEach(date => {
+      grouped[date].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    });
+    return grouped;
+  };
+
+  const formatWeekRange = (weekStart) => {
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    const options = { day: 'numeric', month: 'short' };
+    const startStr = weekStart.toLocaleDateString('en-GB', options);
+    const endStr = weekEnd.toLocaleDateString('en-GB', { ...options, year: 'numeric' });
+    return `${startStr} - ${endStr}`;
+  };
+
+  const navigateWeek = (direction) => {
+    setCalendarWeekStart(prev => {
+      const newDate = new Date(prev);
+      newDate.setDate(prev.getDate() + (direction * 7));
+      return newDate;
+    });
+  };
+
+  const jumpToShiftsWeek = () => {
+    if (shifts.length === 0) return;
+    const sortedDates = [...shifts].sort((a, b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(sortedDates[0].date);
+    const day = firstDate.getDay();
+    const diff = firstDate.getDate() - day + (day === 0 ? -6 : 1);
+    setCalendarWeekStart(new Date(firstDate.setDate(diff)));
+  };
+
+  const navigateResultsWeek = (direction) => {
+    setResultsWeekStart(prev => {
+      const newDate = new Date(prev);
+      newDate.setDate(prev.getDate() + (direction * 7));
+      return newDate;
+    });
+  };
+
+  const jumpToResultsWeek = () => {
+    if (shifts.length === 0) return;
+    const sortedDates = [...shifts].sort((a, b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(sortedDates[0].date);
+    const day = firstDate.getDay();
+    const diff = firstDate.getDate() - day + (day === 0 ? -6 : 1);
+    setResultsWeekStart(new Date(firstDate.setDate(diff)));
+  };
+
+  const navigatePrefsWeek = (direction) => {
+    setPrefsWeekStart(prev => {
+      const newDate = new Date(prev);
+      newDate.setDate(prev.getDate() + (direction * 7));
+      return newDate;
+    });
+  };
+
+  const jumpToPrefsWeek = () => {
+    if (shifts.length === 0) return;
+    const sortedDates = [...shifts].sort((a, b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(sortedDates[0].date);
+    const day = firstDate.getDay();
+    const diff = firstDate.getDate() - day + (day === 0 ? -6 : 1);
+    setPrefsWeekStart(new Date(firstDate.setDate(diff)));
+  };
+
+  const jumpAllCalendarsToShifts = (shiftList) => {
+    if (shiftList.length === 0) return;
+    const sortedDates = [...shiftList].sort((a, b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(sortedDates[0].date);
+    const day = firstDate.getDay();
+    const diff = firstDate.getDate() - day + (day === 0 ? -6 : 1);
+    const weekStart = new Date(firstDate);
+    weekStart.setDate(firstDate.getDate() - day + (day === 0 ? -6 : 1));
+    setCalendarWeekStart(new Date(weekStart));
+    setResultsWeekStart(new Date(weekStart));
+    setPrefsWeekStart(new Date(weekStart));
+  };
 
   const addShift = () => {
     if (!newShift.name || !newShift.date) return;
@@ -232,7 +428,10 @@ function ShiftOptimizer() {
       reader.onload = (event) => {
         try {
           const data = JSON.parse(event.target.result);
-          if (data.shifts) setShifts(data.shifts);
+          if (data.shifts) {
+            setShifts(data.shifts);
+            jumpAllCalendarsToShifts(data.shifts);
+          }
           if (data.participants) setParticipants(data.participants);
           if (data.preferences) setPreferences(data.preferences);
           setResult(null);
@@ -246,12 +445,25 @@ function ShiftOptimizer() {
   };
 
   const loadExample = () => {
+    // Generate dates starting from next Monday
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const daysUntilMonday = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + daysUntilMonday);
+
+    const getDateStr = (daysFromMonday) => {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + daysFromMonday);
+      return d.toISOString().split('T')[0];
+    };
+
     const exShifts = [
-      { id: '1', name: 'Monday AM', date: '2025-01-13', time: '08:00', pa: 1 },
-      { id: '2', name: 'Monday PM', date: '2025-01-13', time: '14:00', pa: 1 },
-      { id: '3', name: 'Tuesday AM', date: '2025-01-14', time: '08:00', pa: 1.5 },
-      { id: '4', name: 'Tuesday PM', date: '2025-01-14', time: '14:00', pa: 1 },
-      { id: '5', name: 'Wednesday AM', date: '2025-01-15', time: '08:00', pa: 0.5 },
+      { id: '1', name: 'Monday AM', date: getDateStr(0), time: '08:00', pa: 1 },
+      { id: '2', name: 'Monday PM', date: getDateStr(0), time: '14:00', pa: 1 },
+      { id: '3', name: 'Tuesday AM', date: getDateStr(1), time: '08:00', pa: 1.5 },
+      { id: '4', name: 'Tuesday PM', date: getDateStr(1), time: '14:00', pa: 1 },
+      { id: '5', name: 'Wednesday AM', date: getDateStr(2), time: '08:00', pa: 0.5 },
     ];
     const exPeople = [
       { id: 'a', name: 'Dr Smith', paQuota: 2 },
@@ -267,6 +479,7 @@ function ShiftOptimizer() {
     setParticipants(exPeople);
     setPreferences(exPrefs);
     setResult(null);
+    jumpAllCalendarsToShifts(exShifts);
   };
 
   return h('div', { className: 'min-h-screen bg-slate-50 p-6' },
@@ -350,67 +563,97 @@ function ShiftOptimizer() {
               className: 'px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2 whitespace-nowrap'
             }, h(Plus, { size: 18 }), ' Add')
           ),
-          shifts.length === 0
-            ? h('p', { className: 'text-slate-500 text-center py-8' }, 'No shifts added yet')
-            : h('div', { className: 'space-y-2' },
-                shifts.map((s) =>
-                  editingShift?.id === s.id
-                    ? h('div', { key: s.id, className: 'flex flex-wrap items-center gap-2 p-3 bg-indigo-50 rounded-lg' },
-                        h('input', {
-                          type: 'text',
-                          value: editingShift.name,
-                          onChange: (e) => setEditingShift({ ...editingShift, name: e.target.value }),
-                          className: 'flex-1 min-w-[100px] px-2 py-1 border rounded'
-                        }),
-                        h('input', {
-                          type: 'date',
-                          value: editingShift.date,
-                          onChange: (e) => setEditingShift({ ...editingShift, date: e.target.value }),
-                          className: 'px-2 py-1 border rounded'
-                        }),
-                        h('input', {
-                          type: 'time',
-                          value: editingShift.time || '',
-                          onChange: (e) => setEditingShift({ ...editingShift, time: e.target.value }),
-                          className: 'px-2 py-1 border rounded'
-                        }),
-                        h('input', {
-                          type: 'number',
-                          step: '0.5',
-                          value: editingShift.pa,
-                          onChange: (e) => setEditingShift({ ...editingShift, pa: e.target.value }),
-                          className: 'w-16 px-2 py-1 border rounded'
-                        }),
-                        h('button', {
-                          onClick: saveEditShift,
-                          className: 'p-2 text-emerald-600 hover:bg-emerald-50 rounded'
-                        }, h(Check, { size: 18 })),
-                        h('button', {
-                          onClick: () => setEditingShift(null),
-                          className: 'p-2 text-slate-500 hover:bg-slate-100 rounded'
-                        }, h(X, { size: 18 }))
-                      )
-                    : h('div', { key: s.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
-                        h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
-                          h('div', { className: 'min-w-0' },
-                            h('span', { className: 'font-medium' }, s.name),
-                            h('span', { className: 'text-slate-500 ml-2 sm:ml-3 text-sm sm:text-base' }, s.date, s.time && ` at ${s.time}`)
-                          ),
-                          h('span', { className: 'px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-sm font-medium whitespace-nowrap' }, s.pa, ' PA')
-                        ),
-                        h('div', { className: 'flex items-center gap-1 flex-shrink-0' },
-                          h('button', {
-                            onClick: () => startEditShift(s),
-                            className: 'p-2 text-indigo-500 hover:bg-indigo-50 rounded'
-                          }, h(Pencil, { size: 18 })),
-                          h('button', {
-                            onClick: () => setShifts(shifts.filter((x) => x.id !== s.id)),
-                            className: 'p-2 text-red-500 hover:bg-red-50 rounded'
-                          }, h(Trash2, { size: 18 }))
-                        )
-                      )
-                )
-              )
+          // Week navigation
+          h('div', { className: 'flex items-center justify-between mb-4' },
+            h('button', {
+              onClick: () => navigateWeek(-1),
+              className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+            }, h(ChevronLeft, { size: 20 })),
+            h('div', { className: 'flex items-center gap-2' },
+              h('span', { className: 'font-medium text-slate-700' }, formatWeekRange(calendarWeekStart)),
+              shifts.length > 0 && h('button', {
+                onClick: jumpToShiftsWeek,
+                className: 'text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200'
+              }, 'Go to shifts')
+            ),
+            h('button', {
+              onClick: () => navigateWeek(1),
+              className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+            }, h(ChevronRight, { size: 20 }))
+          ),
+          // Calendar grid
+          h('div', { className: 'overflow-x-auto' },
+            h('div', { className: 'grid grid-cols-7 gap-2 min-w-[700px]' },
+              getWeekDates(calendarWeekStart).map((date) => {
+                const dateKey = formatDateKey(date);
+                const dayShifts = groupShiftsByDate(shifts)[dateKey] || [];
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const isToday = formatDateKey(new Date()) === dateKey;
+                return h('div', {
+                  key: dateKey,
+                  className: `border rounded-lg p-2 min-h-[120px] ${isToday ? 'border-indigo-300 bg-indigo-50/30' : 'border-slate-200'}`
+                },
+                  h('div', { className: `text-center mb-2 pb-2 border-b ${isToday ? 'border-indigo-200' : 'border-slate-100'}` },
+                    h('div', { className: 'text-xs text-slate-500' }, dayNames[date.getDay()]),
+                    h('div', { className: `font-semibold ${isToday ? 'text-indigo-600' : 'text-slate-700'}` }, date.getDate())
+                  ),
+                  h('div', { className: 'space-y-1' },
+                    dayShifts.map((s) =>
+                      editingShift?.id === s.id
+                        ? h('div', { key: s.id, className: 'p-2 bg-indigo-100 rounded text-xs space-y-1' },
+                            h('input', {
+                              type: 'text',
+                              value: editingShift.name,
+                              onChange: (e) => setEditingShift({ ...editingShift, name: e.target.value }),
+                              className: 'w-full px-1 py-0.5 border rounded text-xs'
+                            }),
+                            h('input', {
+                              type: 'time',
+                              value: editingShift.time || '',
+                              onChange: (e) => setEditingShift({ ...editingShift, time: e.target.value }),
+                              className: 'w-full px-1 py-0.5 border rounded text-xs'
+                            }),
+                            h('input', {
+                              type: 'number',
+                              step: '0.5',
+                              value: editingShift.pa,
+                              onChange: (e) => setEditingShift({ ...editingShift, pa: e.target.value }),
+                              placeholder: 'PA',
+                              className: 'w-full px-1 py-0.5 border rounded text-xs'
+                            }),
+                            h('div', { className: 'flex gap-1' },
+                              h('button', {
+                                onClick: saveEditShift,
+                                className: 'flex-1 p-1 text-emerald-600 hover:bg-emerald-50 rounded'
+                              }, h(Check, { size: 14 })),
+                              h('button', {
+                                onClick: () => setEditingShift(null),
+                                className: 'flex-1 p-1 text-slate-500 hover:bg-slate-100 rounded'
+                              }, h(X, { size: 14 }))
+                            )
+                          )
+                        : h('div', { key: s.id, className: 'p-2 bg-slate-100 rounded text-xs group hover:bg-slate-200' },
+                            h('div', { className: 'font-medium text-slate-700 truncate' }, s.name),
+                            s.time && h('div', { className: 'text-slate-500' }, s.time),
+                            h('div', { className: 'text-indigo-600 font-medium' }, s.pa, ' PA'),
+                            h('div', { className: 'flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity' },
+                              h('button', {
+                                onClick: () => startEditShift(s),
+                                className: 'p-1 text-indigo-500 hover:bg-indigo-100 rounded'
+                              }, h(Pencil, { size: 12 })),
+                              h('button', {
+                                onClick: () => setShifts(shifts.filter((x) => x.id !== s.id)),
+                                className: 'p-1 text-red-500 hover:bg-red-100 rounded'
+                              }, h(Trash2, { size: 12 }))
+                            )
+                          )
+                    )
+                  )
+                );
+              })
+            )
+          ),
+          shifts.length === 0 && h('p', { className: 'text-slate-500 text-center py-4 mt-4' }, 'No shifts added yet. Add shifts using the form above.')
         ),
 
         // Participants Tab
@@ -496,42 +739,97 @@ function ShiftOptimizer() {
         // Preferences Tab
         tab === 'preferences' && h('div', null,
           h('h2', { className: 'text-lg font-semibold mb-4' }, 'Set Preferences'),
-          h('p', { className: 'text-slate-500 mb-4' }, 'Rate each shift: 0 stars = cannot do, 5 stars = would love to'),
+          h('p', { className: 'text-slate-500 mb-4' }, 'Select a person, then rate each shift: 0 stars = cannot do, 5 stars = would love to'),
           (shifts.length === 0 || participants.length === 0)
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'Add shifts and participants first')
-            : h('div', { className: 'overflow-x-auto' },
-                h('table', { className: 'w-full' },
-                  h('thead', null,
-                    h('tr', null,
-                      h('th', { className: 'text-left p-2 border-b' }),
-                      shifts.map((s) =>
-                        h('th', { key: s.id, className: 'p-2 border-b text-sm font-medium text-slate-600' },
-                          h('div', null, s.name),
-                          h('div', { className: 'text-xs text-slate-400' }, s.date),
-                          h('div', { className: 'text-xs text-indigo-500' }, s.pa, ' PA')
-                        )
-                      )
-                    )
-                  ),
-                  h('tbody', null,
+            : h('div', null,
+                // Participant selector
+                h('div', { className: 'mb-4' },
+                  h('label', { className: 'block text-sm font-medium text-slate-700 mb-2' }, 'Select Person'),
+                  h('div', { className: 'flex flex-wrap gap-2' },
                     participants.map((p) =>
-                      h('tr', { key: p.id },
-                        h('td', { className: 'p-2 border-b' },
-                          h('div', { className: 'font-medium' }, p.name),
-                          h('div', { className: 'text-xs text-emerald-600' }, 'Quota: ', p.paQuota)
-                        ),
-                        shifts.map((s) =>
-                          h('td', { key: s.id, className: 'p-2 border-b text-center' },
-                            h(StarRating, {
-                              value: preferences[p.id]?.[s.id] ?? 0,
-                              onChange: (v) => updatePref(p.id, s.id, v)
-                            })
-                          )
-                        )
-                      )
+                      h('button', {
+                        key: p.id,
+                        onClick: () => setSelectedParticipant(p.id),
+                        className: `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          selectedParticipant === p.id
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        }`
+                      }, p.name, ' (', p.paQuota, ' PA)')
                     )
                   )
-                )
+                ),
+                // Week navigation
+                selectedParticipant && h('div', { className: 'flex items-center justify-between mb-4' },
+                  h('button', {
+                    onClick: () => navigatePrefsWeek(-1),
+                    className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+                  }, h(ChevronLeft, { size: 20 })),
+                  h('div', { className: 'flex items-center gap-2' },
+                    h('span', { className: 'font-medium text-slate-700' }, formatWeekRange(prefsWeekStart)),
+                    shifts.length > 0 && h('button', {
+                      onClick: jumpToPrefsWeek,
+                      className: 'text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200'
+                    }, 'Go to shifts')
+                  ),
+                  h('button', {
+                    onClick: () => navigatePrefsWeek(1),
+                    className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+                  }, h(ChevronRight, { size: 20 }))
+                ),
+                // Preferences calendar grid
+                selectedParticipant && h('div', { className: 'overflow-x-auto' },
+                  h('div', { className: 'grid grid-cols-7 gap-2 min-w-[700px]' },
+                    getWeekDates(prefsWeekStart).map((date) => {
+                      const dateKey = formatDateKey(date);
+                      const dayShifts = groupShiftsByDate(shifts)[dateKey] || [];
+                      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                      const isToday = formatDateKey(new Date()) === dateKey;
+                      return h('div', {
+                        key: dateKey,
+                        className: `border rounded-lg p-2 min-h-[120px] ${isToday ? 'border-indigo-300 bg-indigo-50/30' : 'border-slate-200'}`
+                      },
+                        h('div', { className: `text-center mb-2 pb-2 border-b ${isToday ? 'border-indigo-200' : 'border-slate-100'}` },
+                          h('div', { className: 'text-xs text-slate-500' }, dayNames[date.getDay()]),
+                          h('div', { className: `font-semibold ${isToday ? 'text-indigo-600' : 'text-slate-700'}` }, date.getDate())
+                        ),
+                        h('div', { className: 'space-y-2' },
+                          dayShifts.map((s) => {
+                            const pref = preferences[selectedParticipant]?.[s.id] ?? 0;
+                            return h('button', {
+                              key: s.id,
+                              onClick: () => setPrefModal({ shift: s, participantId: selectedParticipant }),
+                              className: `w-full text-left p-2 rounded text-xs cursor-pointer transition-colors hover:ring-2 hover:ring-indigo-300 ${pref > 0 ? 'bg-emerald-50' : 'bg-slate-100'}`
+                            },
+                              h('div', { className: 'font-medium text-slate-700 truncate' }, s.name),
+                              s.time && h('div', { className: 'text-slate-500' }, s.time),
+                              h('div', { className: 'text-indigo-600 font-medium' }, s.pa, ' PA'),
+                              h('div', { className: 'flex gap-0.5 mt-1' },
+                                [1, 2, 3, 4, 5].map((star) =>
+                                  h(Star, {
+                                    key: star,
+                                    size: 12,
+                                    className: star <= pref ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
+                                  })
+                                )
+                              )
+                            );
+                          })
+                        )
+                      );
+                    })
+                  )
+                ),
+                // Preference Modal
+                prefModal && selectedParticipant && h(PreferenceModal, {
+                  shift: prefModal.shift,
+                  participant: participants.find(p => p.id === selectedParticipant),
+                  preference: preferences[selectedParticipant]?.[prefModal.shift.id] ?? 0,
+                  onSave: (value) => updatePref(selectedParticipant, prefModal.shift.id, value),
+                  onClose: () => setPrefModal(null)
+                }),
+                !selectedParticipant && h('p', { className: 'text-slate-500 text-center py-8' }, 'Select a person above to set their preferences')
               ),
           shifts.length > 0 && participants.length > 0 &&
             h('button', {
@@ -546,6 +844,19 @@ function ShiftOptimizer() {
           !result
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results')
             : h('div', null,
+                // Doctor search
+                h('div', { className: 'mb-4' },
+                  h('div', { className: 'relative' },
+                    h(Search, { size: 16, className: 'absolute left-3 top-1/2 -translate-y-1/2 text-slate-400' }),
+                    h('input', {
+                      type: 'text',
+                      placeholder: 'Search doctors...',
+                      value: doctorSearch,
+                      onChange: (e) => setDoctorSearch(e.target.value),
+                      className: 'w-full pl-9 pr-3 py-2 border rounded-lg'
+                    })
+                  )
+                ),
                 result.quotasNotMet && h('div', { className: 'mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg' },
                   h('span', { className: 'text-amber-800 font-medium' }, '⚠️ Could not satisfy all PA quotas. Showing best possible assignment.')
                 ),
@@ -554,46 +865,95 @@ function ShiftOptimizer() {
                 ),
                 h('h3', { className: 'font-medium text-slate-700 mb-2' }, 'PA Summary'),
                 h('div', { className: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6' },
-                  participants.map((p) => {
-                    const assigned = result.paTotals[p.id] || 0;
-                    const met = assigned >= p.paQuota;
-                    return h('div', { key: p.id, className: `p-3 rounded-lg ${met ? 'bg-emerald-50' : 'bg-red-50'}` },
-                      h('div', { className: 'font-medium' }, p.name),
-                      h('div', { className: `text-sm ${met ? 'text-emerald-700' : 'text-red-700'}` },
-                        assigned, ' / ', p.paQuota, ' PA ', met ? '✓' : '✗'
-                      )
-                    );
-                  })
+                  participants
+                    .filter(p => !doctorSearch || p.name.toLowerCase().includes(doctorSearch.toLowerCase()))
+                    .map((p) => {
+                      const assigned = result.paTotals[p.id] || 0;
+                      const met = assigned >= p.paQuota;
+                      const isHighlighted = doctorSearch && p.name.toLowerCase().includes(doctorSearch.toLowerCase());
+                      return h('div', { key: p.id, className: `p-3 rounded-lg ${met ? 'bg-emerald-50' : 'bg-red-50'} ${isHighlighted ? 'ring-2 ring-indigo-400' : ''}` },
+                        h('div', { className: 'font-medium' }, p.name),
+                        h('div', { className: `text-sm ${met ? 'text-emerald-700' : 'text-red-700'}` },
+                          assigned, ' / ', p.paQuota, ' PA ', met ? '✓' : '✗'
+                        )
+                      );
+                    })
                 ),
                 h('h3', { className: 'font-medium text-slate-700 mb-2' }, 'Shift Assignments'),
-                h('div', { className: 'space-y-2' },
-                  shifts.map((s) => {
-                    const assignedId = result.assignment[s.id];
-                    const person = participants.find((p) => p.id === assignedId);
-                    const pref = assignedId ? (preferences[assignedId]?.[s.id] ?? 0) : 0;
-                    return h('div', { key: s.id, className: 'flex flex-wrap items-center justify-between gap-2 p-4 bg-slate-50 rounded-lg' },
-                      h('div', { className: 'min-w-0' },
-                        h('div', { className: 'font-medium' }, s.name),
-                        h('div', { className: 'text-sm text-slate-500' }, s.date, s.time && ` at ${s.time}`, ' • ', s.pa, ' PA')
-                      ),
-                      h('div', { className: 'flex items-center gap-2 sm:gap-3' },
-                        person
-                          ? h(React.Fragment, null,
-                              h('span', { className: 'font-medium text-indigo-600' }, person.name),
-                              h('div', { className: 'flex' },
-                                [1,2,3,4,5].map((star) =>
-                                  h(Star, {
-                                    key: star,
-                                    size: 14,
-                                    className: star <= pref ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
-                                  })
-                                )
+                // Results week navigation
+                h('div', { className: 'flex items-center justify-between mb-4' },
+                  h('button', {
+                    onClick: () => navigateResultsWeek(-1),
+                    className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+                  }, h(ChevronLeft, { size: 20 })),
+                  h('div', { className: 'flex items-center gap-2' },
+                    h('span', { className: 'font-medium text-slate-700' }, formatWeekRange(resultsWeekStart)),
+                    shifts.length > 0 && h('button', {
+                      onClick: jumpToResultsWeek,
+                      className: 'text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200'
+                    }, 'Go to shifts')
+                  ),
+                  h('button', {
+                    onClick: () => navigateResultsWeek(1),
+                    className: 'p-2 text-slate-600 hover:bg-slate-100 rounded-lg'
+                  }, h(ChevronRight, { size: 20 }))
+                ),
+                // Results calendar grid
+                h('div', { className: 'overflow-x-auto' },
+                  h('div', { className: 'grid grid-cols-7 gap-2 min-w-[700px]' },
+                    getWeekDates(resultsWeekStart).map((date) => {
+                      const dateKey = formatDateKey(date);
+                      const dayShifts = (groupShiftsByDate(shifts)[dateKey] || []).filter(s => {
+                        if (!doctorSearch) return true;
+                        const assignedId = result.assignment[s.id];
+                        const person = participants.find(p => p.id === assignedId);
+                        return person && person.name.toLowerCase().includes(doctorSearch.toLowerCase());
+                      });
+                      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                      const isToday = formatDateKey(new Date()) === dateKey;
+                      return h('div', {
+                        key: dateKey,
+                        className: `border rounded-lg p-2 min-h-[120px] ${isToday ? 'border-indigo-300 bg-indigo-50/30' : 'border-slate-200'}`
+                      },
+                        h('div', { className: `text-center mb-2 pb-2 border-b ${isToday ? 'border-indigo-200' : 'border-slate-100'}` },
+                          h('div', { className: 'text-xs text-slate-500' }, dayNames[date.getDay()]),
+                          h('div', { className: `font-semibold ${isToday ? 'text-indigo-600' : 'text-slate-700'}` }, date.getDate())
+                        ),
+                        h('div', { className: 'space-y-1' },
+                          dayShifts.map((s) => {
+                            const assignedId = result.assignment[s.id];
+                            const person = participants.find((p) => p.id === assignedId);
+                            const pref = assignedId ? (preferences[assignedId]?.[s.id] ?? 0) : 0;
+                            const isHighlighted = doctorSearch && person && person.name.toLowerCase().includes(doctorSearch.toLowerCase());
+                            return h('div', {
+                              key: s.id,
+                              className: `p-2 rounded text-xs ${isHighlighted ? 'bg-indigo-100 ring-2 ring-indigo-400' : 'bg-slate-100'}`
+                            },
+                              h('div', { className: 'font-medium text-slate-700 truncate' }, s.name),
+                              s.time && h('div', { className: 'text-slate-500' }, s.time),
+                              h('div', { className: 'text-indigo-600 font-medium' }, s.pa, ' PA'),
+                              h('div', { className: 'mt-1 pt-1 border-t border-slate-200' },
+                                person
+                                  ? h('div', null,
+                                      h('div', { className: 'font-medium text-emerald-700 truncate' }, person.name),
+                                      h('div', { className: 'flex mt-0.5' },
+                                        [1,2,3,4,5].map((star) =>
+                                          h(Star, {
+                                            key: star,
+                                            size: 10,
+                                            className: star <= pref ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
+                                          })
+                                        )
+                                      )
+                                    )
+                                  : h('span', { className: 'text-red-500 font-medium' }, 'Unassigned')
                               )
-                            )
-                          : h('span', { className: 'text-red-500 font-medium' }, 'Unassigned')
-                      )
-                    );
-                  })
+                            );
+                          })
+                        )
+                      );
+                    })
+                  )
                 )
               )
         )
