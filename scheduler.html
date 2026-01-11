@@ -119,7 +119,7 @@ const StarRating = ({ value, onChange }) => {
   );
 };
 
-const optimize = (shifts, participants, preferences) => {
+const optimizeAsync = async (shifts, participants, preferences, onProgress) => {
   if (shifts.length === 0 || participants.length === 0) return null;
 
   // Find shifts where nobody is available (all preferences are 0)
@@ -131,84 +131,548 @@ const optimize = (shifts, participants, preferences) => {
     return { failed: true, unavailableShifts };
   }
 
-  let bestAssignment = null;
-  let bestScore = -Infinity;
+  let lastProgressUpdate = Date.now();
+  let iterations = 0;
 
-  const search = (shiftIdx, assignment, score, paTotals) => {
-    if (shiftIdx === shifts.length) {
-      const quotasMet = participants.every(p => paTotals[p.id] >= (p.paQuota || 0));
-      if (quotasMet && score > bestScore) {
-        bestScore = score;
-        bestAssignment = { ...assignment };
+  // Track current restart for progress reporting
+  let currentRestart = 0;
+
+  // Configuration for restarts (defined here so updateProgress can reference it)
+  const numRestarts = 15;
+
+  // Track global best score for display (only increases)
+  let globalBestScore = null;
+
+  const updateProgress = async (phase, progress, currentScore) => {
+    const now = Date.now();
+    if (now - lastProgressUpdate > 50) {
+      lastProgressUpdate = now;
+      // Update global best if current score is better
+      if (currentScore !== null && (globalBestScore === null || currentScore > globalBestScore)) {
+        globalBestScore = currentScore;
       }
-      return;
+      onProgress({ phase, progress, iterations, bestScore: globalBestScore, restart: currentRestart, totalRestarts: numRestarts });
+      await new Promise(r => setTimeout(r, 0));
     }
-
-    const shift = shifts[shiftIdx];
-    const shiftPa = shift.pa || 0;
-
-    for (const p of participants) {
-      const pref = preferences[p.id]?.[shift.id] ?? 0;
-      if (pref === 0) continue;
-
-      assignment[shift.id] = p.id;
-      paTotals[p.id] = (paTotals[p.id] || 0) + shiftPa;
-      search(shiftIdx + 1, assignment, score + pref, paTotals);
-      paTotals[p.id] -= shiftPa;
-    }
-
-    delete assignment[shift.id];
   };
 
-  const initialPa = {};
-  participants.forEach(p => initialPa[p.id] = 0);
-  search(0, {}, 0, initialPa);
+  // Calculate how far below quota a participant is
+  const getQuotaDeficit = (pId, paTotals) => {
+    const p = participants.find(x => x.id === pId);
+    return Math.max(0, (p?.paQuota || 0) - (paTotals[pId] || 0));
+  };
 
-  if (!bestAssignment) {
-    let relaxedBest = null;
-    let relaxedScore = -Infinity;
+  // Score a candidate for a shift considering preference and quota needs
+  const scoreCandidate = (pId, shiftId, shiftPa, paTotals) => {
+    const pref = preferences[pId]?.[shiftId] ?? 0;
+    if (pref === 0) return -Infinity;
 
-    const relaxedSearch = (shiftIdx, assignment, score, paTotals) => {
-      if (shiftIdx === shifts.length) {
-        if (score > relaxedScore) {
-          relaxedScore = score;
-          relaxedBest = { assignment: { ...assignment }, paTotals: { ...paTotals } };
-        }
-        return;
+    const deficit = getQuotaDeficit(pId, paTotals);
+    // Prioritize people who need more PA to meet quota
+    const quotaBonus = deficit > 0 ? Math.min(deficit, shiftPa) * 2 : 0;
+    return pref + quotaBonus;
+  };
+
+  // Greedy initial assignment
+  const greedyAssign = async () => {
+    const assignment = {};
+    const paTotals = {};
+    participants.forEach(p => paTotals[p.id] = 0);
+    let score = 0;
+
+    // Sort shifts by difficulty (fewer available candidates first)
+    const sortedShifts = [...shifts].sort((a, b) => {
+      const aChoices = participants.filter(p => (preferences[p.id]?.[a.id] ?? 0) > 0).length;
+      const bChoices = participants.filter(p => (preferences[p.id]?.[b.id] ?? 0) > 0).length;
+      return aChoices - bChoices;
+    });
+
+    for (let i = 0; i < sortedShifts.length; i++) {
+      const shift = sortedShifts[i];
+      iterations++;
+
+      // Yield every 20 shifts to keep UI responsive
+      if (i % 20 === 0) {
+        await updateProgress('greedy', Math.floor((i / sortedShifts.length) * 50), score);
+        await new Promise(r => setTimeout(r, 0));
       }
 
-      const shift = shifts[shiftIdx];
-      const shiftPa = shift.pa || 0;
+      // Find best candidate for this shift
+      let bestCandidate = null;
+      let bestCandidateScore = -Infinity;
 
       for (const p of participants) {
-        const pref = preferences[p.id]?.[shift.id] ?? 0;
-        if (pref === 0) continue;
-
-        assignment[shift.id] = p.id;
-        paTotals[p.id] = (paTotals[p.id] || 0) + shiftPa;
-        relaxedSearch(shiftIdx + 1, assignment, score + pref, paTotals);
-        paTotals[p.id] -= shiftPa;
+        const candidateScore = scoreCandidate(p.id, shift.id, shift.pa || 0, paTotals);
+        if (candidateScore > bestCandidateScore) {
+          bestCandidateScore = candidateScore;
+          bestCandidate = p.id;
+        }
       }
 
-      delete assignment[shift.id];
-    };
-
-    relaxedSearch(0, {}, 0, initialPa);
-
-    if (relaxedBest) {
-      return { assignment: relaxedBest.assignment, score: relaxedScore, paTotals: relaxedBest.paTotals, quotasNotMet: true };
+      if (bestCandidate) {
+        assignment[shift.id] = bestCandidate;
+        paTotals[bestCandidate] += shift.pa || 0;
+        score += preferences[bestCandidate]?.[shift.id] ?? 0;
+      }
     }
-    return null;
-  }
 
-  const finalPa = {};
-  participants.forEach(p => finalPa[p.id] = 0);
-  Object.entries(bestAssignment).forEach(([shiftId, personId]) => {
-    const shift = shifts.find(s => s.id === shiftId);
-    finalPa[personId] += shift?.pa || 0;
+    return { assignment, paTotals, score };
+  };
+
+  // Local search improvement: try swapping assignments
+  const localSearch = async (initial, maxPasses = 10) => {
+    let current = { ...initial };
+    let improved = true;
+    let pass = 0;
+
+    while (improved && pass < maxPasses) {
+      improved = false;
+      pass++;
+
+      // Try reassigning each shift to a different person
+      for (let i = 0; i < shifts.length; i++) {
+        const shift = shifts[i];
+        iterations++;
+        await updateProgress('local-search', 50 + Math.floor((pass / maxPasses) * 25), current.score);
+
+        const currentAssignee = current.assignment[shift.id];
+        const currentPref = currentAssignee ? (preferences[currentAssignee]?.[shift.id] ?? 0) : 0;
+
+        for (const p of participants) {
+          if (p.id === currentAssignee) continue;
+          const newPref = preferences[p.id]?.[shift.id] ?? 0;
+          if (newPref === 0) continue;
+
+          // Calculate score change
+          const scoreChange = newPref - currentPref;
+
+          // Check quota impact
+          const newPaTotals = { ...current.paTotals };
+          if (currentAssignee) {
+            newPaTotals[currentAssignee] -= shift.pa || 0;
+          }
+          newPaTotals[p.id] = (newPaTotals[p.id] || 0) + (shift.pa || 0);
+
+          const oldDeficitSum = participants.reduce((sum, x) => sum + getQuotaDeficit(x.id, current.paTotals), 0);
+          const newDeficitSum = participants.reduce((sum, x) => sum + getQuotaDeficit(x.id, newPaTotals), 0);
+          const deficitImprovement = oldDeficitSum - newDeficitSum;
+
+          // Accept if it improves quota situation or improves score without hurting quotas
+          if (deficitImprovement > 0 || (deficitImprovement >= 0 && scoreChange > 0)) {
+            current.assignment[shift.id] = p.id;
+            current.paTotals = newPaTotals;
+            current.score += scoreChange;
+            improved = true;
+            break;
+          }
+        }
+      }
+
+      // Try swapping assignments between two shifts
+      for (let i = 0; i < shifts.length && !improved; i++) {
+        for (let j = i + 1; j < shifts.length; j++) {
+          iterations++;
+          const shiftA = shifts[i];
+          const shiftB = shifts[j];
+          const personA = current.assignment[shiftA.id];
+          const personB = current.assignment[shiftB.id];
+
+          if (!personA || !personB || personA === personB) continue;
+
+          // Check if swap is valid (both can do each other's shift)
+          const prefAforB = preferences[personA]?.[shiftB.id] ?? 0;
+          const prefBforA = preferences[personB]?.[shiftA.id] ?? 0;
+          if (prefAforB === 0 || prefBforA === 0) continue;
+
+          const oldScore = (preferences[personA]?.[shiftA.id] ?? 0) + (preferences[personB]?.[shiftB.id] ?? 0);
+          const newScore = prefAforB + prefBforA;
+
+          if (newScore > oldScore) {
+            current.assignment[shiftA.id] = personB;
+            current.assignment[shiftB.id] = personA;
+            current.score += newScore - oldScore;
+            improved = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return current;
+  };
+
+  // Evaluate solution quality (lower is better for deficit, higher for score)
+  const evaluateSolution = (sol) => {
+    const deficit = participants.reduce((sum, p) => sum + getQuotaDeficit(p.id, sol.paTotals), 0);
+    return { deficit, score: sol.score };
+  };
+
+  // Compare two solutions: returns true if a is better than b
+  const isBetter = (a, b) => {
+    const evalA = evaluateSolution(a);
+    const evalB = evaluateSolution(b);
+    if (evalA.deficit !== evalB.deficit) return evalA.deficit < evalB.deficit;
+    return evalA.score > evalB.score;
+  };
+
+  // Deep copy a solution
+  const copySolution = (sol) => ({
+    assignment: { ...sol.assignment },
+    paTotals: { ...sol.paTotals },
+    score: sol.score
   });
 
-  return { assignment: bestAssignment, score: bestScore, paTotals: finalPa, quotasNotMet: false };
+  // Simulated annealing with reheating for thorough exploration
+  const simulatedAnnealing = async (initial, maxIterations = 50000, progressBase = 0, progressRange = 25) => {
+    let current = copySolution(initial);
+    let best = copySolution(current);
+    let temperature = 20;
+    const coolingRate = 0.9995;
+    const reheatInterval = 10000;
+    let itersSinceImprovement = 0;
+    let lastYield = Date.now();
+
+    for (let iter = 0; iter < maxIterations; iter++) {
+      iterations++;
+
+      // Yield to UI frequently - every 100 iterations or every 30ms
+      const now = Date.now();
+      if (iter % 100 === 0 || now - lastYield > 30) {
+        lastYield = now;
+        await updateProgress('annealing', progressBase + Math.floor((iter / maxIterations) * progressRange), best.score);
+      }
+
+      // Reheat if stuck
+      if (itersSinceImprovement > reheatInterval) {
+        temperature = Math.max(temperature, 5);
+        itersSinceImprovement = 0;
+      }
+
+      // Decide move type: 70% single reassign, 30% swap
+      const moveType = Math.random();
+
+      if (moveType < 0.7) {
+        // Single reassignment
+        const shiftIdx = Math.floor(Math.random() * shifts.length);
+        const shift = shifts[shiftIdx];
+        const currentAssignee = current.assignment[shift.id];
+
+        const candidates = participants.filter(p =>
+          p.id !== currentAssignee && (preferences[p.id]?.[shift.id] ?? 0) > 0
+        );
+        if (candidates.length === 0) continue;
+
+        const newAssignee = candidates[Math.floor(Math.random() * candidates.length)];
+        const oldPref = currentAssignee ? (preferences[currentAssignee]?.[shift.id] ?? 0) : 0;
+        const newPref = preferences[newAssignee.id]?.[shift.id] ?? 0;
+        const scoreDelta = newPref - oldPref;
+
+        const newPaTotals = { ...current.paTotals };
+        if (currentAssignee) newPaTotals[currentAssignee] -= shift.pa || 0;
+        newPaTotals[newAssignee.id] = (newPaTotals[newAssignee.id] || 0) + (shift.pa || 0);
+
+        const oldDeficit = participants.reduce((sum, p) => sum + getQuotaDeficit(p.id, current.paTotals), 0);
+        const newDeficit = participants.reduce((sum, p) => sum + getQuotaDeficit(p.id, newPaTotals), 0);
+        const deficitDelta = oldDeficit - newDeficit;
+
+        const improvement = deficitDelta * 10 + scoreDelta;
+
+        if (improvement > 0 || Math.random() < Math.exp(improvement / temperature)) {
+          current.assignment[shift.id] = newAssignee.id;
+          current.paTotals = newPaTotals;
+          current.score += scoreDelta;
+
+          if (isBetter(current, best)) {
+            best = copySolution(current);
+            itersSinceImprovement = 0;
+          }
+        }
+      } else {
+        // Swap two assignments
+        const idxA = Math.floor(Math.random() * shifts.length);
+        const idxB = Math.floor(Math.random() * shifts.length);
+        if (idxA === idxB) continue;
+
+        const shiftA = shifts[idxA];
+        const shiftB = shifts[idxB];
+        const personA = current.assignment[shiftA.id];
+        const personB = current.assignment[shiftB.id];
+
+        if (!personA || !personB || personA === personB) continue;
+
+        const prefAforB = preferences[personA]?.[shiftB.id] ?? 0;
+        const prefBforA = preferences[personB]?.[shiftA.id] ?? 0;
+        if (prefAforB === 0 || prefBforA === 0) continue;
+
+        const oldScore = (preferences[personA]?.[shiftA.id] ?? 0) + (preferences[personB]?.[shiftB.id] ?? 0);
+        const newScore = prefAforB + prefBforA;
+        const scoreDelta = newScore - oldScore;
+
+        if (scoreDelta > 0 || Math.random() < Math.exp(scoreDelta / temperature)) {
+          current.assignment[shiftA.id] = personB;
+          current.assignment[shiftB.id] = personA;
+          current.score += scoreDelta;
+
+          if (isBetter(current, best)) {
+            best = copySolution(current);
+            itersSinceImprovement = 0;
+          }
+        }
+      }
+
+      itersSinceImprovement++;
+      temperature *= coolingRate;
+    }
+
+    return best;
+  };
+
+  // Thorough local search with 2-opt and 3-opt style moves
+  const thoroughLocalSearch = async (initial, maxPasses = 50, progressBase = 0, progressRange = 25) => {
+    let current = copySolution(initial);
+    let improved = true;
+    let pass = 0;
+    let opCount = 0;
+
+    while (improved && pass < maxPasses) {
+      improved = false;
+      pass++;
+
+      // 1-opt: Try reassigning each shift
+      for (let i = 0; i < shifts.length; i++) {
+        const shift = shifts[i];
+        iterations++;
+        opCount++;
+
+        // Yield to UI periodically
+        if (opCount % 100 === 0) {
+          await updateProgress('local-search', progressBase + Math.floor((pass / maxPasses) * progressRange), current.score);
+          await new Promise(r => setTimeout(r, 0));
+        }
+
+        const currentAssignee = current.assignment[shift.id];
+        const currentPref = currentAssignee ? (preferences[currentAssignee]?.[shift.id] ?? 0) : 0;
+
+        let bestCandidate = null;
+        let bestImprovement = 0;
+
+        for (const p of participants) {
+          if (p.id === currentAssignee) continue;
+          const newPref = preferences[p.id]?.[shift.id] ?? 0;
+          if (newPref === 0) continue;
+
+          const scoreChange = newPref - currentPref;
+          const newPaTotals = { ...current.paTotals };
+          if (currentAssignee) newPaTotals[currentAssignee] -= shift.pa || 0;
+          newPaTotals[p.id] = (newPaTotals[p.id] || 0) + (shift.pa || 0);
+
+          const oldDeficitSum = participants.reduce((sum, x) => sum + getQuotaDeficit(x.id, current.paTotals), 0);
+          const newDeficitSum = participants.reduce((sum, x) => sum + getQuotaDeficit(x.id, newPaTotals), 0);
+          const deficitImprovement = oldDeficitSum - newDeficitSum;
+
+          const totalImprovement = deficitImprovement * 10 + scoreChange;
+          if (totalImprovement > bestImprovement) {
+            bestImprovement = totalImprovement;
+            bestCandidate = { pId: p.id, paTotals: newPaTotals, scoreChange };
+          }
+        }
+
+        if (bestCandidate) {
+          current.assignment[shift.id] = bestCandidate.pId;
+          current.paTotals = bestCandidate.paTotals;
+          current.score += bestCandidate.scoreChange;
+          improved = true;
+        }
+      }
+
+      // 2-opt: Sample random pairs instead of exhaustive search (much faster)
+      const numPairSamples = Math.min(shifts.length * 10, 2000);
+      for (let sample = 0; sample < numPairSamples; sample++) {
+        iterations++;
+        opCount++;
+
+        if (opCount % 100 === 0) {
+          await updateProgress('local-search', progressBase + Math.floor((pass / maxPasses) * progressRange), current.score);
+          await new Promise(r => setTimeout(r, 0));
+        }
+
+        const i = Math.floor(Math.random() * shifts.length);
+        const j = Math.floor(Math.random() * shifts.length);
+        if (i === j) continue;
+
+        const shiftA = shifts[i];
+        const shiftB = shifts[j];
+        const personA = current.assignment[shiftA.id];
+        const personB = current.assignment[shiftB.id];
+
+        if (!personA || !personB || personA === personB) continue;
+
+        const prefAforB = preferences[personA]?.[shiftB.id] ?? 0;
+        const prefBforA = preferences[personB]?.[shiftA.id] ?? 0;
+        if (prefAforB === 0 || prefBforA === 0) continue;
+
+        const oldScore = (preferences[personA]?.[shiftA.id] ?? 0) + (preferences[personB]?.[shiftB.id] ?? 0);
+        const newScore = prefAforB + prefBforA;
+
+        if (newScore > oldScore) {
+          current.assignment[shiftA.id] = personB;
+          current.assignment[shiftB.id] = personA;
+          current.score += newScore - oldScore;
+          improved = true;
+        }
+      }
+
+      // 3-opt: Try cyclic rotations of 3 shifts
+      if (pass % 3 === 0) {
+        const num3optSamples = Math.min(shifts.length * 5, 1000);
+        for (let attempts = 0; attempts < num3optSamples; attempts++) {
+          iterations++;
+          opCount++;
+
+          if (opCount % 100 === 0) {
+            await updateProgress('local-search', progressBase + Math.floor((pass / maxPasses) * progressRange), current.score);
+            await new Promise(r => setTimeout(r, 0));
+          }
+
+          const idxA = Math.floor(Math.random() * shifts.length);
+          const idxB = Math.floor(Math.random() * shifts.length);
+          const idxC = Math.floor(Math.random() * shifts.length);
+          if (idxA === idxB || idxB === idxC || idxA === idxC) continue;
+
+          const shiftA = shifts[idxA], shiftB = shifts[idxB], shiftC = shifts[idxC];
+          const pA = current.assignment[shiftA.id];
+          const pB = current.assignment[shiftB.id];
+          const pC = current.assignment[shiftC.id];
+
+          if (!pA || !pB || !pC) continue;
+          if (pA === pB || pB === pC || pA === pC) continue;
+
+          // Try rotation: A->B's shift, B->C's shift, C->A's shift
+          const prefAforB = preferences[pA]?.[shiftB.id] ?? 0;
+          const prefBforC = preferences[pB]?.[shiftC.id] ?? 0;
+          const prefCforA = preferences[pC]?.[shiftA.id] ?? 0;
+          if (prefAforB === 0 || prefBforC === 0 || prefCforA === 0) continue;
+
+          const oldScore = (preferences[pA]?.[shiftA.id] ?? 0) + (preferences[pB]?.[shiftB.id] ?? 0) + (preferences[pC]?.[shiftC.id] ?? 0);
+          const newScore = prefAforB + prefBforC + prefCforA;
+
+          if (newScore > oldScore) {
+            current.assignment[shiftA.id] = pC;
+            current.assignment[shiftB.id] = pA;
+            current.assignment[shiftC.id] = pB;
+            current.score += newScore - oldScore;
+            improved = true;
+          }
+        }
+      }
+    }
+
+    return current;
+  };
+
+  // Generate initial solution with randomized greedy (for diversity in restarts)
+  const randomizedGreedy = async (randomness = 0.3) => {
+    const assignment = {};
+    const paTotals = {};
+    participants.forEach(p => paTotals[p.id] = 0);
+    let score = 0;
+
+    // Shuffle shifts partially based on randomness
+    const sortedShifts = [...shifts].sort((a, b) => {
+      const aChoices = participants.filter(p => (preferences[p.id]?.[a.id] ?? 0) > 0).length;
+      const bChoices = participants.filter(p => (preferences[p.id]?.[b.id] ?? 0) > 0).length;
+      return (aChoices - bChoices) + (Math.random() - 0.5) * randomness * 20;
+    });
+
+    for (let i = 0; i < sortedShifts.length; i++) {
+      const shift = sortedShifts[i];
+      iterations++;
+
+      // Yield every 20 shifts to keep UI responsive
+      if (i % 20 === 0) {
+        await new Promise(r => setTimeout(r, 0));
+      }
+
+      // Get all valid candidates with scores
+      const candidates = [];
+      for (const p of participants) {
+        const candidateScore = scoreCandidate(p.id, shift.id, shift.pa || 0, paTotals);
+        if (candidateScore > -Infinity) {
+          candidates.push({ pId: p.id, score: candidateScore });
+        }
+      }
+
+      if (candidates.length === 0) continue;
+
+      // Sort by score and pick from top candidates with some randomness
+      candidates.sort((a, b) => b.score - a.score);
+      const topK = Math.min(candidates.length, Math.max(1, Math.floor(candidates.length * randomness)));
+      const selected = candidates[Math.floor(Math.random() * topK)];
+
+      assignment[shift.id] = selected.pId;
+      paTotals[selected.pId] += shift.pa || 0;
+      score += preferences[selected.pId]?.[shift.id] ?? 0;
+    }
+
+    return { assignment, paTotals, score };
+  };
+
+  // Run the full optimization pipeline with multiple restarts
+  // Extended iterations for thorough optimization (targets 3-8 min runtime)
+  const annealingIterations = 100000;
+  const localSearchPasses = 50;
+  const finalPolishPasses = 25;
+  let globalBest = null;
+
+  for (let restart = 0; restart < numRestarts; restart++) {
+    const restartProgress = (restart / numRestarts) * 100;
+    const restartRange = 100 / numRestarts;
+
+    // Update current restart for progress tracking
+    currentRestart = restart + 1;
+
+    // Force progress update at start of each restart
+    onProgress({ phase: 'greedy', progress: Math.floor(restartProgress), iterations, bestScore: globalBestScore, restart: currentRestart, totalRestarts: numRestarts });
+    await new Promise(r => setTimeout(r, 0));
+
+    // Generate initial solution (first one deterministic, rest randomized)
+    let result;
+    if (restart === 0) {
+      result = await greedyAssign();
+    } else {
+      result = await randomizedGreedy(0.15 + restart * 0.08);
+    }
+
+    // Local search phase
+    result = await thoroughLocalSearch(result, localSearchPasses, restartProgress + restartRange * 0.05, restartRange * 0.25);
+
+    // Simulated annealing phase (main optimization)
+    result = await simulatedAnnealing(result, annealingIterations, restartProgress + restartRange * 0.3, restartRange * 0.55);
+
+    // Final local search polish
+    result = await thoroughLocalSearch(result, finalPolishPasses, restartProgress + restartRange * 0.85, restartRange * 0.15);
+
+    // Track global best
+    if (!globalBest || isBetter(result, globalBest)) {
+      globalBest = copySolution(result);
+      // Update the display score tracker
+      if (globalBest.score > (globalBestScore ?? -Infinity)) {
+        globalBestScore = globalBest.score;
+      }
+    }
+  }
+
+  // Check if quotas were met
+  const quotasNotMet = participants.some(p => getQuotaDeficit(p.id, globalBest.paTotals) > 0);
+
+  onProgress({ phase: 'complete', progress: 100, iterations, bestScore: globalBest.score });
+
+  return {
+    assignment: globalBest.assignment,
+    score: globalBest.score,
+    paTotals: globalBest.paTotals,
+    quotasNotMet
+  };
 };
 
 function ShiftOptimizer() {
@@ -393,9 +857,42 @@ function ShiftOptimizer() {
   };
 
   const [optimizationError, setOptimizationError] = useState(null);
+  const [isOptimizing, setIsOptimizing] = useState(false);
+  const [optimizeProgress, setOptimizeProgress] = useState(null);
 
-  const runOptimizer = () => {
-    const res = optimize(shifts, participants, preferences);
+  const runOptimizer = async () => {
+    // Pre-solve capacity check
+    const totalPaRequired = shifts.reduce((sum, s) => sum + (s.pa || 0), 0);
+    const totalPaCapacity = participants.reduce((sum, p) => sum + (p.paQuota || 0), 0);
+
+    if (totalPaRequired > totalPaCapacity) {
+      setTab('results');
+      setResult(null);
+      setOptimizationError({
+        message: 'Insufficient PA capacity',
+        capacityShortfall: {
+          required: totalPaRequired,
+          available: totalPaCapacity,
+          shortfall: totalPaRequired - totalPaCapacity
+        }
+      });
+      return;
+    }
+
+    setIsOptimizing(true);
+    setOptimizeProgress({ phase: 'greedy', progress: 0, iterations: 0, bestScore: null });
+    setTab('results');
+
+    // Small delay to let UI update before heavy computation
+    await new Promise(r => setTimeout(r, 50));
+
+    const res = await optimizeAsync(shifts, participants, preferences, (progress) => {
+      setOptimizeProgress(progress);
+    });
+
+    setIsOptimizing(false);
+    setOptimizeProgress(null);
+
     if (res === null) {
       setResult(null);
       setOptimizationError({ message: 'No shifts or participants defined.' });
@@ -406,7 +903,6 @@ function ShiftOptimizer() {
       setResult(res);
       setOptimizationError(null);
     }
-    setTab('results');
   };
 
   const tabs = [
@@ -478,23 +974,111 @@ function ShiftOptimizer() {
       return d.toISOString().split('T')[0];
     };
 
-    const exShifts = [
-      { id: '1', name: 'Monday AM', date: getDateStr(0), time: '08:00', pa: 1 },
-      { id: '2', name: 'Monday PM', date: getDateStr(0), time: '14:00', pa: 1 },
-      { id: '3', name: 'Tuesday AM', date: getDateStr(1), time: '08:00', pa: 1.5 },
-      { id: '4', name: 'Tuesday PM', date: getDateStr(1), time: '14:00', pa: 1 },
-      { id: '5', name: 'Wednesday AM', date: getDateStr(2), time: '08:00', pa: 0.5 },
+    // Hospital stress test: 4 weeks of shifts across multiple departments
+    const departments = [
+      { name: 'ICU', times: ['07:00', '19:00'], pa: 2 },
+      { name: 'A&E', times: ['08:00', '14:00', '20:00'], pa: 1.5 },
+      { name: 'Surgery', times: ['08:00', '13:00'], pa: 2 },
+      { name: 'Paediatrics', times: ['08:00', '18:00'], pa: 1 },
+      { name: 'Cardiology', times: ['09:00', '14:00'], pa: 1.5 },
+      { name: 'Oncology', times: ['08:00', '14:00'], pa: 1 },
     ];
+
+    const exShifts = [];
+    let shiftId = 1;
+    // Generate 4 weeks (28 days) of shifts
+    for (let day = 0; day < 28; day++) {
+      // Skip weekends for most departments except ICU and A&E
+      const dayOfWeek = (day % 7);
+      const isWeekend = dayOfWeek === 5 || dayOfWeek === 6; // Sat/Sun
+
+      departments.forEach(dept => {
+        // ICU and A&E run 7 days, others only weekdays
+        if (isWeekend && dept.name !== 'ICU' && dept.name !== 'A&E') return;
+
+        dept.times.forEach(time => {
+          exShifts.push({
+            id: String(shiftId++),
+            name: `${dept.name} ${time < '12:00' ? 'AM' : time < '18:00' ? 'PM' : 'Night'}`,
+            date: getDateStr(day),
+            time: time,
+            pa: dept.pa
+          });
+        });
+      });
+    }
+
+    // Calculate total PA required
+    const totalPaRequired = exShifts.reduce((sum, s) => sum + s.pa, 0);
+    // Set quotas so total capacity roughly matches demand (with slight shortage to make it challenging)
+    const targetTotalQuota = totalPaRequired * 0.95; // 5% under capacity
+    const numDoctors = 15;
+    const baseQuota = Math.floor(targetTotalQuota / numDoctors);
+
+    // 15 doctors with quotas scaled to match shift requirements
     const exPeople = [
-      { id: 'a', name: 'Dr Smith', paQuota: 2 },
-      { id: 'b', name: 'Dr Jones', paQuota: 1.5 },
-      { id: 'c', name: 'Dr Patel', paQuota: 1.5 },
+      { id: 'd1', name: 'Dr Sarah Mitchell', paQuota: baseQuota + 4 },
+      { id: 'd2', name: 'Dr James Chen', paQuota: baseQuota + 2 },
+      { id: 'd3', name: 'Dr Emily Watson', paQuota: baseQuota + 6 },
+      { id: 'd4', name: 'Dr Raj Patel', paQuota: baseQuota },
+      { id: 'd5', name: 'Dr Lucy O\'Brien', paQuota: baseQuota + 4 },
+      { id: 'd6', name: 'Dr Michael Brown', paQuota: baseQuota + 2 },
+      { id: 'd7', name: 'Dr Aisha Khan', paQuota: baseQuota + 6 },
+      { id: 'd8', name: 'Dr David Wilson', paQuota: baseQuota - 2 },
+      { id: 'd9', name: 'Dr Sophie Taylor', paQuota: baseQuota + 4 },
+      { id: 'd10', name: 'Dr Tom Anderson', paQuota: baseQuota + 2 },
+      { id: 'd11', name: 'Dr Hannah Lee', paQuota: baseQuota },
+      { id: 'd12', name: 'Dr Chris Martin', paQuota: baseQuota + 4 },
+      { id: 'd13', name: 'Dr Priya Sharma', paQuota: baseQuota + 6 },
+      { id: 'd14', name: 'Dr Ben Thompson', paQuota: baseQuota + 2 },
+      { id: 'd15', name: 'Dr Olivia Clark', paQuota: baseQuota },
     ];
-    const exPrefs = {
-      'a': { '1': 5, '2': 3, '3': 0, '4': 4, '5': 2 },
-      'b': { '1': 2, '2': 5, '3': 4, '4': 0, '5': 5 },
-      'c': { '1': 3, '2': 4, '3': 5, '4': 3, '5': 1 },
+
+    // Generate random but realistic preferences
+    // Doctors tend to prefer certain departments and avoid nights
+    const exPrefs = {};
+    const seededRandom = (seed) => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
     };
+
+    exPeople.forEach((doctor, docIdx) => {
+      exPrefs[doctor.id] = {};
+      // Each doctor has 2-3 preferred departments
+      const preferredDepts = departments
+        .map((d, i) => ({ dept: d.name, score: seededRandom(docIdx * 100 + i) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3)
+        .map(d => d.dept);
+
+      exShifts.forEach((shift, shiftIdx) => {
+        let pref = 3; // Base preference
+
+        // Boost for preferred departments
+        if (preferredDepts.some(d => shift.name.includes(d.split(' ')[0]))) {
+          pref += 1;
+        }
+
+        // Some doctors avoid nights
+        if (shift.name.includes('Night') && seededRandom(docIdx * 50) > 0.6) {
+          pref -= 2;
+        }
+
+        // Add some randomness
+        pref += Math.floor(seededRandom(docIdx * 1000 + shiftIdx) * 3) - 1;
+
+        // Clamp between 1 and 5
+        pref = Math.max(1, Math.min(5, pref));
+
+        // Some shifts completely unavailable (10% chance)
+        if (seededRandom(docIdx * 2000 + shiftIdx) < 0.1) {
+          pref = 0;
+        }
+
+        exPrefs[doctor.id][shift.id] = pref;
+      });
+    });
+
     setShifts(exShifts);
     setParticipants(exPeople);
     setPreferences(exPrefs);
@@ -854,27 +1438,84 @@ function ShiftOptimizer() {
           shifts.length > 0 && participants.length > 0 &&
             h('button', {
               onClick: runOptimizer,
-              className: 'mt-6 w-full py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium flex items-center justify-center gap-2'
-            }, h(Zap, { size: 20 }), ' Optimize Schedule')
+              disabled: isOptimizing,
+              className: `mt-6 w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 ${
+                isOptimizing
+                  ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                  : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              }`
+            }, h(Zap, { size: 20 }), isOptimizing ? ' Optimizing...' : ' Optimize Schedule')
         ),
 
         // Results Tab
         tab === 'results' && h('div', null,
           h('h2', { className: 'text-lg font-semibold mb-4' }, 'Optimized Schedule'),
-          !result
-            ? (optimizationError
-              ? h('div', { className: 'p-4 bg-red-50 border border-red-200 rounded-lg' },
-                  h('p', { className: 'text-red-800 font-medium' }, optimizationError.message),
-                  optimizationError.unavailableShifts && h('div', { className: 'mt-2' },
-                    h('p', { className: 'text-red-600 text-sm' }, 'The following shifts have no one available:'),
-                    h('ul', { className: 'mt-1 text-red-600 text-sm list-disc list-inside' },
-                      optimizationError.unavailableShifts.map(shift =>
-                        h('li', { key: shift.id }, `${shift.name} (${shift.date}${shift.time ? ' ' + shift.time : ''})`)
+          isOptimizing
+            ? h('div', { className: 'py-12' },
+                h('div', { className: 'flex flex-col items-center gap-4' },
+                  // Spinner
+                  h('div', { className: 'w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin' }),
+                  // Phase indicator
+                  h('p', { className: 'text-lg font-medium text-slate-700' },
+                    optimizeProgress?.phase === 'greedy' ? 'Building initial schedule...' :
+                    optimizeProgress?.phase === 'local-search' ? 'Improving assignments...' :
+                    optimizeProgress?.phase === 'annealing' ? 'Fine-tuning schedule...' :
+                    'Optimizing...'
+                  ),
+                  // Restart indicator
+                  optimizeProgress?.totalRestarts && h('p', { className: 'text-sm text-slate-500' },
+                    `Pass ${optimizeProgress.restart || 1} of ${optimizeProgress.totalRestarts}`
+                  ),
+                  // Progress bar
+                  h('div', { className: 'w-full max-w-md' },
+                    h('div', { className: 'h-3 bg-slate-200 rounded-full overflow-hidden' },
+                      h('div', {
+                        className: 'h-full bg-indigo-600 transition-all duration-150',
+                        style: { width: `${optimizeProgress?.progress || 0}%` }
+                      })
+                    ),
+                    h('div', { className: 'flex justify-between mt-2 text-sm text-slate-500' },
+                      h('span', null, `${(optimizeProgress?.progress || 0).toFixed(3)}% complete`),
+                      h('span', null, `${(optimizeProgress?.iterations || 0).toLocaleString()} iterations`)
+                    )
+                  ),
+                  // Best score so far
+                  optimizeProgress?.bestScore !== null && h('p', { className: 'text-sm text-emerald-600' },
+                    `Best score found: ${optimizeProgress.bestScore}`
+                  )
+                )
+              )
+            : !result
+              ? (optimizationError
+                ? h('div', { className: 'p-4 bg-red-50 border border-red-200 rounded-lg' },
+                    h('p', { className: 'text-red-800 font-medium' }, optimizationError.message),
+                    optimizationError.capacityShortfall && h('div', { className: 'mt-3' },
+                      h('div', { className: 'grid grid-cols-3 gap-4 text-center' },
+                        h('div', null,
+                          h('div', { className: 'text-2xl font-bold text-red-700' }, optimizationError.capacityShortfall.required),
+                          h('div', { className: 'text-xs text-red-600' }, 'PA Required')
+                        ),
+                        h('div', null,
+                          h('div', { className: 'text-2xl font-bold text-amber-600' }, optimizationError.capacityShortfall.available),
+                          h('div', { className: 'text-xs text-amber-600' }, 'PA Available')
+                        ),
+                        h('div', null,
+                          h('div', { className: 'text-2xl font-bold text-red-700' }, optimizationError.capacityShortfall.shortfall),
+                          h('div', { className: 'text-xs text-red-600' }, 'Shortfall')
+                        )
+                      ),
+                      h('p', { className: 'mt-3 text-sm text-red-600' }, 'Add more participants or increase PA quotas to cover all shifts.')
+                    ),
+                    optimizationError.unavailableShifts && h('div', { className: 'mt-2' },
+                      h('p', { className: 'text-red-600 text-sm' }, 'The following shifts have no one available:'),
+                      h('ul', { className: 'mt-1 text-red-600 text-sm list-disc list-inside' },
+                        optimizationError.unavailableShifts.map(shift =>
+                          h('li', { key: shift.id }, `${shift.name} (${shift.date}${shift.time ? ' ' + shift.time : ''})`)
+                        )
                       )
                     )
                   )
-                )
-              : h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results'))
+                : h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results'))
             : h('div', null,
                 // Doctor search
                 h('div', { className: 'mb-4' },
@@ -896,17 +1537,31 @@ function ShiftOptimizer() {
                   h('span', { className: 'text-emerald-800 font-medium' }, `Total Satisfaction Score: ${result.score}`)
                 ),
                 h('h3', { className: 'font-medium text-slate-700 mb-2' }, 'PA Summary'),
+                // Check for over-quota participants
+                (() => {
+                  const overQuota = participants.filter(p => (result.paTotals[p.id] || 0) > p.paQuota);
+                  return overQuota.length > 0 && h('div', { className: 'mb-3 p-3 bg-amber-50 border border-amber-200 rounded-lg' },
+                    h('p', { className: 'text-amber-800 font-medium text-sm' },
+                      `⚠️ ${overQuota.length} participant${overQuota.length > 1 ? 's' : ''} assigned more than their quota`
+                    )
+                  );
+                })(),
                 h('div', { className: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6' },
                   participants
                     .filter(p => !doctorSearch || p.name.toLowerCase().includes(doctorSearch.toLowerCase()))
                     .map((p) => {
                       const assigned = result.paTotals[p.id] || 0;
-                      const met = assigned >= p.paQuota;
+                      const underQuota = assigned < p.paQuota;
+                      const overQuota = assigned > p.paQuota;
                       const isHighlighted = doctorSearch && p.name.toLowerCase().includes(doctorSearch.toLowerCase());
-                      return h('div', { key: p.id, className: `p-3 rounded-lg ${met ? 'bg-emerald-50' : 'bg-red-50'} ${isHighlighted ? 'ring-2 ring-indigo-400' : ''}` },
+                      const bgColor = overQuota ? 'bg-amber-50 border border-amber-300' : underQuota ? 'bg-red-50' : 'bg-emerald-50';
+                      const textColor = overQuota ? 'text-amber-700' : underQuota ? 'text-red-700' : 'text-emerald-700';
+                      const icon = overQuota ? '⚠️' : underQuota ? '✗' : '✓';
+                      return h('div', { key: p.id, className: `p-3 rounded-lg ${bgColor} ${isHighlighted ? 'ring-2 ring-indigo-400' : ''}` },
                         h('div', { className: 'font-medium' }, p.name),
-                        h('div', { className: `text-sm ${met ? 'text-emerald-700' : 'text-red-700'}` },
-                          assigned, ' / ', p.paQuota, ' PA ', met ? '✓' : '✗'
+                        h('div', { className: `text-sm ${textColor}` },
+                          assigned, ' / ', p.paQuota, ' PA ', icon,
+                          overQuota && h('span', { className: 'ml-1 text-xs' }, `(+${(assigned - p.paQuota).toFixed(1)} over)`)
                         )
                       );
                     })
