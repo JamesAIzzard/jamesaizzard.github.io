@@ -4,7 +4,7 @@ import { Users, Grid3X3, Zap, Save, Upload, Layers, RotateCcw, AlertTriangle } f
 
 import { getMonday, jumpToShiftsWeek } from './utils/dateUtils.js';
 import { saveToFile, loadFromFile } from './utils/fileUtils.js';
-import { optimizeAsync } from './optimizer/optimizeAsync.js';
+import { optimizeAsync } from './optimizer/index.js';
 import { generateExampleData } from './data/exampleData.js';
 
 import {

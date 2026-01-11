@@ -177,7 +177,7 @@ export const optimizeAsync = async (shifts, participants, preferences, onProgres
   const VARIANCE_WEIGHT = 100; // How much we value evenness over preferences
   let improved = true;
   let pass = 0;
-  const maxPasses = 50;
+  const maxPasses = 500;
 
   while (improved && pass < maxPasses) {
     improved = false;

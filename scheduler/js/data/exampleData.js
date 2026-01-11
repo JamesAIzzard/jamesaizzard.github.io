@@ -68,21 +68,24 @@ export const generateExampleData = () => {
   // No pre-generated shifts - user must use Rota Builder to generate them
   const shifts = [];
 
-  // Base PA quota for participants (calculated for a typical 2-week rota)
-  const baseQuota = 25;
+  // Base PA quota for participants (calculated for a typical 4-week rota)
+  // Weekly PA requirement: 100 PA (weekdays: 80 PA, weekends: 20 PA)
+  // 4-week total: 400 PA across 10 doctors = ~40 PA average
+  const baseQuota = 40;
 
   // Doctors with specific shift type capabilities
+  // Quotas designed so total capacity ≈ 400 PA for 4-week coverage
   const participants = [
     { id: 'd1', name: 'Dr Sarah Mitchell', paQuota: baseQuota + 4, shiftTypeIds: ['st-icu', 'st-ae'] },
     { id: 'd2', name: 'Dr James Chen', paQuota: baseQuota + 2, shiftTypeIds: ['st-surg', 'st-icu'] },
-    { id: 'd3', name: 'Dr Emily Watson', paQuota: baseQuota + 3, shiftTypeIds: ['st-twilight', 'st-ae'] },
+    { id: 'd3', name: 'Dr Emily Watson', paQuota: baseQuota - 2, shiftTypeIds: ['st-twilight', 'st-ae'] },
     { id: 'd4', name: 'Dr Raj Patel', paQuota: baseQuota, shiftTypeIds: ['st-ae', 'st-oncall'] },
     { id: 'd5', name: "Dr Lucy O'Brien", paQuota: baseQuota + 4, shiftTypeIds: ['st-icu', 'st-surg'] },
-    { id: 'd6', name: 'Dr Michael Brown', paQuota: baseQuota + 2, shiftTypeIds: ['st-ae', 'st-surg', 'st-oncall'] },
-    { id: 'd7', name: 'Dr Aisha Khan', paQuota: baseQuota + 3, shiftTypeIds: ['st-twilight', 'st-oncall'] },
-    { id: 'd8', name: 'Dr David Wilson', paQuota: baseQuota, shiftTypeIds: ['st-surg', 'st-ae'] },
-    { id: 'd9', name: 'Dr Sophie Taylor', paQuota: baseQuota + 4, shiftTypeIds: ['st-icu', 'st-ae', 'st-oncall'] },
-    { id: 'd10', name: 'Dr Tom Anderson', paQuota: baseQuota + 2, shiftTypeIds: ['st-twilight', 'st-icu', 'st-surg'] },
+    { id: 'd6', name: 'Dr Michael Brown', paQuota: baseQuota - 2, shiftTypeIds: ['st-ae', 'st-surg', 'st-oncall'] },
+    { id: 'd7', name: 'Dr Aisha Khan', paQuota: baseQuota, shiftTypeIds: ['st-twilight', 'st-oncall'] },
+    { id: 'd8', name: 'Dr David Wilson', paQuota: baseQuota - 4, shiftTypeIds: ['st-surg', 'st-ae'] },
+    { id: 'd9', name: 'Dr Sophie Taylor', paQuota: baseQuota + 2, shiftTypeIds: ['st-icu', 'st-ae', 'st-oncall'] },
+    { id: 'd10', name: 'Dr Tom Anderson', paQuota: baseQuota - 4, shiftTypeIds: ['st-twilight', 'st-icu', 'st-surg'] },
   ];
 
   // No preferences yet - will be generated when shifts are created
