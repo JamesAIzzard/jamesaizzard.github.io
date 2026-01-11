@@ -122,6 +122,15 @@ const StarRating = ({ value, onChange }) => {
 const optimize = (shifts, participants, preferences) => {
   if (shifts.length === 0 || participants.length === 0) return null;
 
+  // Find shifts where nobody is available (all preferences are 0)
+  const unavailableShifts = shifts.filter(shift =>
+    participants.every(p => (preferences[p.id]?.[shift.id] ?? 0) === 0)
+  );
+
+  if (unavailableShifts.length > 0) {
+    return { failed: true, unavailableShifts };
+  }
+
   let bestAssignment = null;
   let bestScore = -Infinity;
 
@@ -383,9 +392,20 @@ function ShiftOptimizer() {
     });
   };
 
+  const [optimizationError, setOptimizationError] = useState(null);
+
   const runOptimizer = () => {
     const res = optimize(shifts, participants, preferences);
-    setResult(res);
+    if (res === null) {
+      setResult(null);
+      setOptimizationError({ message: 'No shifts or participants defined.' });
+    } else if (res.failed) {
+      setResult(null);
+      setOptimizationError({ message: 'Unable to create a schedule', unavailableShifts: res.unavailableShifts });
+    } else {
+      setResult(res);
+      setOptimizationError(null);
+    }
     setTab('results');
   };
 
@@ -842,7 +862,19 @@ function ShiftOptimizer() {
         tab === 'results' && h('div', null,
           h('h2', { className: 'text-lg font-semibold mb-4' }, 'Optimized Schedule'),
           !result
-            ? h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results')
+            ? (optimizationError
+              ? h('div', { className: 'p-4 bg-red-50 border border-red-200 rounded-lg' },
+                  h('p', { className: 'text-red-800 font-medium' }, optimizationError.message),
+                  optimizationError.unavailableShifts && h('div', { className: 'mt-2' },
+                    h('p', { className: 'text-red-600 text-sm' }, 'The following shifts have no one available:'),
+                    h('ul', { className: 'mt-1 text-red-600 text-sm list-disc list-inside' },
+                      optimizationError.unavailableShifts.map(shift =>
+                        h('li', { key: shift.id }, `${shift.name} (${shift.date}${shift.time ? ' ' + shift.time : ''})`)
+                      )
+                    )
+                  )
+                )
+              : h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results'))
             : h('div', null,
                 // Doctor search
                 h('div', { className: 'mb-4' },
