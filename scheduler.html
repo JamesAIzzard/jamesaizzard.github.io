@@ -7,7 +7,7 @@ permalink: /scheduler
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bean's Shift Optimiser</title>
+    <title>Shift Optimiser (Prototype)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="importmap">
     {
@@ -52,9 +52,10 @@ const optimize = (shifts, participants, preferences) => {
   let bestAssignment = null;
   let bestScore = -Infinity;
 
-  const search = (shiftIdx, assignment, score) => {
+  const search = (shiftIdx, assignment, score, paTotals) => {
     if (shiftIdx === shifts.length) {
-      if (score > bestScore) {
+      const quotasMet = participants.every(p => paTotals[p.id] >= (p.paQuota || 0));
+      if (quotasMet && score > bestScore) {
         bestScore = score;
         bestAssignment = { ...assignment };
       }
@@ -62,19 +63,70 @@ const optimize = (shifts, participants, preferences) => {
     }
 
     const shift = shifts[shiftIdx];
+    const shiftPa = shift.pa || 0;
+
     for (const p of participants) {
       const pref = preferences[p.id]?.[shift.id] ?? 0;
       if (pref === 0) continue;
 
       assignment[shift.id] = p.id;
-      search(shiftIdx + 1, assignment, score + pref);
+      paTotals[p.id] = (paTotals[p.id] || 0) + shiftPa;
+      search(shiftIdx + 1, assignment, score + pref, paTotals);
+      paTotals[p.id] -= shiftPa;
     }
 
     delete assignment[shift.id];
   };
 
-  search(0, {}, 0);
-  return bestAssignment ? { assignment: bestAssignment, score: bestScore } : null;
+  const initialPa = {};
+  participants.forEach(p => initialPa[p.id] = 0);
+  search(0, {}, 0, initialPa);
+
+  if (!bestAssignment) {
+    let relaxedBest = null;
+    let relaxedScore = -Infinity;
+
+    const relaxedSearch = (shiftIdx, assignment, score, paTotals) => {
+      if (shiftIdx === shifts.length) {
+        if (score > relaxedScore) {
+          relaxedScore = score;
+          relaxedBest = { assignment: { ...assignment }, paTotals: { ...paTotals } };
+        }
+        return;
+      }
+
+      const shift = shifts[shiftIdx];
+      const shiftPa = shift.pa || 0;
+
+      for (const p of participants) {
+        const pref = preferences[p.id]?.[shift.id] ?? 0;
+        if (pref === 0) continue;
+
+        assignment[shift.id] = p.id;
+        paTotals[p.id] = (paTotals[p.id] || 0) + shiftPa;
+        relaxedSearch(shiftIdx + 1, assignment, score + pref, paTotals);
+        paTotals[p.id] -= shiftPa;
+      }
+
+      delete assignment[shift.id];
+    };
+
+    relaxedSearch(0, {}, 0, initialPa);
+
+    if (relaxedBest) {
+      return { assignment: relaxedBest.assignment, score: relaxedScore, paTotals: relaxedBest.paTotals, quotasNotMet: true };
+    }
+    return null;
+  }
+
+  const finalPa = {};
+  participants.forEach(p => finalPa[p.id] = 0);
+  Object.entries(bestAssignment).forEach(([shiftId, personId]) => {
+    const shift = shifts.find(s => s.id === shiftId);
+    finalPa[personId] += shift?.pa || 0;
+  });
+
+  return { assignment: bestAssignment, score: bestScore, paTotals: finalPa, quotasNotMet: false };
 };
 
 function ShiftOptimizer() {
@@ -82,22 +134,22 @@ function ShiftOptimizer() {
   const [shifts, setShifts] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [preferences, setPreferences] = useState({});
-  const [newShift, setNewShift] = useState({ name: '', date: '', time: '' });
-  const [newParticipant, setNewParticipant] = useState('');
+  const [newShift, setNewShift] = useState({ name: '', date: '', time: '', pa: '' });
+  const [newParticipant, setNewParticipant] = useState({ name: '', paQuota: '' });
   const [result, setResult] = useState(null);
 
   const addShift = () => {
     if (!newShift.name || !newShift.date) return;
-    setShifts([...shifts, { id: Date.now().toString(), ...newShift }]);
-    setNewShift({ name: '', date: '', time: '' });
+    setShifts([...shifts, { id: Date.now().toString(), ...newShift, pa: parseFloat(newShift.pa) || 0 }]);
+    setNewShift({ name: '', date: '', time: '', pa: '' });
   };
 
   const addParticipant = () => {
-    if (!newParticipant.trim()) return;
+    if (!newParticipant.name.trim()) return;
     const id = Date.now().toString();
-    setParticipants([...participants, { id, name: newParticipant.trim() }]);
+    setParticipants([...participants, { id, name: newParticipant.name.trim(), paQuota: parseFloat(newParticipant.paQuota) || 0 }]);
     setPreferences({ ...preferences, [id]: {} });
-    setNewParticipant('');
+    setNewParticipant({ name: '', paQuota: '' });
   };
 
   const updatePref = (pId, sId, value) => {
@@ -122,16 +174,16 @@ function ShiftOptimizer() {
 
   const loadExample = () => {
     const exShifts = [
-      { id: '1', name: 'Monday AM', date: '2025-01-13', time: '08:00' },
-      { id: '2', name: 'Monday PM', date: '2025-01-13', time: '14:00' },
-      { id: '3', name: 'Tuesday AM', date: '2025-01-14', time: '08:00' },
-      { id: '4', name: 'Tuesday PM', date: '2025-01-14', time: '14:00' },
-      { id: '5', name: 'Wednesday AM', date: '2025-01-15', time: '08:00' },
+      { id: '1', name: 'Monday AM', date: '2025-01-13', time: '08:00', pa: 1 },
+      { id: '2', name: 'Monday PM', date: '2025-01-13', time: '14:00', pa: 1 },
+      { id: '3', name: 'Tuesday AM', date: '2025-01-14', time: '08:00', pa: 1.5 },
+      { id: '4', name: 'Tuesday PM', date: '2025-01-14', time: '14:00', pa: 1 },
+      { id: '5', name: 'Wednesday AM', date: '2025-01-15', time: '08:00', pa: 0.5 },
     ];
     const exPeople = [
-      { id: 'a', name: 'Dr Bean' },
-      { id: 'b', name: 'Dr Jones' },
-      { id: 'c', name: 'Dr Patel' },
+      { id: 'a', name: 'Dr Smith', paQuota: 2 },
+      { id: 'b', name: 'Dr Jones', paQuota: 1.5 },
+      { id: 'c', name: 'Dr Patel', paQuota: 1.5 },
     ];
     const exPrefs = {
       'a': { '1': 5, '2': 3, '3': 0, '4': 4, '5': 2 },
@@ -148,7 +200,7 @@ function ShiftOptimizer() {
     h('div', { className: 'max-w-4xl mx-auto' },
       // Header
       h('div', { className: 'flex items-center justify-between mb-6' },
-        h('h1', { className: 'text-2xl font-bold text-slate-800' }, "Bean's Shift Optimiser"),
+        h('h1', { className: 'text-2xl font-bold text-slate-800' }, "Shift Optimiser (Prototype)"),
         h('button', {
           onClick: loadExample,
           className: 'px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 text-sm font-medium'
@@ -156,12 +208,12 @@ function ShiftOptimizer() {
       ),
 
       // Tabs
-      h('div', { className: 'flex gap-2 mb-6' },
+      h('div', { className: 'flex flex-wrap gap-2 mb-6' },
         tabs.map(({ id, label, icon: Icon }) =>
           h('button', {
             key: id,
             onClick: () => setTab(id),
-            className: `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+            className: `flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base sm:px-4 ${
               tab === id ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100'
             }`
           },
@@ -176,13 +228,13 @@ function ShiftOptimizer() {
         // Shifts Tab
         tab === 'shifts' && h('div', null,
           h('h2', { className: 'text-lg font-semibold mb-4' }, 'Manage Shifts'),
-          h('div', { className: 'flex gap-3 mb-4' },
+          h('div', { className: 'flex flex-wrap gap-3 mb-4' },
             h('input', {
               type: 'text',
               placeholder: 'Shift name',
               value: newShift.name,
               onChange: (e) => setNewShift({ ...newShift, name: e.target.value }),
-              className: 'flex-1 px-3 py-2 border rounded-lg'
+              className: 'flex-1 min-w-[120px] px-3 py-2 border rounded-lg'
             }),
             h('input', {
               type: 'date',
@@ -196,23 +248,34 @@ function ShiftOptimizer() {
               onChange: (e) => setNewShift({ ...newShift, time: e.target.value }),
               className: 'px-3 py-2 border rounded-lg'
             }),
+            h('input', {
+              type: 'number',
+              step: '0.5',
+              placeholder: 'PA',
+              value: newShift.pa,
+              onChange: (e) => setNewShift({ ...newShift, pa: e.target.value }),
+              className: 'w-20 px-3 py-2 border rounded-lg'
+            }),
             h('button', {
               onClick: addShift,
-              className: 'px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2'
+              className: 'px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2 whitespace-nowrap'
             }, h(Plus, { size: 18 }), ' Add')
           ),
           shifts.length === 0
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'No shifts added yet')
             : h('div', { className: 'space-y-2' },
                 shifts.map((s) =>
-                  h('div', { key: s.id, className: 'flex items-center justify-between p-3 bg-slate-50 rounded-lg' },
-                    h('div', null,
-                      h('span', { className: 'font-medium' }, s.name),
-                      h('span', { className: 'text-slate-500 ml-3' }, s.date, s.time && ` at ${s.time}`)
+                  h('div', { key: s.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
+                    h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
+                      h('div', { className: 'min-w-0' },
+                        h('span', { className: 'font-medium' }, s.name),
+                        h('span', { className: 'text-slate-500 ml-2 sm:ml-3 text-sm sm:text-base' }, s.date, s.time && ` at ${s.time}`)
+                      ),
+                      h('span', { className: 'px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-sm font-medium whitespace-nowrap' }, s.pa, ' PA')
                     ),
                     h('button', {
                       onClick: () => setShifts(shifts.filter((x) => x.id !== s.id)),
-                      className: 'p-2 text-red-500 hover:bg-red-50 rounded'
+                      className: 'p-2 text-red-500 hover:bg-red-50 rounded flex-shrink-0'
                     }, h(Trash2, { size: 18 }))
                   )
                 )
@@ -222,26 +285,38 @@ function ShiftOptimizer() {
         // Participants Tab
         tab === 'participants' && h('div', null,
           h('h2', { className: 'text-lg font-semibold mb-4' }, 'Manage Participants'),
-          h('div', { className: 'flex gap-3 mb-4' },
+          h('div', { className: 'flex flex-wrap gap-3 mb-4' },
             h('input', {
               type: 'text',
               placeholder: 'Name',
-              value: newParticipant,
-              onChange: (e) => setNewParticipant(e.target.value),
+              value: newParticipant.name,
+              onChange: (e) => setNewParticipant({ ...newParticipant, name: e.target.value }),
               onKeyDown: (e) => e.key === 'Enter' && addParticipant(),
-              className: 'flex-1 px-3 py-2 border rounded-lg'
+              className: 'flex-1 min-w-[120px] px-3 py-2 border rounded-lg'
+            }),
+            h('input', {
+              type: 'number',
+              step: '0.5',
+              placeholder: 'PA Quota',
+              value: newParticipant.paQuota,
+              onChange: (e) => setNewParticipant({ ...newParticipant, paQuota: e.target.value }),
+              onKeyDown: (e) => e.key === 'Enter' && addParticipant(),
+              className: 'w-28 px-3 py-2 border rounded-lg'
             }),
             h('button', {
               onClick: addParticipant,
-              className: 'px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2'
+              className: 'px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2 whitespace-nowrap'
             }, h(Plus, { size: 18 }), ' Add')
           ),
           participants.length === 0
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'No participants added yet')
             : h('div', { className: 'space-y-2' },
                 participants.map((p) =>
-                  h('div', { key: p.id, className: 'flex items-center justify-between p-3 bg-slate-50 rounded-lg' },
-                    h('span', { className: 'font-medium' }, p.name),
+                  h('div', { key: p.id, className: 'flex items-center justify-between gap-2 p-3 bg-slate-50 rounded-lg' },
+                    h('div', { className: 'flex flex-wrap items-center gap-2 sm:gap-4 min-w-0' },
+                      h('span', { className: 'font-medium' }, p.name),
+                      h('span', { className: 'px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-sm font-medium whitespace-nowrap' }, 'Quota: ', p.paQuota, ' PA')
+                    ),
                     h('button', {
                       onClick: () => {
                         setParticipants(participants.filter((x) => x.id !== p.id));
@@ -249,7 +324,7 @@ function ShiftOptimizer() {
                         delete newPrefs[p.id];
                         setPreferences(newPrefs);
                       },
-                      className: 'p-2 text-red-500 hover:bg-red-50 rounded'
+                      className: 'p-2 text-red-500 hover:bg-red-50 rounded flex-shrink-0'
                     }, h(Trash2, { size: 18 }))
                   )
                 )
@@ -270,7 +345,8 @@ function ShiftOptimizer() {
                       shifts.map((s) =>
                         h('th', { key: s.id, className: 'p-2 border-b text-sm font-medium text-slate-600' },
                           h('div', null, s.name),
-                          h('div', { className: 'text-xs text-slate-400' }, s.date)
+                          h('div', { className: 'text-xs text-slate-400' }, s.date),
+                          h('div', { className: 'text-xs text-indigo-500' }, s.pa, ' PA')
                         )
                       )
                     )
@@ -278,7 +354,10 @@ function ShiftOptimizer() {
                   h('tbody', null,
                     participants.map((p) =>
                       h('tr', { key: p.id },
-                        h('td', { className: 'p-2 border-b font-medium' }, p.name),
+                        h('td', { className: 'p-2 border-b' },
+                          h('div', { className: 'font-medium' }, p.name),
+                          h('div', { className: 'text-xs text-emerald-600' }, 'Quota: ', p.paQuota)
+                        ),
                         shifts.map((s) =>
                           h('td', { key: s.id, className: 'p-2 border-b text-center' },
                             h(StarRating, {
@@ -305,20 +384,37 @@ function ShiftOptimizer() {
           !result
             ? h('p', { className: 'text-slate-500 text-center py-8' }, 'Run the optimizer to see results')
             : h('div', null,
+                result.quotasNotMet && h('div', { className: 'mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg' },
+                  h('span', { className: 'text-amber-800 font-medium' }, '⚠️ Could not satisfy all PA quotas. Showing best possible assignment.')
+                ),
                 h('div', { className: 'mb-4 p-4 bg-emerald-50 rounded-lg' },
                   h('span', { className: 'text-emerald-800 font-medium' }, `Total Satisfaction Score: ${result.score}`)
                 ),
+                h('h3', { className: 'font-medium text-slate-700 mb-2' }, 'PA Summary'),
+                h('div', { className: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6' },
+                  participants.map((p) => {
+                    const assigned = result.paTotals[p.id] || 0;
+                    const met = assigned >= p.paQuota;
+                    return h('div', { key: p.id, className: `p-3 rounded-lg ${met ? 'bg-emerald-50' : 'bg-red-50'}` },
+                      h('div', { className: 'font-medium' }, p.name),
+                      h('div', { className: `text-sm ${met ? 'text-emerald-700' : 'text-red-700'}` },
+                        assigned, ' / ', p.paQuota, ' PA ', met ? '✓' : '✗'
+                      )
+                    );
+                  })
+                ),
+                h('h3', { className: 'font-medium text-slate-700 mb-2' }, 'Shift Assignments'),
                 h('div', { className: 'space-y-2' },
                   shifts.map((s) => {
                     const assignedId = result.assignment[s.id];
                     const person = participants.find((p) => p.id === assignedId);
                     const pref = assignedId ? (preferences[assignedId]?.[s.id] ?? 0) : 0;
-                    return h('div', { key: s.id, className: 'flex items-center justify-between p-4 bg-slate-50 rounded-lg' },
-                      h('div', null,
+                    return h('div', { key: s.id, className: 'flex flex-wrap items-center justify-between gap-2 p-4 bg-slate-50 rounded-lg' },
+                      h('div', { className: 'min-w-0' },
                         h('div', { className: 'font-medium' }, s.name),
-                        h('div', { className: 'text-sm text-slate-500' }, s.date, s.time && ` at ${s.time}`)
+                        h('div', { className: 'text-sm text-slate-500' }, s.date, s.time && ` at ${s.time}`, ' • ', s.pa, ' PA')
                       ),
-                      h('div', { className: 'flex items-center gap-3' },
+                      h('div', { className: 'flex items-center gap-2 sm:gap-3' },
                         person
                           ? h(React.Fragment, null,
                               h('span', { className: 'font-medium text-indigo-600' }, person.name),
